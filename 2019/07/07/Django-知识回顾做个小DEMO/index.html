@@ -1,0 +1,265 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Django-知识回顾做个小DEMO | Sxadmin blog</title><meta name="description" content="将前几章节的知识内容回顾与汇总，然后尝试做一个DEMO。"><meta name="author" content="Sxadmin"><meta name="copyright" content="Sxadmin"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="https://s1.ax1x.com/2020/06/15/NpA1v6.th.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="dns-prefetch" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="dns-prefetch" href="https://fonts.googleapis.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="dns-prefetch" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Django-知识回顾做个小DEMO"><meta name="twitter:description" content="将前几章节的知识内容回顾与汇总，然后尝试做一个DEMO。"><meta name="twitter:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="og:type" content="article"><meta property="og:title" content="Django-知识回顾做个小DEMO"><meta property="og:url" content="https://sxadmin.github.io/2019/07/07/Django-%E7%9F%A5%E8%AF%86%E5%9B%9E%E9%A1%BE%E5%81%9A%E4%B8%AA%E5%B0%8FDEMO/"><meta property="og:site_name" content="Sxadmin blog"><meta property="og:description" content="将前几章节的知识内容回顾与汇总，然后尝试做一个DEMO。"><meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="article:published_time" content="2019-07-07T04:50:16.000Z"><meta property="article:modified_time" content="2019-07-07T06:52:46.080Z"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '1'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="https://sxadmin.github.io/2019/07/07/Django-%E7%9F%A5%E8%AF%86%E5%9B%9E%E9%A1%BE%E5%81%9A%E4%B8%AA%E5%B0%8FDEMO/"><link rel="prev" title="Django-表单处理" href="https://sxadmin.github.io/2019/07/08/Django-%E8%A1%A8%E5%8D%95%E5%A4%84%E7%90%86/"><link rel="next" title="Django-视图与模板" href="https://sxadmin.github.io/2019/07/05/Django-%E8%A7%86%E5%9B%BE%E4%B8%8E%E6%A8%A1%E6%9D%BF/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://xxx/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: false,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.1"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.png" onerror="onerror=null;src='https://s1.ax1x.com/2020/06/15/NpPYfx.jpg'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">83</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">57</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">7</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友鏈</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 關於</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#结构设计"><span class="toc-number">1.</span> <span class="toc-text">结构设计</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#流程走一波"><span class="toc-number">2.</span> <span class="toc-text">流程走一波</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#创建数据库"><span class="toc-number">3.</span> <span class="toc-text">创建数据库</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#编写视图函数"><span class="toc-number">4.</span> <span class="toc-text">编写视图函数</span></a></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">Sxadmin blog</a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友鏈</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 關於</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">Django-知识回顾做个小DEMO</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2019-07-07 12:50:16"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2019-07-07</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2019-07-07 14:52:46"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2019-07-07</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/WEB-%E5%90%8E%E7%AB%AF%E6%A1%86%E6%9E%B6/">WEB 后端框架</a></span></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><blockquote class="blockquote-center">忠诚与义气的角逐 正义与邪恶的厮杀 每一次重生都将是死亡的召唤！
+</blockquote>
+
+<script type="text/javascript" src="/js/src/bai.js"></script>
+
+
+<h1 id="结构设计"><a href="#结构设计" class="headerlink" title="结构设计"></a>结构设计</h1><p>前几节的知识包含了视图函数，路由映射，数据管理，结合这几个知识点，尝试做出一个极简的发布文本然后可以获取文本的DEMO</p>
+<h1 id="流程走一波"><a href="#流程走一波" class="headerlink" title="流程走一波"></a>流程走一波</h1><p>按照Django的流程顺序走一波</p>
+<pre><code>django-admin startproject NHDZ</code></pre><p>然后</p>
+<pre><code>cd NHDZ</code></pre><p>继续</p>
+<pre><code>python3 manage.py startapp app</code></pre><p>然后在根目录创建文件夹templates,static，然后再static文件夹创建upload文件夹,在templates创建两个html文件</p>
+<p>然后在app文件夹创建urls.py和show.py</p>
+<p>文件结构图如下</p>
+<p><img src="/upload/TIM%E6%88%AA%E5%9B%BE20190707142606.png" alt=""></p>
+<h1 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h1><pre><code># NHDZ/app/models.py
+from django.db import models
+class DZ_Texts(models.Model):
+    # 这个存储文本类型
+    user = models.CharField(max_length=8)
+    texts = models.TextField()
+    date = models.DateField(auto_now_add=True)
+
+class DZ_Images(models.Model):
+    user = models.CharField(max_length=8)
+    images = models.ImageField(upload_to=&apos;static/upload&apos;)
+    # 上传的文件保存到static/upload目录下
+    date = models.DateField(auto_now_add=True)</code></pre><p>然后修改文件</p>
+<pre><code># NHDZ/settings.py
+INSTALLED_APPS = [
+    &apos;app&apos;,
+    &apos;django.contrib.admin&apos;,
+    &apos;django.contrib.auth&apos;,
+    &apos;django.contrib.contenttypes&apos;,
+    &apos;django.contrib.sessions&apos;,
+    &apos;django.contrib.messages&apos;,
+    &apos;django.contrib.staticfiles&apos;,
+]
+TEMPLATES = [
+    {
+        &apos;BACKEND&apos;: &apos;django.template.backends.django.DjangoTemplates&apos;,
+        &apos;DIRS&apos;: [os.path.join(BASE_DIR,&apos;templates&apos;)],
+        &apos;APP_DIRS&apos;: True,
+        &apos;OPTIONS&apos;: {
+            &apos;context_processors&apos;: [
+                &apos;django.template.context_processors.debug&apos;,
+                &apos;django.template.context_processors.request&apos;,
+                &apos;django.contrib.auth.context_processors.auth&apos;,
+                &apos;django.contrib.messages.context_processors.messages&apos;,
+            ],
+        },
+    },
+]
+
+TIME_ZONE = &apos;Asia/Shanghai&apos;</code></pre><p>然后修改文件</p>
+<pre><code># NHDZ/app/admins.py
+from django.contrib import admin
+from .models import DZ_Texts,DZ_Images
+admin.site.register(DZ_Texts)
+admin.site.register(DZ_Images)</code></pre><p>然后命令行输入：</p>
+<pre><code>python3 manage.py makemigrations
+python3 manage.py migrate
+
+python3 manage.py createsuperuser
+# 根据提示创建管理员</code></pre><h1 id="编写视图函数"><a href="#编写视图函数" class="headerlink" title="编写视图函数"></a>编写视图函数</h1><p>编辑视图文件</p>
+<pre><code># NHDZ/app/views.py
+# coding:utf-8
+from django.shortcuts import render
+from django.http import HttpResponse, Http404
+from .models import DZ_Images, DZ_Texts
+import os
+
+
+def Index(request):
+    # 主入口
+    return render(request, &apos;add.html&apos;)
+
+
+def Add_Texts(request):
+    if request.method == &apos;POST&apos;:
+        try:
+            user = request.POST.get(&apos;user&apos;)
+            texts = request.POST.get(&apos;texts&apos;)
+            print(&apos;获取到的数据 : {}  : {}&apos;.format(user, texts))
+            DZ_Texts.objects.create(user=user, texts=texts)
+            return HttpResponse(&apos;提交成功~&apos;)
+        except:
+            raise Http404(&apos;参数错误~&apos;)
+    else:
+        return Http404(&apos;请求方式错误~&apos;)
+
+
+def Add_Images(request):
+    # 上传可以使用Django自带的Form表单，但是暂时没接触，所以使用类似于Flask中的上传方法
+    if request.method == &quot;POST&quot;:
+        myFile = request.FILES.get(&quot;filename&quot;, None)  # 获取上传的文件，如果没有文件，则默认为None
+        if not myFile:
+            return HttpResponse(&quot;没有选择文件&quot;)
+        destination = open(os.path.join(os.getcwd()+&apos;\\static\\upload&apos;, myFile.name), &apos;wb+&apos;)  # 打开特定的文件进行二进制的写操作
+        for chunk in myFile.chunks():  # 分块写入文件
+            destination.write(chunk)
+        destination.close()
+        return HttpResponse(&quot;上传成功&quot;)
+    else:
+        return Http404(&apos;请求方式错误~&apos;)</code></pre><p>还有展示文件</p>
+<pre><code># NHDZ/app/show.py
+# coding:utf-8
+from django.shortcuts import render
+from django.http import Http404
+from .models import DZ_Texts
+
+def show(request,user):
+    try:
+        res = DZ_Texts.objects.filter(user=user).values()[0]
+        return render(request,&apos;show.html&apos;,{&apos;res&apos;:res})
+    except:
+        raise Http404(&apos;参数错误&apos;)</code></pre><p>编辑路由文件</p>
+<pre><code>#NHDZ/app/urls.py
+from django.urls import path
+from .views import Index,Add_Images,Add_Texts
+from .show import show
+urlpatterns = [
+    path(&apos;&apos;,Index,name=&apos;index&apos;),
+    path(&apos;add_texts/&apos;,Add_Texts,name=&apos;add_texts&apos;),
+    path(&apos;add_images/&apos;,Add_Images,name=&apos;add_images&apos;),
+    path(&apos;show/&lt;str:user&gt;/&apos;,show,name=&apos;show&apos;)
+]</code></pre><p>以及根目录下的路由文件</p>
+<pre><code>#NHDZ/urls.py
+from django.contrib import admin
+from django.urls import path,include
+urlpatterns = [
+    path(&apos;admin/&apos;, admin.site.urls),
+    path(&apos;&apos;,include(&apos;app.urls&apos;))
+]</code></pre><p>编辑模板文件</p>
+<pre><code>#NHDZ/templates/add.html
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;欢迎来到内涵段子TV&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;form action=&quot;{% url 'add_texts' %}&quot; method=&quot;POST&quot;&gt;
+    {% csrf_token %}
+用户名:&lt;input type=&quot;text&quot; name=&quot;user&quot;&gt;
+&lt;br&gt;
+&lt;br&gt;
+小段子:&lt;textarea name=&quot;texts&quot; rows=&apos;5&apos; cols=&quot;50&quot;&gt;
+输入一些让你开心的段子吧~
+&lt;/textarea&gt;
+&lt;br&gt;
+&lt;button type=&quot;submit&quot;&gt;提交&lt;/button&gt;
+&lt;/form&gt;
+&lt;hr&gt;
+&lt;hr&gt;
+&lt;form enctype=&quot;multipart/form-data&quot; action=&quot;{% url 'add_images' %}&quot; method=&quot;POST&quot;&gt;
+    {% csrf_token %}
+用户名:&lt;input type=&quot;text&quot; name=&quot;user&quot;&gt;
+       &lt;input type=&quot;file&quot; name=&quot;filename&quot; /&gt;
+       &lt;br&gt;
+       &lt;input type=&quot;submit&quot; value=&quot;上传&quot;/&gt;
+&lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre><p>然后尝试看看能不能正常添加</p>
+<pre><code>python3 manage.py runserver
+
+随后访问：http://127.0.0.1:8000</code></pre><p>那么先试一试添加文本看看</p>
+<p><img src="/upload/TIM%E6%88%AA%E5%9B%BE20190707142940.png" alt=""></p>
+<p>提交成功</p>
+<p>查看后台看看有没有数据，登陆：</p>
+<pre><code>http://127.0.0.1:8000/admin</code></pre><p><img src="/upload/TIM%E6%88%AA%E5%9B%BE20190707143551.png" alt=""></p>
+<p>接下来尝试上传文件</p>
+<p><img src="/upload/TIM%E6%88%AA%E5%9B%BE20190707143612.png" alt=""></p>
+<p>上传成功</p>
+<p><img src="/upload/TIM%E6%88%AA%E5%9B%BE20190707143627.png" alt=""></p>
+<p>ok~到此为止上传和发布部分的功能暂时完成，但是存在安全隐患，即任意文件上传漏洞，不过不在现在的讨论范围</p>
+<p>然后尝试访问看看能不能获取</p>
+<p><img src="/upload/TIM%E6%88%AA%E5%9B%BE20190707143704.png" alt=""></p>
+<p>因为视图函数show.py 中的show函数接受的参数是用作数据库查询的user，所以直接返回的是数据库中user=admin的数据</p>
+<p>一个粗略的模型就这样了- -，虽然非常非常的简陋，不过也是暂时能用所学的知识做到的事情了，慢慢学吧0.0</p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Sxadmin</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://sxadmin.github.io/2019/07/07/Django-%E7%9F%A5%E8%AF%86%E5%9B%9E%E9%A1%BE%E5%81%9A%E4%B8%AA%E5%B0%8FDEMO/">https://sxadmin.github.io/2019/07/07/Django-%E7%9F%A5%E8%AF%86%E5%9B%9E%E9%A1%BE%E5%81%9A%E4%B8%AA%E5%B0%8FDEMO/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://sxadmin.github.io" target="_blank">Sxadmin blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="post-qr-code__img" src="/img/wechat.jpg" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="post-qr-code__img" src="/img/alipay.jpg" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2019/07/08/Django-%E8%A1%A8%E5%8D%95%E5%A4%84%E7%90%86/"><img class="prev_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Django-表单处理</div></div></a></div><div class="next-post pull_right"><a href="/2019/07/05/Django-%E8%A7%86%E5%9B%BE%E4%B8%8E%E6%A8%A1%E6%9D%BF/"><img class="next_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Django-视图与模板</div></div></a></div></nav></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By Sxadmin</div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换" target="_self">繁</a><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@3/instantpage.min.js" type="module"></script></body></html>

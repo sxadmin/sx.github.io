@@ -1,0 +1,697 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Flask MEIZI小项目实战 | Sxadmin blog</title><meta name="description" content="基于前面四篇文章，现在可以使用Flask框架写代码了，本次演示的是从meizitu中获取关键词的信息，然后返回。"><meta name="keywords" content="Flask项目,Flask实战"><meta name="author" content="Sxadmin"><meta name="copyright" content="Sxadmin"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="https://s1.ax1x.com/2020/06/15/NpA1v6.th.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="dns-prefetch" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="dns-prefetch" href="https://fonts.googleapis.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="dns-prefetch" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Flask MEIZI小项目实战"><meta name="twitter:description" content="基于前面四篇文章，现在可以使用Flask框架写代码了，本次演示的是从meizitu中获取关键词的信息，然后返回。"><meta name="twitter:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="og:type" content="article"><meta property="og:title" content="Flask MEIZI小项目实战"><meta property="og:url" content="https://sxadmin.github.io/2018/07/17/Flask%20MEIZI%E5%B0%8F%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98/"><meta property="og:site_name" content="Sxadmin blog"><meta property="og:description" content="基于前面四篇文章，现在可以使用Flask框架写代码了，本次演示的是从meizitu中获取关键词的信息，然后返回。"><meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="article:published_time" content="2018-07-17T13:54:57.000Z"><meta property="article:modified_time" content="2020-06-14T17:58:19.885Z"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '1'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="https://sxadmin.github.io/2018/07/17/Flask%20MEIZI%E5%B0%8F%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98/"><link rel="prev" title="Flask-代码规范" href="https://sxadmin.github.io/2018/07/17/Flask%20%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/"><link rel="next" title="Flask 基础原理" href="https://sxadmin.github.io/2018/07/14/Flask%20%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://xxx/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: false,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.1"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.png" onerror="onerror=null;src='https://s1.ax1x.com/2020/06/15/NpPYfx.jpg'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">83</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">57</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">7</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友鏈</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 關於</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#项目目标"><span class="toc-number">1.</span> <span class="toc-text">项目目标</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#主体项目结构"><span class="toc-number">1.1.</span> <span class="toc-text">主体项目结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主体函数结构"><span class="toc-number">1.2.</span> <span class="toc-text">主体函数结构</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实战"><span class="toc-number">2.</span> <span class="toc-text">实战</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#爬取函数"><span class="toc-number">2.1.</span> <span class="toc-text">爬取函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主页函数"><span class="toc-number">2.2.</span> <span class="toc-text">主页函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#搜索函数"><span class="toc-number">2.3.</span> <span class="toc-text">搜索函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#静态模板"><span class="toc-number">2.4.</span> <span class="toc-text">静态模板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主页"><span class="toc-number">2.5.</span> <span class="toc-text">主页</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结果"><span class="toc-number">2.6.</span> <span class="toc-text">结果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#404"><span class="toc-number">2.7.</span> <span class="toc-text">404</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#全部代码"><span class="toc-number">3.</span> <span class="toc-text">全部代码</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#补充"><span class="toc-number">4.</span> <span class="toc-text">补充</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2018年8月2日06-31-37更新"><span class="toc-number">5.</span> <span class="toc-text">2018年8月2日06:31:37更新</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2018年8月4日03-25-16更新"><span class="toc-number">6.</span> <span class="toc-text">2018年8月4日03:25:16更新</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2018年8月5日13-14-29"><span class="toc-number">7.</span> <span class="toc-text">2018年8月5日13:14:29</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#后端"><span class="toc-number">7.1.</span> <span class="toc-text">后端</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#app目录"><span class="toc-number">7.2.</span> <span class="toc-text">app目录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#run-py"><span class="toc-number">7.2.1.</span> <span class="toc-text">run.py</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#init-py"><span class="toc-number">7.3.</span> <span class="toc-text">init.py</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#web目录下"><span class="toc-number">7.4.</span> <span class="toc-text">web目录下</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#init-py-1"><span class="toc-number">7.4.1.</span> <span class="toc-text">init.py</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mmzi-py"><span class="toc-number">7.4.2.</span> <span class="toc-text">Mmzi.py</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#前端"><span class="toc-number">7.5.</span> <span class="toc-text">前端</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#说明"><span class="toc-number">7.5.1.</span> <span class="toc-text">说明</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结构"><span class="toc-number">7.5.2.</span> <span class="toc-text">结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#导航栏"><span class="toc-number">7.5.3.</span> <span class="toc-text">导航栏</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#左侧栏"><span class="toc-number">7.5.4.</span> <span class="toc-text">左侧栏</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#右边侧栏"><span class="toc-number">7.5.5.</span> <span class="toc-text">右边侧栏</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#整合"><span class="toc-number">7.6.</span> <span class="toc-text">整合</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#测试"><span class="toc-number">8.</span> <span class="toc-text">测试</span></a></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">Sxadmin blog</a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友鏈</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 關於</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">Flask MEIZI小项目实战</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2018-07-17 21:54:57"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2018-07-17</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-06-15 01:58:19"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-06-15</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/WEB-%E5%90%8E%E7%AB%AF%E6%A1%86%E6%9E%B6/">WEB 后端框架</a></span></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><blockquote class="blockquote-center">好孤独啊，背后再也没有那只傻猴子跟着自己了，你怎么回头都看不到他蹦蹦跳跳的影子了。心里有什么东西忽然坍塌了，她从高高在上的公主宝座上跌落尘埃。</blockquote>
+
+<script type="text/javascript" src="/js/src/bai.js"></script>
+
+<h1 id="项目目标"><a href="#项目目标" class="headerlink" title="项目目标"></a>项目目标</h1><p>提供一个用户输入，等待用户输入关键词，然后后端程序对输入的参数跳转到妹子图网站，使用正则提前相关的网址和标题，然后返回匹配到的图片和标题。</p>
+<h2 id="主体项目结构"><a href="#主体项目结构" class="headerlink" title="主体项目结构"></a>主体项目结构</h2><p><img src="/upload/flask-tree-1.jpg" alt=""></p>
+<h2 id="主体函数结构"><a href="#主体函数结构" class="headerlink" title="主体函数结构"></a>主体函数结构</h2><p><img src="/upload/flask-l-1-v.jpg" alt=""></p>
+<h1 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h1><h2 id="爬取函数"><a href="#爬取函数" class="headerlink" title="爬取函数"></a>爬取函数</h2><pre><code>def meizi(id):
+    headerss = {
+        &apos;User-Agent&apos;:&apos;Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36&apos;
+    }
+    r = requests.get(url=str(&apos;http://www.mzitu.com/search/&apos; + str(id)),headers=headerss)
+    rr = re.findall(&quot;data-original=&apos;(.*?)&apos; /&gt;&lt;/a&gt;&lt;span&gt;&lt;a.*?href=\&quot;(.*?)\&quot; target=\&quot;_blank\&quot;&gt;(.*?)&lt;/a&gt;&lt;/span&gt;&lt;span&quot;,r.content,re.S)
+    return rr</code></pre><p>该函数接受一个关键词参数，然后匹配出标题，主图和网址并且当成一个列表返回</p>
+<h2 id="主页函数"><a href="#主页函数" class="headerlink" title="主页函数"></a>主页函数</h2><pre><code>@app.route(&apos;/index/&apos;)
+def index():
+    return render_template(&apos;index.html&apos;)</code></pre><p>使用render_template(‘index.html’)渲染主页</p>
+<h2 id="搜索函数"><a href="#搜索函数" class="headerlink" title="搜索函数"></a>搜索函数</h2><pre><code>@app.route(&apos;/search/&apos;,methods=[&apos;POST&apos;,&apos;GET&apos;])
+def search():
+    if request.method == &apos;POST&apos;:
+        idx = request.form[&apos;idx&apos;]
+        return render_template(&apos;result.html&apos;, data=meizi(idx))
+    else:
+        return render_template(&apos;404.html&apos;)</code></pre><p>获取POST传递过来的参数，name的值为idx，然后把值传递给爬取函数，最后结果给result.html渲染</p>
+<h2 id="静态模板"><a href="#静态模板" class="headerlink" title="静态模板"></a>静态模板</h2><h2 id="主页"><a href="#主页" class="headerlink" title="主页"></a>主页</h2><pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;妹子图搜索&lt;/title&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;p&gt;开始搜索关键词吧~&lt;/p&gt;
+    &lt;form method=&quot;POST&quot; action=&quot;/search/&quot; &gt;
+        关键词:&lt;input type=&quot;text&quot; name=&quot;idx&quot;&gt;
+        &lt;br&gt; &lt;br&gt;
+        &lt;button type=&quot;submit&quot;&gt;点击搜索&lt;/button&gt;
+
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre><h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><pre><code>`&lt;!DOCTYPE html&gt;`
+`&lt;html lang=&quot;en&quot;&gt;`
+`&lt;head&gt;`
+ `   &lt;meta charset=&quot;UTF-8&quot;&gt;`
+ `   &lt;title&gt;返回信息&lt;/title&gt;`
+`&lt;/head&gt;`
+`&lt;body&gt;`
+
+`{%` for `x,y,z in data `%}`
+`&lt;`img` `s`r`c`=`&quot;{{` x `}}&quot;&gt;`
+ `   `&lt;`br`&gt;`
+  `  `&lt;`a` `href` = &quot;{{ y }}&quot;&gt;`
+  `  &lt;`br`&gt;`
+  `   `{{` z `}}`
+
+  `  `&lt;`br`&gt;`
+`{`% endfor %`}`
+
+``
+`&lt;/body&gt;`
+`&lt;/html&gt;`</code></pre><h2 id="404"><a href="#404" class="headerlink" title="404"></a>404</h2><pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;错误信息&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+只接受POST方法
+
+不接受GET方法
+
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre><p>该项目是一次简单的实战，很多地方都很粗糙，但是可以后期去修改维护。</p>
+<h1 id="全部代码"><a href="#全部代码" class="headerlink" title="全部代码"></a>全部代码</h1><pre><code># -*- coding: utf-8 -*-
+# @Time    : 2018/7/17 0017 21:06
+# @Author  : Langzi
+# @Blog    : www.langzi.fun
+# @File    : Mmzi.py
+# @Software: PyCharm
+import sys，time,re，requests
+from flask import Flask,make_response,request,Response,render_template
+reload(sys)
+sys.setdefaultencoding(&apos;utf-8&apos;)
+
+app = Flask(__name__,template_folder=&apos;templates&apos;)
+
+def meizi(id):
+    headerss = {
+        &apos;User-Agent&apos;:&apos;Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36&apos;
+    }
+    r = requests.get(url=str(&apos;http://www.mzitu.com/search/&apos; + str(id)),headers=headerss)
+    rr = re.findall(&quot;data-original=&apos;(.*?)&apos; /&gt;&lt;/a&gt;&lt;span&gt;&lt;a.*?href=\&quot;(.*?)\&quot; target=\&quot;_blank\&quot;&gt;(.*?)&lt;/a&gt;&lt;/span&gt;&lt;span&quot;,r.content,re.S)
+    return rr
+
+
+@app.route(&apos;/index/&apos;)
+def index():
+    return render_template(&apos;index.html&apos;)
+
+
+
+@app.route(&apos;/search/&apos;,methods=[&apos;POST&apos;,&apos;GET&apos;])
+def search():
+    if request.method == &apos;POST&apos;:
+        idx = request.form[&apos;idx&apos;]
+        return render_template(&apos;result.html&apos;, data=meizi(idx))
+    else:
+        return render_template(&apos;404.html&apos;)
+
+
+
+if __name__ == &apos;__main__&apos;:
+    app.run(host=&apos;0.0.0.0&apos;,debug=True)</code></pre><h1 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h1><p>妹子图有反扒机制，参考github上的这个代码可以绕过[referrer-killer](https://<br>github.com/jpgerek/referrer-killer)</p>
+<p>把这个粗糙的小项目部署到服务器了，全部代码不足100行，以后想起来应该会继续更新优化的，比如先破解盗链，然后更加美观的输出，提供下载功能等等。</p>
+<h1 id="2018年8月2日06-31-37更新"><a href="#2018年8月2日06-31-37更新" class="headerlink" title="2018年8月2日06:31:37更新"></a>2018年8月2日06:31:37更新</h1><p>这段时间学习了SQLAlchemy数据库创建，Blueprint蓝图，WTForms表单验证，还有一些前端的知识复习。这里重新优化一下代码，把结构层优化并且使用蓝图的概念，把前端显示优化一些。</p>
+<p>具体代码打包放在<a href="https://sxadmin.github.io/upload/meizi82.rar">这里</a></p>
+<h1 id="2018年8月4日03-25-16更新"><a href="#2018年8月4日03-25-16更新" class="headerlink" title="2018年8月4日03:25:16更新"></a>2018年8月4日03:25:16更新</h1><p>一次大更新</p>
+<ol>
+<li>前端界面优化</li>
+<li>本来想把缩略样式图下载到本地，后来舍不得内存放弃了</li>
+<li>很惭愧并没有用ORM模型操作数据库</li>
+<li>用爬虫爬取了妹子图的所有信息保存到本地数据库</li>
+<li>从数据库返回结果</li>
+<li>提供下载功能，下载界面为一个python文件，用python3允许即可下载</li>
+</ol>
+<p>具体代码打包放在<a href="https://sxadmin.github.io/upload/meizi84.rar">这里</a></p>
+<p>获取所有妹子图信息并且保存到数据库的代码</p>
+<pre><code># -*- coding: utf-8 -*-
+# @Time    : 2018/8/3 0003 22:09
+# @Author  : Langzi
+# @Blog    : www.langzi.fun
+# @File    : 妹子信息.py
+# @Software: PyCharm
+import sys
+import requests
+import re
+import pymysql
+import contextlib
+import threading
+#定义上下文管理器，连接后自动关闭连接
+reload(sys)
+sys.setdefaultencoding(&apos;utf-8&apos;)
+
+@contextlib.contextmanager
+def mysql(host=&apos;127.0.0.1&apos;,user=&apos;root&apos;,passwd=&apos;root&apos;,db=&apos;meizi&apos;,port=3306,charset=&apos;utf8&apos;):
+    conn = pymysql.connect(host=&apos;127.0.0.1&apos;,user=&apos;root&apos;,passwd=&apos;root&apos;,db=&apos;meizi&apos;,port=3306,charset=&apos;utf8&apos;)
+    cursor = conn.cursor()
+    try:
+        yield cursor
+    finally:
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+# # 执行sql
+# with mysql() as cursor:
+#    print(cursor)
+#    row_count = cursor.execute(&quot;select * from tb7&quot;)
+#    row_1 = cursor.fetchone()
+#    print row_count, row_1
+
+# 创建数据库
+# create table data(
+# id int primary key auto_increment,
+# title varchar(80),
+# url varchar(100),
+# show_img varchar(80),
+# all_img varchar(2000),
+# index index_neme1 (title),
+# index index_neme2 (url)
+# )charset=utf8,engine=INNODB;
+# )charset=utf8,engine=INNODB;
+# ALTER TABLE `data` ADD UNIQUE (
+# `title`
+# )
+
+def start():
+    lock.acquire()
+    headers = {
+        &apos;User-Agent&apos;:&apos;Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36&apos;,
+        &apos;Referer&apos;:&apos;www.mzitu.com&apos;
+
+    }
+    url = &apos;http://www.mzitu.com/page/&apos;
+    for _ in range(1,188):
+        list_dir=[]
+        img_dir=[]
+        try:
+            rr = re.findall(&quot;data-original=&apos;(.*?)&apos; /&gt;&lt;/a&gt;&lt;span&gt;&lt;a.*?href=\&quot;(.*?)\&quot; target=\&quot;_blank\&quot;&gt;(.*?)&lt;/a&gt;&lt;/span&gt;&lt;span&quot;,requests.get(url=str(url+str(_)),timeout=5).content,re.S)
+            for x,y,z in rr:
+                count = re.search(&apos;&gt;&lt;span&gt;(\d\d)&lt;/span&gt;&lt;/a&gt;&lt;a&apos;,requests.get(url=y,timeout=5).content,re.S).group().replace(&apos;&lt;span&gt;&apos;,&apos;&apos;).replace(&apos;&lt;/span&gt;&lt;/a&gt;&lt;a&apos;,&apos;&apos;).replace(&apos;&lt;&apos;,&apos;&apos;).replace(&apos;&gt;&apos;,&apos;&apos;)
+                for test_1 in range(1,int(count)):
+                    url_1 = y+str(&apos;/&apos;)+str(test_1)
+                    img = re.search(&apos;&lt;img src=&quot;(.*?)&quot; alt=&apos;,requests.get(url_1).content).group().replace(&apos;&lt;img src=&quot;&apos;,&apos;&apos;).replace(&apos;&quot; alt=&apos;,&apos;&apos;)
+                    img_dir.append(img)
+                print unicode((&apos;Page:%s  Title:%s  URL:%s  count_img:%s&apos;)%(str(_), z, y,str(count)), &apos;utf-8&apos;)
+                with mysql() as cursor:
+                   sql = &quot;insert into data(title,url,show_img,all_img) VALUES (%s,%s,%s,%s)&quot;
+                   cursor.execute(sql,(z,y,x,str(img_dir).replace(&quot;&apos;&quot;,&apos;|&apos;)))
+        except Exception,e:
+            print e
+    lock.release()
+
+lock =threading.Lock()
+for x in range(10):
+    t=threading.Thread(target=start).start()</code></pre><h1 id="2018年8月5日13-14-29"><a href="#2018年8月5日13-14-29" class="headerlink" title="2018年8月5日13:14:29"></a>2018年8月5日13:14:29</h1><p>关于此项目的业务需求比较简单，用户发起一次请求输入关键词，随后数据库搜索匹配关键词，然后把结果反馈到页面中，提供一个下载功能，下载功能是一个Python爬虫文件，用户复制代码保存到本地，右键启动运行，自动把该结果保存到本地。</p>
+<p>重新梳理一下后端和重新构架一下前端代码</p>
+<h2 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h2><p>使用tree命令直接获取目录树结构，默认不显示文件。如果要显示文件使用命令 tree /F。</p>
+<p>反馈结果如下</p>
+<pre><code>卷 数据 的文件夹 PATH 列表
+卷序列号为 000000E5 0002:D245
+E:.
+│  1.txt
+│  
+└─app # 根目录
+    │  config.py     # 配置文件，开启Debug模式等等
+    │  run.py           # 启动文件
+    │  __init__.py    # 初始化文件，注册蓝图，初始化 app = Flask(__name__,template_folder=(&apos;web/templates&apos;),static_folder=(&apos;web/static&apos;))
+    │  
+    └─web        # 核心业务处理，model层
+        │  check_forms.py         # 表单验证，暂时没用到
+        │  cretae_data_pymysql.py    # 创建数据库模型，没用到
+        │  Imginfo.py            # 妹子详细信息，没用到
+        │  Mmzi.py            # 核心处理函数，接受参数，数据库查询，返回结果
+        │  __init__.py            # 初始化，注册蓝图，然后执行Mmzi.py
+        │  
+        ├─static            # 静态文件
+        │  ├─css
+        │  │      bootstrap-theme.css
+        │  │      bootstrap-theme.css.map
+        │  │      bootstrap-theme.min.css
+        │  │      bootstrap-theme.min.css.map
+        │  │      bootstrap.css
+        │  │      bootstrap.css.map
+        │  │      bootstrap.min.css
+        │  │      bootstrap.min.css.map
+        │  │      
+        │  ├─fonts
+        │  │      glyphicons-halflings-regular.eot
+        │  │      glyphicons-halflings-regular.svg
+        │  │      glyphicons-halflings-regular.ttf
+        │  │      glyphicons-halflings-regular.woff
+        │  │      glyphicons-halflings-regular.woff2
+        │  │      
+        │  ├─image
+        │  │      1.jpg
+        │  │      2.jpg
+        │  │      3.jpg
+        │  │      4.jpg
+        │  │      5.jpg
+        │  │      6.jpg
+        │  │      test.jpg
+        │  │      
+        │  └─js
+        │          bootstrap.js
+        │          bootstrap.min.js
+        │          jquery.js
+        │          npm.js
+        │          
+        └─templates        # 模板HTML文件
+                404.html    # 404页面
+                index.html    # 主页
+                layout.html    # jinja2模板
+                referrer-killer.js    # 用不到
+                result.html    # 返回结果的页面
+        down.html    #下载一些代码，
+        downimg.html    # 下载图片</code></pre><h2 id="app目录"><a href="#app目录" class="headerlink" title="app目录"></a>app目录</h2><h3 id="run-py"><a href="#run-py" class="headerlink" title="run.py"></a>run.py</h3><pre><code>import sys
+sys.path.append(&apos;..&apos;)
+from app import create_app
+
+reload(sys)
+sys.setdefaultencoding(&apos;utf-8&apos;)
+app = create_app()
+
+if __name__ == &apos;__main__&apos;:
+    app.run(host=&apos;0.0.0.0&apos;,debug=app.config[&apos;DEBUG&apos;])</code></pre><p>单纯的启动</p>
+<p>config.py</p>
+<pre><code>import sys
+reload(sys)
+sys.setdefaultencoding(&apos;utf-8&apos;)
+DEBUG = True</code></pre><p>单纯的配置</p>
+<h2 id="init-py"><a href="#init-py" class="headerlink" title="init.py"></a>init.py</h2><pre><code>import sys
+reload(sys)
+sys.path.append(&apos;..&apos;)
+from flask import Flask
+sys.setdefaultencoding(&apos;utf-8&apos;)
+
+def create_app():
+    app = Flask(__name__,template_folder=(&apos;web/templates&apos;),static_folder=(&apos;web/static&apos;))
+    app.config.from_object(&apos;config&apos;)
+    start_Blueprint(app)
+    return app
+
+def start_Blueprint(app):
+    from app.web import web
+    app.register_blueprint(web)</code></pre><p>初始化文件，create_app()函数作用是是初始化app对象，选择静态文件夹目录和模板文件夹目录。start_Blueprint(app)为注册蓝图，从web目录下的init.py中导入一个变量web，说起来有点拗口，两个web意义不一样。导入的变量web是一个蓝图对象。综上init文件的作用是初始化对象并且注册蓝图</p>
+<h2 id="web目录下"><a href="#web目录下" class="headerlink" title="web目录下"></a>web目录下</h2><h3 id="init-py-1"><a href="#init-py-1" class="headerlink" title="init.py"></a>init.py</h3><pre><code>from flask import Blueprint
+web = Blueprint(&apos;web&apos;,__name__)
+from app.web import Mmzi
+from app.web import Imginfo</code></pre><p>注册蓝图，这里的web变量就是蓝图的名字，随后导入下面两个文件，因为两个文件中没有加上ifname=mian其实导入这两个文件就是相当于执行了这两个文件</p>
+<h3 id="Mmzi-py"><a href="#Mmzi-py" class="headerlink" title="Mmzi.py"></a>Mmzi.py</h3><pre><code># -*- coding: utf-8 -*-
+# @Time    : 2018/7/17 0017 21:06
+# @Author  : Langzi
+# @Blog    : www.langzi.fun
+# @File    : Mmzi.py
+# @Software: PyCharm
+import sys
+sys.path.append(&apos;..&apos;)
+reload(sys)
+from flask import Flask,make_response,request,Response,render_template,url_for
+import time,re
+import pymysql
+import requests
+from flask import Blueprint
+from . import web
+
+import contextlib
+sys.setdefaultencoding(&apos;utf-8&apos;)
+
+@contextlib.contextmanager
+def mysql(host=&apos;127.0.0.1&apos;, port=3306, user=&apos;root&apos;, passwd=&apos;root&apos;, db=&apos;meizi&apos;,charset=&apos;utf8&apos;):
+    conn = pymysql.connect(host=host, port=port, user=user, passwd=passwd, db=db, charset=charset)
+    cursor = conn.cursor()
+    try:
+        yield cursor
+    finally:
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+def meizi(id):
+    idx = id.replace(&quot;&apos;&quot;,&apos;&apos;).replace(&apos;&quot;&apos;,&apos;&apos;).replace(&apos;-&apos;,&apos;&apos;).replace(&apos;\\&apos;,&apos;&apos;).replace(&apos;and&apos;,&apos;&apos;).replace(&apos;or&apos;,&apos;&apos;).replace(&apos;&amp;&apos;,&apos;&apos;).replace(&apos;|&apos;,&apos;&apos;).replace(&apos;)&apos;,&apos;&apos;).replace(&apos;(&apos;,&apos;&apos;).replace(&apos;=&apos;,&apos;&apos;).replace(&apos;#&apos;,&apos;&apos;).replace(&apos;%&apos;,&apos;&apos;)
+    if len(idx)&gt;10 or idx ==&apos;&apos; or idx ==&apos; &apos;:
+        return None
+    with mysql() as cursor:
+        sql = &quot;select * from data where title like &apos;%&quot; + idx + &quot;%&apos;&quot;
+        row_count = cursor.execute(sql)
+        row_1 = cursor.fetchall()
+        return row_1
+
+def meizii(id):
+    idx = id.replace(&quot;&apos;&quot;,&apos;&apos;).replace(&apos;&quot;&apos;,&apos;&apos;).replace(&apos;-&apos;,&apos;&apos;).replace(&apos;\\&apos;,&apos;&apos;).replace(&apos;and&apos;,&apos;&apos;).replace(&apos;or&apos;,&apos;&apos;).replace(&apos;&amp;&apos;,&apos;&apos;).replace(&apos;|&apos;,&apos;&apos;).replace(&apos;)&apos;,&apos;&apos;).replace(&apos;(&apos;,&apos;&apos;).replace(&apos;=&apos;,&apos;&apos;).replace(&apos;#&apos;,&apos;&apos;).replace(&apos;%&apos;,&apos;&apos;)
+    if len(idx)&gt;30 or idx ==&apos;&apos; or idx ==&apos; &apos; or idx.find(&apos;http&apos;)&lt;0:
+        return None
+    with mysql() as cursor:
+        sql = &quot;select * from data where url =&apos;&quot; + idx + &quot;&apos;&quot;
+        row_count = cursor.execute(sql)
+        row_1 = cursor.fetchall()
+        return row_1
+
+
+@web.route(&apos;/&apos;)
+def index():
+    return render_template(&apos;index.html&apos;)
+
+
+
+@web.route(&apos;/search/&apos;,methods=[&apos;POST&apos;,&apos;GET&apos;])
+def search():
+    if request.method == &apos;POST&apos;:
+        idx = request.form[&apos;idx&apos;]
+        data=meizi(idx)
+        print data
+        if data == [] or data == None or data==&apos;&apos;:
+            return render_template(&apos;404.html&apos;)
+        else:
+            return render_template(&apos;result.html&apos;, data=data)
+
+else:
+    idx = request.args.get(&apos;idx&apos;)
+    data = meizi(idx)
+    if data == [] or data == None or data==&apos;&apos;:
+        return render_template(&apos;404.html&apos;)
+    else:
+        return render_template(&apos;result.html&apos;, data=data)
+
+@web.route(&apos;/code/&apos;)
+def get_code():
+    return render_template(&apos;down.html&apos;)
+
+
+@web.route(&apos;/downimg/&apos;,methods=[&apos;POST&apos;,&apos;GET&apos;])
+def downimg():
+    if request.method == &apos;POST&apos;:
+        idx = str(request.form[&apos;name&apos;]).replace(&apos;+&apos;,&apos;&apos;).replace(&apos;=&apos;,&apos;&apos;).replace(&apos;%2c&apos;,&apos;&apos;)
+        data = meizii(idx)
+        if data == [] or data == None :
+            return render_template(&apos;404.html&apos;)
+        else:
+            for a,b,c,d,e in data:
+                print a,b,c
+                e = e+&apos;|]&apos;
+                return render_template(&apos;downimg.html&apos;, data_title=b,data_url=e)
+    else:
+        return render_template(&apos;404.html&apos;)</code></pre><p>这里是核心处理功能，首先在web目录下的init.py中导入web，web就是蓝图的对象，使用蓝图的话路由的注册就要用@web.route(‘/‘)</p>
+<p>关于数据库的业务并没有使用ORM模型，第一这个项目比较小没必要使用数据库模型操作数据库，其次是直接使用pymysql链接比较方便</p>
+<p>可以看到meizi(id)和meizii(id)这两个函数返回的结果不一样，第一个返回很多结果因为接受的是参数查询，第二个是下载功能需要在数据库中找到标题和详细网址。</p>
+<p>随后是根目录，自动跳转到index.html</p>
+<p>然后是search路由，负责接受用户输入的参数，并且提交给meizi()处理</p>
+<p>然后是code路由，随便写的，返回一个页面，该页面有一些无关紧要的内容</p>
+<p>随后是downimg路由，负责在搜索结果后，点击下载按钮，把结果的title传递过来，随后提交meizii()处理，获取详细的图片地址</p>
+<p>至此后端代码全部完成</p>
+<h2 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h2><h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><p>之前的前端代码虽然写的挺好看的，但是相对来说不够大气，于是在2018年8月5日13:41:09全部重写构造前端代码</p>
+<h3 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h3><p>经过深思熟虑，随后设计了半天最终敲定使用下面这个排版结构</p>
+<p><img src="/upload/QQ%E6%88%AA%E5%9B%BE20180805134928.jpg" alt=""></p>
+<p>随后可以布局了，最上面是导航栏，下面的内容可以放在一个容器里面，左边占5份右边占7份</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Mmeizi&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;../css/bootstrap.css&quot;&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;../css/main.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;navbar&quot;&gt;导航栏&lt;/div&gt;
+&lt;div class=&quot;container&quot;&gt;
+    &lt;div class=&quot;col-md-5&quot;&gt;左边的小导航栏&lt;/div&gt;
+    &lt;div class=&quot;col-md-7&quot;&gt;中间的文章&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;script src=&quot;../js/jquery.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;../js/bootstrap.js&quot;&gt;&lt;/script&gt;
+&lt;/html&gt;</code></pre><h3 id="导航栏"><a href="#导航栏" class="headerlink" title="导航栏"></a>导航栏</h3><pre><code>&lt;div class=&quot;navbar navbar-default&quot;&gt;
+    &lt;div class=&quot;container&quot;&gt;
+            &lt;div class=&quot;nav navbar-header&quot;&gt;
+        &lt;div class=&quot;nav navbar-brand&quot;&gt;
+            Meizi图
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;ul class=&quot;nav navbar-nav&quot;&gt;
+    &lt;li&gt;&lt;a href=&quot;#&quot;&gt;博客首页&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Flask笔记&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Meizi项目地址&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+        &lt;form class=&quot;navbar-form navbar-right has-success&quot; method=&quot;POST&quot; action=&quot;/search/&quot; &gt;
+        &lt;div class=&quot;input-group&quot;&gt;
+            &lt;div class=&quot;input-group-addon&quot;&gt;关键词:&lt;/div&gt;
+            &lt;input type=&quot;text&quot; class=&quot;form-control-lg&quot; name=&quot;idx&quot;&gt;
+        &lt;/div&gt;
+        &lt;button type=&quot;submit&quot; class=&quot;btn btn-default btn-sm&quot;&gt;搜索&lt;/button&gt;
+        &lt;/form&gt;
+
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre><p>效果如下</p>
+<p><img src="/upload/QQ%E6%88%AA%E5%9B%BE20180805140932.jpg" alt=""></p>
+<p>如果想让导航栏的brand也就是meizi图那个logo变成图片的话，让这个图片变成index.html的背景色</p>
+<p>修改自己的main.css</p>
+<pre><code>.navbar-brand{
+    background-image: url(../img/logo.jpg);
+    /*指定背景图片的位置*/
+    width: 50px;
+    /*设定宽度*/
+    background-size: 60%;
+    /*背景图片的大小*/
+    background-repeat: no-repeat;
+    /*不要重复，因为背景图过小是会在网页中重复自身填充页面的*/
+    background-position: center center;
+    /*背景图片的位置居中*/
+}</code></pre><p>然后在html中指定为背景，把原来的brand修改</p>
+<pre><code>&lt;!--&lt;div class=&quot;nav navbar-brand&quot;&gt;--&gt;
+        &lt;!--Meizi图--&gt;
+    &lt;a href=&quot;index.html&quot; class=&quot;nav navbar-brand&quot;&gt;&lt;/a&gt;
+&lt;!--&lt;/div&gt;--&gt;</code></pre><p>最后的效果如下（感觉这个logo还不如不用….）</p>
+<p><img src="/upload/QQ%E6%88%AA%E5%9B%BE20180805142011.jpg" alt=""></p>
+<h3 id="左侧栏"><a href="#左侧栏" class="headerlink" title="左侧栏"></a>左侧栏</h3><p>根据之前的布局，开始着手左边的布局</p>
+<pre><code>&lt;div class=&quot;col-md-2&quot;&gt;
+    &lt;div class=&quot;list-group side-bar&quot;&gt;
+        &lt;a href=&quot;#&quot; class=&quot;list-group-item active&quot;&gt;可爱&lt;/a&gt;
+        &lt;a href=&quot;#&quot; class=&quot;list-group-item&quot;&gt;清纯&lt;/a&gt;
+        &lt;a href=&quot;#&quot; class=&quot;list-group-item&quot;&gt;清秀&lt;/a&gt;
+        &lt;a href=&quot;#&quot; class=&quot;list-group-item&quot;&gt;清新&lt;/a&gt;
+        &lt;a href=&quot;#&quot; class=&quot;list-group-item&quot;&gt;气质&lt;/a&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre><p>把栅格占2份，5份还是太大了…side-bar是自己要定义的样式，因为bootstrap的样式不够好看…</p>
+<p>在main.css中</p>
+<pre><code>.side-bar .list-group-item{
+    border: 0;
+    /*不要边框*/
+    border-radius: 3px;
+    /*为元素添加圆角边框*/
+    margin-bottom: 5px;
+    /*每一项都有5个像素的间隙*/
+
+}
+
+.side-bar .list-group-item.active{
+    /*当左侧栏的某个元素被点击激活*/
+    background-color: #4cae4c;
+    /*那么背点击的元素的背景色就变成了绿色*/
+}</code></pre><p>左边的侧栏效果就出来了</p>
+<p><img src="/upload/QQ%E6%88%AA%E5%9B%BE20180805143425.jpg" alt=""></p>
+<h3 id="右边侧栏"><a href="#右边侧栏" class="headerlink" title="右边侧栏"></a>右边侧栏</h3><p>右边的侧栏我其实没想写什么东西，大概就是一个图片然后配上一个标题在配上评论之类的，假装是个新闻的缩略图</p>
+<pre><code>&lt;div class=&quot;col-md-10&quot;&gt;
+&lt;div class=&quot;news-list&quot;&gt;
+&lt;div class=&quot;news-list-item clearfix&quot;&gt;
+    &lt;div class=&quot;col-md-3&quot;&gt;
+        &lt;img src=&quot;../img/1.jpg&quot;&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;col-md-9&quot;&gt;
+        &lt;a href=&quot;#&quot; class=&quot;title&quot;&gt;随便写个标题&lt;/a&gt;
+        &lt;div class=&quot;info&quot;&gt;
+            &lt;span&gt;作者:langzi&lt;/span&gt; ·
+            &lt;span&gt;阅读:650&lt;/span&gt; ·
+            &lt;span&gt;收藏:320&lt;/span&gt; ·
+            &lt;span&gt;评论:1&lt;/span&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;</code></pre><p>然后在mian.css中修改样式，news-list和news-list-item是我们自己定义的样式，clearfix是bootstrap自带的清除浮动的功能。在div里面有图片，标题，作者以及阅读量之类的。图片占用3份，并且要在css中修改图片的大小，title和info的样式也需要我们自己定义</p>
+<p>修改mian.css</p>
+<pre><code>.news-list .title{
+    /*news-list 下的 title样式*/
+    display: block;
+    /*display是设置元素显示的方式,block是一块状元素的方式显示*/
+    font-size: 18px;
+    /*字体的大小*/
+    font-weight: bold;
+    /*字体为粗体*/
+    margin-bottom: 5px;
+    /*与下面的内容相距5个像素*/
+}
+.news-list .info{
+    color: #080808;
+    /*颜色变成纯黑色*/
+}
+a:hover{
+    /*当鼠标放在a标签上的时候*/
+    text-decoration: #46b8da;
+    /*鼠标就变成了蓝色*/
+}
+.news-list .title:hover{
+    text-decoration: #46b8da;
+}
+.news-list-item{
+    padding-top: 20px;
+    /*顶部间距*/
+    padding-buttom:20px;
+}
+.news-list-item:first-child{
+    padding-top: 0px;
+}</code></pre><p>然后把html中的代码多复制积分，假装有很多新闻资讯</p>
+<pre><code>&lt;div class=&quot;col-md-10&quot;&gt;
+    &lt;div class=&quot;news-list&quot;&gt;
+
+        &lt;div class=&quot;news-list-item clearfix&quot;&gt;
+            &lt;div class=&quot;col-md-3&quot;&gt;
+                &lt;img src=&quot;../img/1.jpg&quot;&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;col-md-9&quot;&gt;
+                &lt;a href=&quot;#&quot; class=&quot;title&quot;&gt;随便写个标题&lt;/a&gt;
+                &lt;div class=&quot;info&quot;&gt;
+                    &lt;span&gt;作者:langzi&lt;/span&gt; ·
+                    &lt;span&gt;阅读:650&lt;/span&gt; ·
+                    &lt;span&gt;收藏:320&lt;/span&gt; ·
+                    &lt;span&gt;评论:1&lt;/span&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+                        &lt;div class=&quot;news-list-item clearfix&quot;&gt;
+            &lt;div class=&quot;col-md-3&quot;&gt;
+                &lt;img src=&quot;../img/1.jpg&quot;&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;col-md-9&quot;&gt;
+                &lt;a href=&quot;#&quot; class=&quot;title&quot;&gt;随便写个标题&lt;/a&gt;
+                &lt;div class=&quot;info&quot;&gt;
+                    &lt;span&gt;作者:langzi&lt;/span&gt; ·
+                    &lt;span&gt;阅读:650&lt;/span&gt; ·
+                    &lt;span&gt;收藏:320&lt;/span&gt; ·
+                    &lt;span&gt;评论:1&lt;/span&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;                &lt;div class=&quot;news-list-item clearfix&quot;&gt;
+            &lt;div class=&quot;col-md-3&quot;&gt;
+                &lt;img src=&quot;../img/1.jpg&quot;&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;col-md-9&quot;&gt;
+                &lt;a href=&quot;#&quot; class=&quot;title&quot;&gt;随便写个标题&lt;/a&gt;
+                &lt;div class=&quot;info&quot;&gt;
+                    &lt;span&gt;作者:langzi&lt;/span&gt; ·
+                    &lt;span&gt;阅读:650&lt;/span&gt; ·
+                    &lt;span&gt;收藏:320&lt;/span&gt; ·
+                    &lt;span&gt;评论:1&lt;/span&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;                &lt;div class=&quot;news-list-item clearfix&quot;&gt;
+            &lt;div class=&quot;col-md-3&quot;&gt;
+                &lt;img src=&quot;../img/1.jpg&quot;&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;col-md-9&quot;&gt;
+                &lt;a href=&quot;#&quot; class=&quot;title&quot;&gt;随便写个标题&lt;/a&gt;
+                &lt;div class=&quot;info&quot;&gt;
+                    &lt;span&gt;作者:langzi&lt;/span&gt; ·
+                    &lt;span&gt;阅读:650&lt;/span&gt; ·
+                    &lt;span&gt;收藏:320&lt;/span&gt; ·
+                    &lt;span&gt;评论:1&lt;/span&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;</code></pre><p>最终的效果如下</p>
+<p><img src="/upload/QQ%E6%88%AA%E5%9B%BE20180805151028.jpg" alt=""></p>
+<p>到这里就差不多了，然后重新整合一下前端和后端的代码</p>
+<h2 id="整合"><a href="#整合" class="headerlink" title="整合"></a>整合</h2><p>对使用list-group side-bar样式内容修改</p>
+<pre><code>&lt;a href=&quot;{{url_for('web.search',idx='可爱')}}&quot; class=&quot;list-group-item active&quot;&gt;可爱&lt;/a&gt;</code></pre><p>大概就是这种格式，然后再修改一下视图函数</p>
+<p>完成的代码放在<a href="https://sxadmin.github.io/upload/meizi88.rar">这里</a></p>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>现在可以点击<a href="http://langzi.fun:9827" target="_blank" rel="noopener">这里</a>来测试</p>
+<p><a href="http://www.bjhee.com/tag/flask" target="_blank" rel="noopener">推荐一个学习Flask与Python的博客</a></p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Sxadmin</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://sxadmin.github.io/2018/07/17/Flask%20MEIZI%E5%B0%8F%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98/">https://sxadmin.github.io/2018/07/17/Flask%20MEIZI%E5%B0%8F%E9%A1%B9%E7%9B%AE%E5%AE%9E%E6%88%98/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://sxadmin.github.io" target="_blank">Sxadmin blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/FLASK/">FLASK</a><a class="post-meta__tags" href="/tags/Flask%E5%AE%9E%E6%88%98/">Flask实战</a><a class="post-meta__tags" href="/tags/%E5%A6%B9%E5%AD%90%E5%9B%BE/">妹子图</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="post-qr-code__img" src="/img/wechat.jpg" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="post-qr-code__img" src="/img/alipay.jpg" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2018/07/17/Flask%20%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/"><img class="prev_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Flask-代码规范</div></div></a></div><div class="next-post pull_right"><a href="/2018/07/14/Flask%20%E5%9F%BA%E7%A1%80%E5%8E%9F%E7%90%86/"><img class="next_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Flask 基础原理</div></div></a></div></nav></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By Sxadmin</div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换" target="_self">繁</a><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@3/instantpage.min.js" type="module"></script></body></html>

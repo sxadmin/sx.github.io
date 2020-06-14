@@ -1,0 +1,703 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Python打包exe文件方法 | Sxadmin blog</title><meta name="description" content="使用py2exe，pyinstaller，cx_Freeze，nuitka对python文件进行打包，尝试进行混淆代码。"><meta name="keywords" content="打包"><meta name="author" content="Sxadmin"><meta name="copyright" content="Sxadmin"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="https://s1.ax1x.com/2020/06/15/NpA1v6.th.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="dns-prefetch" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="dns-prefetch" href="https://fonts.googleapis.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="dns-prefetch" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Python打包exe文件方法"><meta name="twitter:description" content="使用py2exe，pyinstaller，cx_Freeze，nuitka对python文件进行打包，尝试进行混淆代码。"><meta name="twitter:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="og:type" content="article"><meta property="og:title" content="Python打包exe文件方法"><meta property="og:url" content="https://sxadmin.github.io/2019/03/07/Python%E6%89%93%E5%8C%85exe%E6%96%87%E4%BB%B6%E6%96%B9%E6%B3%95/"><meta property="og:site_name" content="Sxadmin blog"><meta property="og:description" content="使用py2exe，pyinstaller，cx_Freeze，nuitka对python文件进行打包，尝试进行混淆代码。"><meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="article:published_time" content="2019-03-07T13:08:21.000Z"><meta property="article:modified_time" content="2020-06-14T17:58:11.974Z"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '1'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="https://sxadmin.github.io/2019/03/07/Python%E6%89%93%E5%8C%85exe%E6%96%87%E4%BB%B6%E6%96%B9%E6%B3%95/"><link rel="prev" title="Asyncio并发编程" href="https://sxadmin.github.io/2019/04/03/Asyncio%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"><link rel="next" title="PyQt5简要" href="https://sxadmin.github.io/2019/02/25/PyQt5%E7%AE%80%E8%A6%81/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://xxx/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: false,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.1"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.png" onerror="onerror=null;src='https://s1.ax1x.com/2020/06/15/NpPYfx.jpg'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">83</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">57</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">7</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友鏈</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 關於</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#py2exe"><span class="toc-number">1.</span> <span class="toc-text">py2exe</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#介绍"><span class="toc-number">1.1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优点："><span class="toc-number">1.2.</span> <span class="toc-text">优点：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缺点："><span class="toc-number">1.3.</span> <span class="toc-text">缺点：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用"><span class="toc-number">1.4.</span> <span class="toc-text">使用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pyinstaller"><span class="toc-number">2.</span> <span class="toc-text">pyinstaller</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#介绍-1"><span class="toc-number">2.1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优点：-1"><span class="toc-number">2.2.</span> <span class="toc-text">优点：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缺点：-1"><span class="toc-number">2.3.</span> <span class="toc-text">缺点：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用-1"><span class="toc-number">2.4.</span> <span class="toc-text">使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多进程打包"><span class="toc-number">2.5.</span> <span class="toc-text">多进程打包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#word文件打包"><span class="toc-number">2.6.</span> <span class="toc-text">word文件打包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他事项"><span class="toc-number">2.7.</span> <span class="toc-text">其他事项</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#cx-Freeze"><span class="toc-number">3.</span> <span class="toc-text">cx_Freeze</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#介绍-2"><span class="toc-number">3.1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#有点"><span class="toc-number">3.2.</span> <span class="toc-text">有点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#缺点"><span class="toc-number">3.3.</span> <span class="toc-text">缺点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用-2"><span class="toc-number">3.4.</span> <span class="toc-text">使用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#nuitka"><span class="toc-number">4.</span> <span class="toc-text">nuitka</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#虚拟环境打包"><span class="toc-number">5.</span> <span class="toc-text">虚拟环境打包</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#代码混淆"><span class="toc-number">6.</span> <span class="toc-text">代码混淆</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#在线版"><span class="toc-number">6.1.</span> <span class="toc-text">在线版</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pyarmor"><span class="toc-number">6.2.</span> <span class="toc-text">Pyarmor</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#下载安装"><span class="toc-number">6.2.1.</span> <span class="toc-text">下载安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#命令行操作"><span class="toc-number">6.2.2.</span> <span class="toc-text">命令行操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#单个文件加密打包"><span class="toc-number">6.2.2.1.</span> <span class="toc-text">单个文件加密打包</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#首先加密脚本"><span class="toc-number">6.2.2.1.1.</span> <span class="toc-text">首先加密脚本</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#打包加密脚本"><span class="toc-number">6.2.2.1.2.</span> <span class="toc-text">打包加密脚本</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#封装成exe"><span class="toc-number">6.2.2.1.3.</span> <span class="toc-text">封装成exe</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#加密包（Package）"><span class="toc-number">6.2.2.2.</span> <span class="toc-text">加密包（Package）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用-Project-来管理和加密脚本"><span class="toc-number">6.2.2.3.</span> <span class="toc-text">使用 Project 来管理和加密脚本</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#打包加密脚本-1"><span class="toc-number">6.2.2.4.</span> <span class="toc-text">打包加密脚本</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#图形化操作"><span class="toc-number">6.2.3.</span> <span class="toc-text">图形化操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#下载"><span class="toc-number">6.2.3.1.</span> <span class="toc-text">下载</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#启动"><span class="toc-number">6.2.3.2.</span> <span class="toc-text">启动</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#演示模式"><span class="toc-number">6.2.3.3.</span> <span class="toc-text">演示模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用方法"><span class="toc-number">6.2.3.4.</span> <span class="toc-text">使用方法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#案例-1"><span class="toc-number">6.2.3.4.1.</span> <span class="toc-text">案例 1</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#案例-2"><span class="toc-number">6.2.3.4.2.</span> <span class="toc-text">案例 2</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#案例-3"><span class="toc-number">6.2.3.4.3.</span> <span class="toc-text">案例 3</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#所有环境打包下载"><span class="toc-number">7.</span> <span class="toc-text">所有环境打包下载</span></a></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">Sxadmin blog</a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友鏈</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 關於</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">Python打包exe文件方法</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2019-03-07 21:08:21"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2019-03-07</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-06-15 01:58:11"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-06-15</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/Python%E8%BF%9B%E9%98%B6%E7%AC%94%E8%AE%B0/">Python进阶笔记</a></span></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><blockquote class="blockquote-center">“乔治是世界上最后一只平塔岛象龟，而我是世界上最后一个源家后裔，最后一只平塔岛象龟应该为了种族不灭努力地繁殖后代，最后一个源家后裔应该重振家族在黑道中的威望，但是乔治只是想回自己的水坑里去打滚，而我只是想去天体海滩上卖防晒油。”源稚生盯着恺撒的眼睛，“我就是这种人，其实蛇岐八家的黑道事业和秘党的使命对我来说都不重要，我的人生理想就是去卖防晒油。我跟你叔叔不是一种人。”</blockquote>
+
+<script type="text/javascript" src="/js/src/bai.js"></script>
+
+<p>Python作为解释型语言，发布即公开源码，虽然是提倡开源但是有些时候就是忍不住想打包成exe，不仅仅是为了对代码进行加密，而是为了跨平台。防止有些没有安装py环境的电脑无法运行软件。</p>
+<p>目录对python代码打包成exe的方式有4种，py2exe，pyinstaller，cx_Freeze，nuitka，分别对以上4种方法介绍，欢迎纠错和提供新的办法。</p>
+<h1 id="py2exe"><a href="#py2exe" class="headerlink" title="py2exe"></a>py2exe</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>py2exe是一个将python脚本转换成windows上的可独立执行的可执行程序(*.exe)的工具，这样，你就可以不用装python而在windows系统上运行这个可执行程序。</p>
+<h2 id="优点："><a href="#优点：" class="headerlink" title="优点："></a>优点：</h2><ol>
+<li>可以把python打包成exe</li>
+</ol>
+<h2 id="缺点："><a href="#缺点：" class="headerlink" title="缺点："></a>缺点：</h2><ol>
+<li><p>打包好的 exe只能在相同的系统下运行，比如你在XP系统用py2exe打包好的exe只能在XP上运行，在win7上肯定有问题，而且也是存在在别的XP机子上也可能不能运行，因为一些别的机子可能会缺少dll文件什么的，作者我当时之所以抛弃py2exe 也是因为这个原因；</p>
+</li>
+<li><p>打包的文件也需要打包同exe下的dll，和一些库的压缩包，不然exe根本跑不起来</p>
+</li>
+<li><p>打包时候报始终报RuntimeError: BeginUpdateResource错误，就需要拷贝dll文件。C:\WINDOWS\system32\python27.dll复制到dist目录</p>
+</li>
+<li><p>总之毛病一大堆，基本上已经舍弃了</p>
+</li>
+</ol>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><ol>
+<li><p>下载安装 <a href="https://sourceforge.net/projects/py2exe/files/py2exe/" target="_blank" rel="noopener">下载地址</a></p>
+</li>
+<li><p>安装好后，准备进行打包</p>
+</li>
+<li><p>准备一个文件x.py，这个x.py就是想要打包成exe。</p>
+</li>
+<li><p>然后这x.py同目录下新建一个setup.py</p>
+</li>
+</ol>
+<p>内容如下：</p>
+<pre><code>#coding=utf-8
+from distutils.core import setup
+import py2exe
+includes = [&quot;encodings&quot;, &quot;encodings.*&quot;]
+#要包含的其它库文件
+options = {&quot;py2exe&quot;:
+  {
+    &quot;compressed&quot;: 1, #压缩
+    &quot;optimize&quot;: 2,
+    &quot;ascii&quot;: 1,
+    &quot;includes&quot;: includes,
+    &quot;bundle_files&quot;: 1 #所有文件打包成一个exe文件
+  }
+}
+setup (
+  options = options,
+  zipfile=None,  #不生成library.zip文件
+  console=[{&quot;script&quot;: &quot;x.py&quot;, &quot;icon_resources&quot;: [(1, &quot;Q.ico&quot;)] }]#源文件，程序图标
+)</code></pre><ol start="5">
+<li><p>然后这cmd窗口下运行：</p>
+<p> python setup.py py2exe</p>
+</li>
+</ol>
+<p><a href="https://www.cnblogs.com/qq78292959/p/3510186.html" target="_blank" rel="noopener">py2exe使用方法 (含一些调试技巧，如压缩email 类)</a></p>
+<h1 id="pyinstaller"><a href="#pyinstaller" class="headerlink" title="pyinstaller"></a>pyinstaller</h1><h2 id="介绍-1"><a href="#介绍-1" class="headerlink" title="介绍"></a>介绍</h2><p>PyInstaller除了win32平台外还支持Linux,Unix平台.py2exe的用法在前面的博文里已经有了，现在看看PyInstaller,pyinstaller是目前应用最多的python打包工具，也是我最常用的。</p>
+<p>PyInstaller本身并不是Python模块，所以安装时随便放在哪儿都行。</p>
+<h2 id="优点：-1"><a href="#优点：-1" class="headerlink" title="优点："></a>优点：</h2><ol>
+<li>可将python文件转成可执行文件</li>
+<li>跨平台</li>
+<li>输出的可以是单一目录,也可以是一个单独的打好包的可执行文件。py2exe貌似输出目录。</li>
+<li>智能支持python的第三方模块如PyQt，外部数据文件等</li>
+<li>支持EGG格式文件</li>
+<li>可执行文件可以用UPX压缩,二进制压缩方式</li>
+<li>支持控制台和视窗两种方式。</li>
+<li>可以选择exe文件的图标 (Windows only)</li>
+<li>支持 COM server (Windows only)</li>
+</ol>
+<h2 id="缺点：-1"><a href="#缺点：-1" class="headerlink" title="缺点："></a>缺点：</h2><ol>
+<li>import导入的问题</li>
+</ol>
+<p>pyinstaller是很智能的，只要指定了入口py文件，那么它就会根据代码自动查找需要导入的包。但是隐式导入的话，平常运行是没有问题的，举例：</p>
+<pre><code># test1.py
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+
+DB_CONNECT_STRING = &apos;mysql+pymysql://root:123456@localhost/study&apos;
+engine = create_engine(DB_CONNECT_STRING, echo = False)
+DB_Session = sessionmaker(bind = engine)
+session = DB_Session()
+
+print(&apos;this is my test&apos;)</code></pre><p>运行这个ORM库的初始化引擎，是没有问题的，在console得到结果：</p>
+<pre><code>this is my test</code></pre><p>那么我们开始打包，使用最简单的pyinstaller test1.py。打包完成后，在当前目录下有个dist文件夹，进入dist下的test1文件夹，然后打开cmd，运行这个exe，我们就会发现：</p>
+<pre><code>提示： no model named &apos;pymysql&apos;</code></pre><p>这是怎么回事呢？那么问题来了，sqlalchemy这个库在初始化的时候是不需要显示导入引擎库的，它自己有一个create_engine()的函数来初始化，这个字符串是使用者根据规则来自己填写的。其实解决的方法很简单，我们只要在显式导入pymysql这个库即可。现在我们导入这个库：</p>
+<pre><code>import pymysql</code></pre><p>重新打包一遍（重新打包的时候记得删除掉spec文件，否则会有缓存，或者是加上–clean选项清除掉），再次运行,现在就没有这个问题了。</p>
+<ol start="2">
+<li>多进程打包的问题</li>
+</ol>
+<p>官方的CPython存在一个GIL锁，这个锁的存在有很多优点，很多库都是线程安全的，单线程执行的效率也高。在python早期的一个版本中取消掉了GIL，代之以高粒度的锁来实现多线程，但是实际应用中单个线程的效率大大降低。故后来又将GIL这个锁还原回去，所以至今的python2也好还是python3中都会有这个锁。但是这个锁有很大一个问题，那就是效率问题，它导致了python仅仅只能利用一个core来进行数据的计算。所以后面为了弥补这个GIL带来的问题，专家们设计了multiprocessing库，gevent库等。前一个是多进程库，为了解决python用于数据密集型处理的情况；后一个用于异步IO处理的情况，基本原理就是在CPU时钟之间来回切换，简单的例子就是爬虫程序爬取网页的时候。假如有10个url，我们都要去GET它，实际上网络之间的延迟是大大高于计算机内部的，那么这个时间内计算机就切换到下一个。</p>
+<p>有时候运用多进程是必须的，这个替代不了，哪怕它占用资源很多。</p>
+<h2 id="使用-1"><a href="#使用-1" class="headerlink" title="使用"></a>使用</h2><ol>
+<li>首先安装</li>
+</ol>
+<p>一般情况下：</p>
+<pre><code>pip install pyinstaller</code></pre><p>但是会爆错误，比如命令行下出现</p>
+<pre><code>UnicodeDecodeError: &apos;gbk&apos; codec can&apos;t decode pyinstaller等等</code></pre><p>这个时候下载pyinstall按转包文件解压后，放在没有中文的目录下，输入</p>
+<pre><code>python setup.py install</code></pre><p>即可完成</p>
+<ol start="2">
+<li>首先写一个main.py的文件，到网上下载一个图标，保存为logo.ico</li>
+</ol>
+<p>使用方法（例子）在：</p>
+<pre><code>pyinstaller -D -p F:\Python27\Lib -i logo.ico mian.py
+
+-D:打包成多个文件
+-p：指定python安装包路径
+-i：指定图标，到网上下载一个图标,保存为logi.ico文件，
+mian.py：要打包的文件</code></pre><p>运行完命令行即可生成exe文件</p>
+<p>注意main.py与logo.ico必须放在同一个目录下</p>
+<p>-D与-F一一对应，-F是打包成一个单独的文件。</p>
+<p>最后一排加上–noconsole，就是无窗口运行。</p>
+<h2 id="多进程打包"><a href="#多进程打包" class="headerlink" title="多进程打包"></a>多进程打包</h2><p>如果py程序是多进程的话，使用pyinstaller打包会出现错误，这个时候只要加上一行代码</p>
+<p>在：<br>    if <strong>name</strong>==’<strong>mian</strong>‘:<br>        #新增<br>        multiprocessing.freeze_support()  </p>
+<h2 id="word文件打包"><a href="#word文件打包" class="headerlink" title="word文件打包"></a>word文件打包</h2><p>如果要打包那种操作word的文件代码，用pyinstaller工具把使用到python-docx库的脚本打包成exe可执行文件后，双击运行生成的exe文件，报错：</p>
+<pre><code>docx.opc.exceptions.PackageNotFoundError: Package not found at &apos;C:\Users\ADMINI~1.PC-\AppData\Local\Temp\_MEI49~1\docx\templates\default.docx&apos;</code></pre><p>经过在stackoverflow上搜索，发现有人遇到过类似的问题（问题链接：cx_freeze and docx - problems when freezing），经过尝试，该问题的第二个回答可以解决这个问题：</p>
+<pre><code>I had the same problem and managed to get around it by doing the following. First, I located the default.docx file in the site-packages. Then, I copied it in the same directory as my .py file. I also start the .docx file with Document() which has a docx=... flag, to which I assigned the value: os.path.join(os.getcwd(), &apos;default.docx&apos;) and now it looks like doc = Document(docx=os.path.join(os.getcwd(), &apos;default.docx&apos;)). The final step was to include the file in the freezing process. Et voilà! So far I have no problem.</code></pre><p>大概的解决步骤是这样的：</p>
+<p>找到python-docx包安装路径下的一个名为default.docx的文件，我是通过everything这个强大的搜索工具全局搜索找到这个文件的，它在我本地所在的路径是：</p>
+<pre><code>E:\code\env\.env\Lib\site-packages\docx\templates</code></pre><p>把找到的default.docx文件复制到我的py脚本文件所在的目录下。<br>修改脚本中创建Document对象的方式：<br>从原来的创建方式：</p>
+<pre><code>document = Document()</code></pre><p>修改为：</p>
+<pre><code>import os
+document = Document(docx=os.path.join(os.getcwd(), &apos;default.docx&apos;))</code></pre><p>再次用pyinstaller工具打包脚本为exe文件</p>
+<p>把default.docx文件复制到与生成的exe文件相同的路径下，再次运行exe文件，顺利运行通过，没有再出现之前的报错，问题得到解决。</p>
+<h2 id="其他事项"><a href="#其他事项" class="headerlink" title="其他事项"></a>其他事项</h2><p>有的时候你打包图标的时候会报错，会显示logo error之类的，这是因为图标里面的格式出错了，需要用图片编辑软件重新对图片内部大小进行设置，这个百度一下吧~</p>
+<p>如果要加密混淆代码（其实没有用，一样可以反编译出你的源代码，但是聊胜于无吧）</p>
+<p>加上一行 –key=asfweakjhfksafkasdkdbas随便几个字符串</p>
+<p>好像要安装依赖包，根据提示安装即可</p>
+<h1 id="cx-Freeze"><a href="#cx-Freeze" class="headerlink" title="cx_Freeze"></a>cx_Freeze</h1><h2 id="介绍-2"><a href="#介绍-2" class="headerlink" title="介绍"></a>介绍</h2><p>也是一种打包软件，介于py2exe和pyinstaller之间。</p>
+<h2 id="有点"><a href="#有点" class="headerlink" title="有点"></a>有点</h2><p>python中比较常用的python转exe方法有三种，分别是cx_freeze,py2exe，PyInstaller。py2exe恐怕是三者里面知名度最高的一个，但是同时相对来说它的打包质量恐怕也是最差的一个。pyinstaller打包很好，但是操作工序较为复杂，推荐cx_freeze，可以通过pip install cx-freeze 安装</p>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><ul>
+<li><p>只能指定一个要打包的模块，也就是启动模块</p>
+</li>
+<li><p>发布后，可执行文件执行路径不能有中文（最好也不要有空格）</p>
+</li>
+<li><p>启动执行的文件中不要有下面这种判断，否则可执行文件执行会没有任何效果</p>
+<pre><code>if __name__==&apos;__mian__&apos;:</code></pre></li>
+<li><p>将exe放到其他机子上运行，弹出“找不到msvcr100.dll“ ，手动将”msvcr100.dll“拷贝到dist目录下即可</p>
+</li>
+<li><p>要去掉exe里的后面黑色控制台窗口就在前面的命令改成：<br>cxfreeze C:\Users\restartRemote.py (需打包文件路径） –target-dir D:\pyproject （存放exe的目标文件夹路径）–base-name=win32gui</p>
+</li>
+</ul>
+<h2 id="使用-2"><a href="#使用-2" class="headerlink" title="使用"></a>使用</h2><p>安装方法：</p>
+<ol>
+<li>打开cmd,输入pip install cx-freeze 后，会发现在python的Scripts文件夹下生成了三个文件</li>
+<li>然后在cmd中,切换到Scripts路径下，输入 python cxfreeze-postinstall，会发现Scripts文件夹下又多了.bat文件，此时已经安装成功</li>
+<li>继续在cmd下尝试输入 cxfeeeze -h 验证下，显示成功。</li>
+</ol>
+<p>提示：直接通过 pip install cx-freeze 安装，仍然出现错误时（找不到文件），最好去官网：<a href="https://pypi.org/project/cx_Freeze/4.3.3/#files" target="_blank" rel="noopener">网址</a>手动下载相应版本的cx-freeze文件，放在Scripts文件夹下，手动双击安装，然后再运行cxfreeze-postinstall。（例如：我的python版本是3.4.3，下载cx_Freeze-4.3.3.win-amd64-py3.4的文件。注意，版本不对无法安装！）</p>
+<p>在cxfreeze的安装目录下即\Python34\Scripts，添加一个文件cxfreeze.bat(可用记事本)cxfreeze.bat内容如下： </p>
+<pre><code>@ echo off
+C:\Python34\python.exe C:\Python34\Scripts\cxfreeze %*</code></pre><p>在该目录下输入czfreeze -h也可以查看安装情况（用pip install cxfreeze就可直接安装改第三方库）</p>
+<p>打包方法</p>
+<p>打包文件时要在Scripts文件夹路径下操作，文件的路径最好是绝对路径。例如：将 G 盘的 hello.py 打包到 G 盘的 123文件夹下：cxfreeze g:\hello.py –taget-dir g:\123 或者 cxfreeze g:\hello.py –taget-dir g:\123 –base-name=Win32GUI。加上–base-name=Win32GUI可以在运行exe时去掉cmd黑框。</p>
+<p>具体操作：</p>
+<p>首先在命令提示符中使用cd命令转换到所需要转换的python文件的目录中，因为转换后的dist文件夹会出现在命令提示符的当前目录中</p>
+<p>然后输入：</p>
+<pre><code>cxfreeze --init-script=C:\Users\tangc\Desktop\alien_invasion\alien_invasion.py alien_invasion.py
+
+--init-script=后接绝对路径</code></pre><p>如果你的程序中有图片等资源，是需要根据程序中的相对路径加入到dist文件中，也要在.exe同目录中加入images的文件夹（图片资源）</p>
+<p>如果原.py程序使用了图片等素材，并且添加图片是相对路径（同一个文件夹下可以不使用绝对路径），打包文件后，需要将图片等素材拷贝一份放在打包后的文件夹下，否则运行.exe程序会找不到图片素材。</p>
+<p>如果原.py程序使用图片添加的是绝对路径，在本地电脑上运行时可能不会发现错误。但是你将打包后的文件发给另一台机器，运行.exe程序会报错，大概意思是“根据你写的绝对路径找不到图片等素材”，即使你在文件夹下拷贝了素材，但是绝对路径也是错误的，所以，最好使用上一种方法。</p>
+<h1 id="nuitka"><a href="#nuitka" class="headerlink" title="nuitka"></a>nuitka</h1><p>Nuitka直接将python转换成C++代码 ,再编译C++代码产生可执行文件,完全不存在反向解析的问题，非常安全，而且由于可执行文件由C++编译而来，运行速度也会获得提升。</p>
+<p>当有一些大型的代码写完后，为了防止反编译源代码，我会使用nuitka进行打包，但是他存在一个很明显的缺点，那就是在另一台电脑上无法运行…并且实际编译时需要近20分钟，编译的时候cpu持续100%</p>
+<p>不过如果只是自己的电脑上运行的话，还是挺好使的</p>
+<p><a href="http://nuitka.net/#" target="_blank" rel="noopener">官方文档</a></p>
+<p>注意nuitka对python的某些语法有专门要注意的地方</p>
+<p><a href="http://nuitka.net/pages/download.html" target="_blank" rel="noopener">下载地址</a></p>
+<p>也可以通过pip下载，安装完nuitka后</p>
+<p>再下载地址的中选择相对的版本号，下载py解释器，这里你可以理解成使用niutka改造后的cpython解释器</p>
+<p><img src="/upload/TIM%E6%88%AA%E5%9B%BE20190309194005.png" alt=""></p>
+<p>然后安装下载相对于版本号的msi文件即可</p>
+<p>下载完后会提示安装编译c++代码的软件，使用的是gcc，下载地址是<a href="https://mingw-w64.org/doku.php/download" target="_blank" rel="noopener">mingw 64</a></p>
+<p>选择操作系统<img src="/upload/TIM%E6%88%AA%E5%9B%BE20190309194233.png" alt=""></p>
+<p>我直接下载的shimingw-w64,你可以点击这里直接下载<a href="https://sourceforge.net/projects/mingw-w64/" target="_blank" rel="noopener">win 10 win64</a></p>
+<p>下载后安装</p>
+<p>选项如下</p>
+<p><img src="/upload/TIM%E6%88%AA%E5%9B%BE20190309194355.png" alt=""></p>
+<p>等待安装即可</p>
+<p>安装好有会有一个MinGW64的文件夹，比如我要打包一个back.py的文件，把这个py文件放在MinGW64目录下，下面是我实验出来的一些经验打包命令行</p>
+<pre><code>python -m nuitka --recurse-all --standalone cc.py
+
+python -m nuitka --standalone back.py
+
+# 上面两种是可以用的打包方式
+python -m nuitka --recurse-all --recurse-plugins=F:\Python27\Lib --remove-output --plugin-enable=enum_compat back.py
+# 带图标并且有窗口
+python -m nuitka --recurse-all --recurse-plugins=F:\Python27\Lib --remove-output --icon=logo.ico --plugin-enable=enum_compat back.py
+# 不带窗口不带图标
+python -m nuitka --recurse-all --recurse-plugins=F:\Python27\Lib --remove-output --plugin-enable=enum_compat --windows-disable-console back.py
+
+# 不删除辅助文件夹
+python -m nuitka --recurse-all --recurse-plugins=F:\Python27\Lib --icon=logo.ico --plugin-enable=enum_compat back.py
+
+# 其他可运行
+
+
+python -m nuitka --recurse-all --recurse-plugins=F:\Python27\Lib --standalone --remove-output --icon=logo.ico --plugin-enable=enum_compat back.py</code></pre><p>上面那几条是我去年的时候总结的，使用的是python2，在使用py3更新后，图标需要指定位置</p>
+<pre><code>C:\Program Files\mingw-w64\x86_64-8.1.0-win32-seh-rt_v6-rev0&gt;python3 -m nuitka --recurse-all --windows-icon=logo.ico --standalone main.py</code></pre><p>具体的变动使用</p>
+<pre><code>python3 -m nuitka -h</code></pre><p>即可查看使用说明</p>
+<p>在编译的时候大概要挺长时间，并且cpu持续暴涨，之前使用锐龙5 1400编译一个程序大概是15分钟，换上9900k后大概一分钟左右就好了。</p>
+<p>速度确实快了一些</p>
+<h1 id="虚拟环境打包"><a href="#虚拟环境打包" class="headerlink" title="虚拟环境打包"></a>虚拟环境打包</h1><p>本机的电脑中python包比较杂乱，而且2和3版本混淆在一起，使用pyinstaller打包的时候想用3的环境但是又默认使用2，而且电脑上的pyinstaller安装其他插件都是2版本的，这种情况下就很糟心，并且有些包是完全不需要不依赖的，这个时候就显得很臃肿，所以使用pipenv安装py3的相关环境,在flask学习过程中，提起到pipenv，虚拟包管理软件进行软件打包处理，具体介绍<a href="https://sxadmin.github.io/Flask%20%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87.html">pipenv 虚拟环境</a></p>
+<p>前提：python目录下的script目录添加到环境变量</p>
+<p>首先到py3的script目录下，安装pipenv(如果之前安装了pipenv也不要紧)</p>
+<pre><code>pyton3 pip3.6.exe install pipenv</code></pre><p>然后创建一段代码，用来打包，随便写一段代码好了</p>
+<pre><code># coding:utf-8
+import requests
+import os
+headers = {&apos;User-Agent&apos;:&apos;I AM LANGZI&apos;}
+r = requests.get(url=&apos;https://sxadmin.github.io&apos;,headers=headers)
+print(&apos;状态码：&apos;+str(r.status_code))
+print(&apos;-**-*-*-*-*-*-*-*-**-*&apos;)
+print(r.content)
+os.system(&apos;pause&apos;)</code></pre><p>这段代码随便取名为a.py</p>
+<p>然后创建一个文件夹，为了方便记住，就取名python2exe文件夹，这个文件夹专门用来将py代码打包成exe，把上面的a.py保存到python2exe文件夹下面。</p>
+<p>打开cmd，输入pipenv，这个时候我的电脑报错了，提示</p>
+<pre><code>UnicodeDecodeError: &apos;utf-8&apos; codec can&apos;t decode byte 0xce in position 4: in....</code></pre><p>因为windows默认gbk编码，这个时候要修改源码将utf-8改成gbk就能解决，如果你有其他好的方法欢迎交流。</p>
+<p>修改方法</p>
+<p>在的C:\python3\Lib\site-packages\pipenv\vendor\shellingham的nt.py中78行，修改成</p>
+<pre><code>info = {&apos;executable&apos;: str(pe.szExeFile.decode(&apos;gbk&apos;))}</code></pre><p>然后输入命令检测pipenv是否能成功运行</p>
+<pre><code>pipenv check</code></pre><p>此时报错：</p>
+<pre><code>  File &quot;c:\python3\lib\site-packages\pipenv\vendor\pythonfinder\_vendor\pep514tools\_registry.py&quot;, line 75, in __getattr
+__
+    raise AttributeError(attr)
+AttributeError: version</code></pre><p>当前目录下会生成pipfile文件，但是内容为空</p>
+<p>通过查看pipenv官方文档，需要指定一下虚拟环境的配置信息，编辑pipfile，修改内容为</p>
+<pre><code>[[source]]
+url = &quot;https://pypi.tuna.tsinghua.edu.cn/simple&quot;
+verify_ssl = true
+name = &quot;pypi&quot;
+
+[dev-packages]
+
+[packages]
+requests = &quot;*&quot;
+
+[requires]
+python_version = &quot;3.6&quot;
+# 这里指定用生成的3.6版本</code></pre><p>然后继续输入</p>
+<pre><code>pipenv check</code></pre><p>返回结果：</p>
+<pre><code>C:\python2exe&gt;pipenv check
+Checking PEP 508 requirements…
+Passed!
+Checking installed package safety…
+All good!</code></pre><p>到此为止pipenv安装成功</p>
+<p>这个时候这个文件夹里面就生成了python3.6的独立虚拟环境，这个时候激活虚拟环境</p>
+<pre><code>pipenv shell</code></pre><p>然后查看一下当前的虚拟环境信息</p>
+<pre><code>pipenv --where # 显示虚拟环境所在目录
+pipenv --venv # 显示虚拟环境信息
+pipenv --py # 显示python虚拟环境解释器的信息</code></pre><p>因为是新建的虚拟环境，所以里面没有任何外部包，就需要先安装，举个例子先安装requests这个包,再python2exe目录下启动cmd，输入</p>
+<pre><code>pipenv install requests # 还能指定版本，比如pipenv install requests==20.00</code></pre><p>然后查看刚刚安装的包和依赖</p>
+<pre><code>pipenv graph</code></pre><p>如果要删除就</p>
+<pre><code>pipenv uninstall requests # 想要删除所有的外部包就输入 pipenv uninstall --all</code></pre><p>要在虚拟环境里安装好你py文件中调用的库，不然打包出来也没法正常运行。</p>
+<p>最后安装pyinstaller</p>
+<pre><code>pipenv install pyinstaller</code></pre><p>这个时候我的电脑报错：</p>
+<pre><code>[pipenv.exceptions.InstallError]: [&apos;Looking in indexes: https://pypi.tuna.tsinghua.edu.cn/simple&apos;, &apos;Collecting pyinstall
+er==3.4 (from -r C:\\Users\\浪子\\AppData\\Local\\Temp\\pipenv-u8g559jn-requirements\\pipenv-209rryi9-requirement.txt (l
+ine 1))&apos;, &apos;  Using cached https://pypi.tuna.tsinghua.edu.cn/packages/03/32/0e0de593f129bf1d1e77eed562496d154ef4460fd5cec
+fd78612ef39a0cc/PyInstaller-3.4.tar.gz&apos;, &apos;  Installing build dependencies: started&apos;, &quot;  Installing build dependencies: f
+inished with status &apos;done&apos;&quot;, &apos;  Getting requirements to build wheel: started&apos;, &quot;  Getting requirements to build wheel: f
+inished with status &apos;error&apos;&quot;, &apos;  Complete output from command c:\\users\\浪子\\.virtualenvs\\python2exe-lqrqjwd-\\script
+s\\python3.exe c:\\users\\浪子\\.virtualenvs\\python2exe-lqrqjwd-\\lib\\site-packages\\pip\\_vendor\\pep517\\_in_process
+.py get_requires_for_build_wheel C:\\Users\\浪子\\AppData\\Local\\Temp\\tmprp_w934y:&apos;, &apos;  Failed to import the site modu
+le&apos;, &apos;  Traceback (most recent call last):&apos;, &apos;    File &quot;c:\\users\\浪子\\.virtualenvs\\python2exe-lqrqjwd-\\lib\\site.py
+&quot;, line 791, in &lt;module&gt;&apos;, &apos;      main()&apos;, &apos;    File &quot;c:\\users\\浪子\\.virtualenvs\\python2exe-lqrqjwd-\\lib\\site.py&quot;,
+ line 781, in main&apos;, &apos;      execsitecustomize()&apos;, &apos;    File &quot;c:\\users\\浪子\\.virtualenvs\\python2exe-lqrqjwd-\\lib\\si
+te.py&quot;, line 553, in execsitecustomize&apos;, &apos;      import sitecustomize&apos;, &apos;    File &quot;C:\\Users\\浪子\\AppData\\Local\\Temp\
+\pip-build-env-qfpa92l1\\site\\sitecustomize.py&quot;, line 7&apos;, &quot;  SyntaxError: (unicode error) &apos;utf-8&apos; codec can&apos;t decode by
+te 0xc0 in position 0: invalid start byte&quot;, &apos;  &apos;, &apos;  ----------------------------------------&apos;]
+[pipenv.exceptions.InstallError]: [&apos;Command &quot;c:\\users\\浪子\\.virtualenvs\\python2exe-lqrqjwd-\\scripts\\python3.exe c:
+\\users\\浪子\\.virtualenvs\\python2exe-lqrqjwd-\\lib\\site-packages\\pip\\_vendor\\pep517\\_in_process.py get_requires_
+for_build_wheel C:\\Users\\浪子\\AppData\\Local\\Temp\\tmprp_w934y&quot; failed with error code 1 in C:\\Users\\浪子\\AppData
+\\Local\\Temp\\pip-install-ugo2mgu4\\pyinstaller&apos;]
+ERROR: ERROR: Package installation failed...
+     ================================ 0/1 - 00:00:05</code></pre><p>解决方法是下载pyinstaller的按转包，使用虚拟环境的解释器安装到虚拟环境，<a href="https://github.com/pyinstaller/pyinstaller/releases/download/v3.4/PyInstaller-3.4.tar.gz" target="_blank" rel="noopener">下载地址</a></p>
+<p>保存到python2exe目录下</p>
+<p>解压后，回到cmd窗口</p>
+<pre><code>cd PyInstaller-3.4</code></pre><p>然后安装</p>
+<pre><code>python install.py install</code></pre><p>这个时候即可安装成功</p>
+<p>安装好了后启动打包文件即可</p>
+<pre><code>pyinstaller -F a.py</code></pre><p>这个时候会报错</p>
+<pre><code>2260 WARNING: lib not found: api-ms-win-crt-stdio-l1-1-0.dll dependency of c:\users\langzi\.virtualenvs\python2exe-lqrqjwd-\scripts\python3.exe
+2424 WARNING: lib not found: api-ms-win-crt-math-l1-1-0.dll dependency of c:\users\langzi\.virtualenvs\python2exe-lqrqjwd-\scripts\python3.exe
+2588 WARNING: lib not found: api-ms-win-crt-runtime-l1-1-0.dll dependency of c:\users\langzi\.virtualenvs\python2exe-lqrqjwd-\scripts\python3.exe
+2753 WARNING: lib not found: api-ms-win-crt-heap-l1-1-0.dll dependency of c:\users\langzi\.virtualenvs\python2exe-lqrqjwd-\scripts\python3.exe
+2917 WARNING: lib not found: api-ms-win-crt-locale-l1-1-0.dll dependency of c:\users\langzi\.virtualenvs\python2exe-lqrqjwd-\scripts\python3.exe
+3153 WARNING: lib not found: api-ms-win-crt-stdio-l1-1-0.dll dependency of c:\users\langzi\.virtualenvs\python2exe-lqrqjwd-\scripts\python36.dll
+3317 WARNING: lib not found: api-ms-win-crt-math-l1-1-0.dll dependency of c:\users\langzi\.virtualenvs\python2exe-lqrqjwd-\scripts\python36.dll
+3481 WARNING: lib not found: api-ms-win-crt-conio-l1-1-0.dll dependency of c:\users\langzi\.virtualenvs\python2exe-lqrqjwd-\scripts\python36.dll
+3647 WARNING: lib not found: api-ms-win-crt-runtime-l1-1-0.dll dependency of c:\users\langzi\.virtualenvs\python2exe-lqrqjwd-\scripts\python36.dll
+3810 WARNING: lib not found: api-ms-win-crt-time-l1-1-0.dll dependency of c:\users\langzi\.virtualenvs\python2exe-lqrqjwd-\scripts\python36.dll
+3975 WARNING: lib not found: api-ms-win-crt-heap-l1-1-0.dll dependency of c:\users\langzi\.virtualenvs\python2exe-lqrqjwd-\scripts\python36.dll
+4138 WARNING: lib not found: api-ms-win-crt-convert-l1-1-0.dll dependency of c:\users\langzi\.virtualenvs\python2exe-lqrqjwd-\scripts\python36.dll
+4304 WARNING: lib not found: api-ms-win-crt-filesystem-l1-1-0.dll dependency of c:\users\langzi\.virtualenvs\python2exe-lqrqjwd-\scripts\python36.dll
+4473 WARNING: lib not found: api-ms-win-crt-process-l1-1-0.dll dependency of c:\users\langzi\.virtualenvs\python2exe-lqrqjwd-\scripts\python36.dll
+4639 WARNING: lib not found: api-ms-win-crt-locale-l1-1-0.dll dependency of c:\users\langzi\.virtualenvs\python2exe-lqrqjwd-\scripts\python36.dll
+4806 WARNING: lib not found: api-ms-win-crt-environment-l1-1-0.dll dependency of c:\users\langzi\.virtualenvs\python2exe-lqrqjwd-\scripts\python36.dll
+4975 WARNING: lib not found: api-ms-win-crt-string-l1-1-0.dll dependency of c:\users\langzi\.virtualenvs\python2exe-lqrqjwd-\scripts\python36.dll
+5143 WARNING: lib not found: api-ms-win-crt-stdio-l1-1-0.dll dependency of C:\Windows\system32\vcruntime140.dll
+5306 WARNING: lib not found: api-ms-win-crt-runtime-l1-1-0.dll dependency of C:\Windows\system32\vcruntime140.dll
+5471 WARNING: lib not found: api-ms-win-crt-heap-l1-1-0.dll dependency of C:\Windows\system32\vcruntime140.dll
+5635 WARNING: lib not found: api-ms-win-crt-convert-l1-1-0.dll dependency of C:\Windows\system32\vcruntime140.dll
+5801 WARNING: lib not found: api-ms-win-crt-string-l1-1-0.dll dependency of C:\Windows\system32\vcruntime140.dll</code></pre><p>这个时候需要安装vc++库<a href="https://www.microsoft.com/zh-cn/download/details.aspx?id=48145" target="_blank" rel="noopener">下载地址</a></p>
+<p>然后修改生成下spec的文件pathex片段</p>
+<p>在其中的pathex字段中，添加api-ms-win-crt-*-1-0.dll的文件路径。通常如果安装了VC++运行库的话，其地址为“C:\Program Files\Windows Kits\10\Redist\ucrt\DLLs\x86”（32位操作系统）或“C:\Program Files (x86)\Windows Kits\10\Redist\ucrt\DLLs\x86”（64位操作系统）。此处选用的是VC++的32位版本库文件。</p>
+<p>比如：</p>
+<pre><code># -*- mode: python -*-
+
+block_cipher = None
+
+
+a = Analysis([&apos;a.py&apos;],
+             pathex=[&apos;C:\\python2exe&apos;,&apos;C:\Program Files (x86)\Windows Kits\10\Redist\ucrt\DLLs\x86&apos;],
+             binaries=[],
+             datas=[],
+             hiddenimports=[],
+             hookspath=[],
+             runtime_hooks=[],
+             excludes=[],
+             win_no_prefer_redirects=False,
+             win_private_assemblies=False,
+             cipher=block_cipher,
+             noarchive=False)
+pyz = PYZ(a.pure, a.zipped_data,
+             cipher=block_cipher)
+exe = EXE(pyz,
+          a.scripts,
+          a.binaries,
+          a.zipfiles,
+          a.datas,
+          [],
+          name=&apos;a&apos;,
+          debug=False,
+          bootloader_ignore_signals=False,
+          strip=False,
+          upx=True,
+          runtime_tmpdir=None,
+          console=True )</code></pre><p>然后输入：</p>
+<pre><code>pyinstaller a.spec</code></pre><p>就能生成exe文件了。</p>
+<h1 id="代码混淆"><a href="#代码混淆" class="headerlink" title="代码混淆"></a>代码混淆</h1><h2 id="在线版"><a href="#在线版" class="headerlink" title="在线版"></a>在线版</h2><p>你可以自己写混淆器，虽然说是防君子不防小人，但是…..罢了不提了…..</p>
+<p>我使用的是一个在线的代码混淆器，猜测代码会上传到那个服务器上面，所以用或不用看你的需求了</p>
+<p><a href="http://pyob.oxyry.com" target="_blank" rel="noopener">地址</a></p>
+<p>注意：代码规范符合python3</p>
+<h2 id="Pyarmor"><a href="#Pyarmor" class="headerlink" title="Pyarmor"></a>Pyarmor</h2><p>Pyarmor 是一个导入和运行加密 Python 脚本的命令行工具。他支持命令行操纵加密与图形化界面操作。</p>
+<h3 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h3><p>当然首先要安装</p>
+<pre><code>pip3 install pyarmor</code></pre><h3 id="命令行操作"><a href="#命令行操作" class="headerlink" title="命令行操作"></a>命令行操作</h3><p>使用命令行高级命令</p>
+<h4 id="单个文件加密打包"><a href="#单个文件加密打包" class="headerlink" title="单个文件加密打包"></a>单个文件加密打包</h4><h5 id="首先加密脚本"><a href="#首先加密脚本" class="headerlink" title="首先加密脚本"></a>首先加密脚本</h5><p>使用 obfuscate 命令，加密 src 目录下面的所有 .py 文件</p>
+<pre><code>pyarmor obfuscate src/hello.py</code></pre><p>运行加密脚本，会在目录下生成一个dist文件夹，文件夹里面就是加密后的脚本代码</p>
+<p>像运行正常脚本一样运行加密后的脚本 hello.py</p>
+<pre><code>cd ./dist/
+python hello.py</code></pre><h5 id="打包加密脚本"><a href="#打包加密脚本" class="headerlink" title="打包加密脚本"></a>打包加密脚本</h5><p>使用 pack 命令，把脚本加密之后直接生成可以单独运行的可执行文件</p>
+<pre><code>pyarmor pack src/hello.py</code></pre><p>生成不同许可文件</p>
+<p>首先使用命令 hdinfo 查看目标机器的硬件设备信息</p>
+<p>然后使用命令 licenses, 创建新的许可文件</p>
+<p>接着使用新生成的许可文件替换默认许可文件 dist/license.lic</p>
+<p>最后再次运行加密脚本 queens.py，测试一下新的许可证</p>
+<pre><code>pyarmor hdinfo
+pyarmor licenses \
+        --expired &quot;2018-12-31&quot; \
+        --bind-disk &quot;100304PBN2081SF3NJ5T&quot; \
+        --bind-mac &quot;70:f1:a1:23:f0:94&quot; \
+        --bind-ipv4 &quot;202.10.2.52&quot; \
+        customer-jondy
+cp licenses/customer-jondy/license.lic ./dist/
+cd ./dist/
+python hello.py</code></pre><h5 id="封装成exe"><a href="#封装成exe" class="headerlink" title="封装成exe"></a>封装成exe</h5><p>虽然加密脚本可以无缝替换原来的脚本，但是打包的时候还是存在一个问题:</p>
+<p>加密之后所有的依赖包无法自动获取</p>
+<p>解决这个问题的基本思路是</p>
+<ol>
+<li>使用没有加密的脚本找到所有的依赖文件</li>
+<li>使用加密脚本替换原来的脚本</li>
+<li>添加加密脚本需要的运行辅助文件到安装包</li>
+<li>替换主脚本，因为主脚本会被编译成为可执行文件</li>
+</ol>
+<p>运行 pyarmor pack 命令进行打包的时候， PyArmor 会进行如下的工作</p>
+<p>第一步是加密所有的脚本，保存到 dist/obf:</p>
+<pre><code>pyarmor obfuscate --output dist/obf hello.py</code></pre><p>第二步是生成 .spec 文件，这是 PyInstaller 需要的，把加密脚本需要的 运行辅助文件也添加到里面:</p>
+<pre><code>pyinstaller --add-data dist/obf/license.lic
+            --add-data dist/obf/pytransform.key
+            --add-data dist/obf/_pytransform.*
+            hello.py dist/obf/hello.py</code></pre><p>第三步是修改 hello.spec, 在 Analysis 之后插入下面的语句，主要作用是 打包的时候使用加密后的脚本，而不是原来的脚本:</p>
+<pre><code>a.scripts[-1] = &apos;hello&apos;, &apos;dist/obf/hello.py&apos;, &apos;PYSOURCE&apos;
+for i in range(len(a.pure)):
+    if a.pure[i][1].startswith(a.pathex[0]):
+        x = a.pure[i][1].replace(a.pathex[0], os.path.abspath(&apos;dist/obf&apos;))
+        if os.path.exists(x):
+            a.pure[i] = a.pure[i][0], x, a.pure[i][2]</code></pre><p>最后运行这个修改过的文件，生成最终的安装包:</p>
+<pre><code>pyinstaller hello.spec</code></pre><p>检查一下安装包中的脚本是否已经加密:</p>
+<pre><code># It works
+dist/hello/hello.exe
+
+rm dist/hello/license.lic
+
+# It should not work
+dist/hello/hello.exe</code></pre><h4 id="加密包（Package）"><a href="#加密包（Package）" class="headerlink" title="加密包（Package）"></a>加密包（Package）</h4><p>从这个例子中，可以学习到</p>
+<ol>
+<li>如何加密一个 Python 包 mypkg，它所在的路径是 examples/testpkg</li>
+<li>如何设置加密包的运行期限</li>
+<li>如何使用外部脚本 main.py 来导入和使用加密后 mypkg 包中的函数</li>
+<li>如何发布加密后的包给用户</li>
+</ol>
+<p>使用如下命令：</p>
+<pre><code>cd /path/to/pyarmor
+
+# 使用 obfuscate 去加密包，加密后的脚本存放在 `dist/mypkg`
+pyarmor obfuscate --output=dist/mypkg examples/testpkg/mypkg/__init__.py
+
+# 使用命令 licenses 生成一个有效期到 2019-01-01 的授权文件
+pyarmor licenses --expired 2019-01-01 mypkg2018
+
+# 使用新的授权文件覆盖默认的授权文件
+cp licenses/mypkg2018/license.lic dist/mypkg
+
+# 使用第三方脚本 `main.py` 导入加密库
+cd dist
+cp ../examples/testpkg/main.py ./
+python main.py
+
+# 打包整个路径 `mypkg`，发布给客户
+zip -r mypkg-obf.zip mypkg
+zip 命令是linux下的打包命令，win下直接压缩包即可</code></pre><h4 id="使用-Project-来管理和加密脚本"><a href="#使用-Project-来管理和加密脚本" class="headerlink" title="使用 Project 来管理和加密脚本"></a>使用 Project 来管理和加密脚本</h4><p>从这个例子中，可以学习到</p>
+<ol>
+<li>如何使用 Project 管理加密脚本</li>
+<li>如何绑定加密脚本到硬盘、网卡等</li>
+<li>如何跨平台发布加密脚本</li>
+<li>如何为不同客户定制授权认证文件</li>
+</ol>
+<p>这是一个更接近真实场景的例子，加密后的脚本 queens.py 会以不同的授权方 式发布给不同的客户:</p>
+<ol>
+<li>John: 运行在 64位 Ubuntu 上面，2019年5月5号过期，之后就无法在使用</li>
+<li>Lily: 运行在一台 64位 Win10 上面，这台机器的硬盘序列号必须是 100304PBN2081SF3NJ5T</li>
+<li>Tom: 运行在一台嵌入式设备 Raspberry Pi 上面，网卡Mac地址必须是 70:f1:a1:23:f0:94，并且2019年5月5号过期</li>
+</ol>
+<p>使用命令如下：</p>
+<pre><code>cd /path/to/pyarmor
+
+# 使用命令 init 创建一个工程
+pyarmor init --src=examples/simple --entry=queens.py projects/simple
+
+# 切换到新创建的工程
+cd projects/simple
+
+# 这儿自动生成有一个脚本 `pyarmor`，在 Windows 下面名字是 `pyarmor.bat`
+# 使用命令 `build` 加密工程中所有的 `.py` 文件，加密脚本存放在 `dist` 下面
+pyarmor build
+
+# 生成不同的授权文件
+#
+# 为 John 生成的限时许可，新的许可文件存放在 &quot;licenses/john/license.lic&quot;
+pyarmor licenses --expired 2019-03-05 john
+
+# 为 Lily 生成的硬盘许可，新的许可文件存放在 &quot;licenses/lily/license.lic&quot;
+pyarmor licenses --bind-disk &apos;100304PBN2081SF3NJ5T&apos; lily
+
+# 为 Tom 生成的限时和网卡绑定许可，新的许可文件存放在 &quot;licenses/tom/license.lic&quot;
+pyarmor licenses --bind-mac &apos;70:f1:a1:23:f0:94&apos; --expired 2019-03-05 tom
+
+# 创建给 John 的发布包
+#
+mkdir -p customers/john
+
+# 复制所有的加密脚本到新目录
+cp -a dist/ customers/john
+
+# 替换默认的许可文件
+cp licenses/john/license.lic customers/john/dist
+
+# 替换平台相关的动态链接库，从网站上下载适用 64位 Linux 的版本
+rm -f customer/john/dist/_pytransform.*
+wget http://pyarmor.dashingsoft.com/downloads/platforms/linux_x86_64/_pytransform.so -O customer/john/dist/_pytransform.so
+
+# 打包在路径 `customer/john/dist` 的所有文件，发布给 John
+
+# 对于 Lily 和 Tom 来说，基本操作都是一样，除了动态链接库需要根据不同的平台分别下载和替换
+#
+wget http://pyarmor.dashingsoft.com/downloads/platforms/win_amd64/_pytransform.dll
+wget http://pyarmor.dashingsoft.com/downloads/platforms/raspberrypi/_pytransform.so</code></pre><h4 id="打包加密脚本-1"><a href="#打包加密脚本-1" class="headerlink" title="打包加密脚本"></a>打包加密脚本</h4><p>从这个例子中，可以学习到</p>
+<p>如何使用命令 pack 来打包加密的脚本</p>
+<p>PyArmor 需要使用第三方的打包工具，推荐工具是 PyInstaller, 首先安装</p>
+<pre><code>pip install pyinstaller</code></pre><p>接着就可以运行命令 pack 打包加密脚本</p>
+<pre><code>cd /path/to/pyarmor
+pyarmor pack examples/py2exe/hello.py</code></pre><p>运行一下打包好的可执行文件</p>
+<pre><code>dist/hello/hello</code></pre><p>确认脚本已经加密</p>
+<pre><code>rm dist/hello/license.lic
+dist/hello/hello</code></pre><p>使用其他工具需要先写一个安装脚本setup.py, 这儿有一个 py2exe 的实 例 examples/py2exe/setup.py。这个脚本用来打 包主脚本hello.py 和另外一个模块 queens.py。</p>
+<p>首先安装 py2exe，并确定没有加密之前能够正常打包</p>
+<pre><code>pip install py2exe
+
+cd /path/to/pyarmor
+
+cd example/py2exe
+python setup.py py2exe
+
+# 输出文件在这里
+ls dist/</code></pre><p>之后运行命令 pack 来打包加密脚本</p>
+<pre><code>pyarmor pack --type py2exe hello.py</code></pre><p>检查一下输出路径 dist，发现多个几个文件，这些是运行加密脚本需要的辅助 文件，另外 library.zip 也被修改了，里面的 queens.pyc 被替换成为了加 密后的脚本</p>
+<p>对于其他打包工具 cx_Freeze, py2app, 基本使用方法和 py2exe 很类似。</p>
+<h3 id="图形化操作"><a href="#图形化操作" class="headerlink" title="图形化操作"></a>图形化操作</h3><h4 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h4><p>可以通过</p>
+<pre><code>pip3 install pyarmor</code></pre><p>或者你也可以单独下载：<a href="https://github.com/dashingsoft/pyarmor/releases/download/v3.3.0/pyarmor-webapp.zip" target="_blank" rel="noopener">下载地址</a></p>
+<p>解压下载文件到任意目录，例如 /opt。本教程后面的章节都是以 /opt 作为 WebApp 的安装路径，运行里面的例子需要把它替换成为实际的安装路径。</p>
+<h4 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h4><p>可以通过命令行</p>
+<pre><code>pyarmor-webui</code></pre><p>还可以通过如下方式进行设置后启动</p>
+<p>打开文件夹 /opt/pyarmor/webapp，双击 start-server.bat for Windows 或者 start-server.sh for Linux</p>
+<p>也可以通过命令行方式启动，假定 python 的安装路径为 D:/tools/Python27</p>
+<pre><code>cd /opt/pyarmor/webapp
+D:/tools/Python27/python server.py</code></pre><p>这条命令会打开一个控制台，显示服务器的行为动态，同时本机默认的浏览器会自动打开一个网页，这就是 WebApp。</p>
+<p>单击 项目, 进入 Pyarmor 的世界</p>
+<p>我们下面的操作主要就是在这个网页里面进行的，另外还需要打开一个命令窗口执行相关的 Python 命令。</p>
+<h4 id="演示模式"><a href="#演示模式" class="headerlink" title="演示模式"></a>演示模式</h4><p>如果在项目页面的右上角有个 演示版本 的按钮，那就是说，WebApp 现在只能演示功能。通常情况下，有两种方式会进入演示模块</p>
+<ol>
+<li><a href="http://pyarmor.dashingsoft.com/demo/index-zh.html" target="_blank" rel="noopener">Pyarmor WebApp 官方在线版</a></li>
+<li>直接在文件夹打开 /opt/pyarmor/webapp/index-zh.html</li>
+</ol>
+<h4 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h4><p>下面通过四个例子来演示 WebApp 的主要功能：</p>
+<ol>
+<li>第一个例子最简单，运行一个加密的脚本</li>
+<li>第二个稍微复杂一些，演示如何导入加密的模块和包（Package）</li>
+<li>第三个例子主要是演示如何绑定加密脚本到指定机器</li>
+<li>最后一个例子演示如何设置加密脚本的有效期</li>
+</ol>
+<p>运行加密脚本</p>
+<p>在这个例子中，将会加密 /opt/pyarmor/src/examples/queens.py，然后运行加密后的脚本。</p>
+<h5 id="案例-1"><a href="#案例-1" class="headerlink" title="案例 1"></a>案例 1</h5><p>进行单个加密</p>
+<ul>
+<li>按照下图输入 标题, 源路径, 启动脚本, 输出路径</li>
+<li>点击按钮 加密</li>
+</ul>
+<p><img src="/upload/project-queen.jpg" alt=""></p>
+<p>加密成功之后在目录 /opt/pyarmor/webapp/build 下面会有加密脚本 queens.py 以及相关的辅助文件。</p>
+<p>运行</p>
+<p>在命令窗口执行里面的命令</p>
+<pre><code># 进入输出目录
+cd /opt/pyarmor/webapp/build
+
+# 执行包裹脚本，并且传入命令行参数: &quot;6&quot;
+python queens.py 6</code></pre><p>查看加密后的 queens.py，它的内容如下</p>
+<pre><code>import pyimcore
+__pyarmor__(__name__, b&apos;xxxxx&apos;)</code></pre><p>最后点击按钮 保存，保存项目信息，后面的例子中还会用到这个项目。</p>
+<h5 id="案例-2"><a href="#案例-2" class="headerlink" title="案例 2"></a>案例 2</h5><p>导入加密模块</p>
+<p>第二个例子稍微复杂一些，使用一个真实的包 /opt/pyarmor/src/examples/pybench 。这是 一个用来测试 Python 实现性能的小工具包，用在这里最合适不过了。</p>
+<p>在这个例子中，将会加密 pybench 中的所有 “.py” 文件，然后运行脚本 pybench.py，它可以像正常方式一样，使用导入后的加密模块。</p>
+<p>加密</p>
+<ul>
+<li>点击按钮 新建，创建一个新的项目</li>
+<li>按照下图内容输入 标题, 源路径, 输出路径， MANIFEST.in</li>
+</ul>
+<p><img src="/upload/project-pybench.jpg" alt=""></p>
+<p>关于 MANIFEST.in 的格式，参考这里</p>
+<p>这个模板完全参照 Python Distutils 里面相应的文件，它用来列出项目中需要加密的文件。例如</p>
+<pre><code>include *.py
+recursive-include examples *.py</code></pre><p>上面的例子一看就能明白： 所有在项目 源路径 下面的 py 文件，递归所有在项目子目录 examples 下面的 py 文件。</p>
+<p>模板支持的命令如下表所示（从 Python 帮助文件拷贝而来）</p>
+<pre><code>              Command                             Description
+---------------------------------------------------------------------------------------------------------------------------
+include pat1 pat2 ...                include all files matching any of the listed patterns
+exclude pat1 pat2 ...                exclude all files matching any of the listed patterns
+recursive-include dir pat1 pat2 ...  include all files under dir matching any of the listed patterns
+recursive-exclude dir pat1 pat2 ...  exclude all files under dir matching any of the listed patterns
+global-include pat1 pat2 ...         include all files anywhere in the source tree matching — &amp; any of the listed patterns
+global-exclude pat1 pat2 ...         exclude all files anywhere in the source tree matching — &amp; any of the listed patterns
+prune dir                            exclude all files under dir
+graft dir                            include all files under dir</code></pre><p>需要注意的是在 Pyarmor WebApp 中，MANIFEST.in 里面的路径都是相对于项目 源路径，并且不支持绝对路径。</p>
+<ul>
+<li>点击按钮 保存，保存修改后的项目</li>
+<li>点击按钮 加密</li>
+</ul>
+<p>所有加密后的脚本存放在 输出路径 /opt/pyarmor/webapp/build/pybench 下面</p>
+<p>运行</p>
+<p>运行加密脚本 pybench.py</p>
+<pre><code>cd /opt/pyarmor/webapp/build/pybench
+python pybench.py</code></pre><p>查看加密脚本 pybench.py</p>
+<pre><code>import pyimcore
+__pyarmor__(__name__, b&apos;xxx&apos;)</code></pre><h5 id="案例-3"><a href="#案例-3" class="headerlink" title="案例 3"></a>案例 3</h5><p>绑定加密脚本到指定机器</p>
+<p>这个例子演示如何绑定加密脚本到当前机器，在之前首先要得到本机的硬盘序列号。Pyarmor 提供了一个命令可以直接获取本机的硬盘序列号，打开一个命令行窗口，执行下面的命令</p>
+<pre><code>cd /opt/pyarmor/src
+python pyarmor.py hdinfo
+Harddisk&apos;s serial number is &apos;100304PBN2081SF3NJ5T&apos;</code></pre><p>生成许可证</p>
+<p>我们继续使用第一个例子中的项目 Queen，加密后的脚本已经存放在 /opt/pyarmor/webapp/build，可以直接在这个例子里面使用。</p>
+<ul>
+<li>点击按钮 打开，弹出项目列表对话框</li>
+<li>在列出的项目中选中 project-1:Queen，然后点击对话框下方按钮 打开</li>
+</ul>
+<p><img src="/upload/project-open.jpg" alt=""></p>
+<ul>
+<li>点击左侧 许可证</li>
+<li>选中 绑定加密脚本到指定机器，在下面的文本框输入 100304PBN2081SF3NJ5T</li>
+</ul>
+<p><img src="/upload/project-license-1.jpg" alt=""></p>
+<ul>
+<li>点击下面的按钮 生成</li>
+</ul>
+<p><img src="/upload/project-license-2.jpg" alt=""></p>
+<p>如上图所示，新的许可文件会显示在 所有许可方式 的列表中，上图中例子是 Bind to 100304PBN2081SF3NJ5T (projects\project-1\license-0.lic)</p>
+<p>小括号里面的内容是许可证的文件名称，加上安装路径，全路径的文件名称是 /opt/pyarmor/webapp/projects/project-1/license-0.lic</p>
+<p>使用新的许可证</p>
+<p>使用新的许可证只需要使用新的许可证替换默认许可证 /opt/pyarmor/webapp/build/license.lic 即可</p>
+<pre><code>cp /opt/pyarmor/webapp/projects/project-1/license-0.lic /opt/pyarmor/webapp/build/license.lic</code></pre><p>打开命令行窗口，再次运行</p>
+<pre><code>cd /opt/pyarmor/webapp/build
+python queens.py 6</code></pre><p>在本机可以正常运行，但是在其他机子上，就会出错。</p>
+<p>设置加密脚本的有效期</p>
+<p>这个例子演示如何设置加密脚本的有效期，我们继续上面的操作。</p>
+<ul>
+<li>点击左侧 许可证</li>
+<li>选中 设置加密脚本的有效期，在下面的文本框输入 2017-12-25</li>
+</ul>
+<p><img src="/upload/project-license-3.jpg" alt=""></p>
+<ul>
+<li>点击下面的按钮 生成</li>
+</ul>
+<p>和上面的例子一样，新的许可文件会显示在 所有许可方式 的列表中，用新的许可文件替换旧的即可。</p>
+<p>打开命令窗口，再次运行</p>
+<pre><code>cd /opt/pyarmor/webapp/build
+python queens.py 6</code></pre><p>这个加密脚本只能在本机运行到2071年的圣诞节。在圣诞节之后，就会出错。</p>
+<h1 id="所有环境打包下载"><a href="#所有环境打包下载" class="headerlink" title="所有环境打包下载"></a>所有环境打包下载</h1><p>为了方便迁移环境，所以将上文中的pyinstaller等打包环境下载后保存在一个压缩包里面，方便下载使用</p>
+<p><a href="https://sxadmin.github.io/upload/Python2setup2exe.zip">下载链接</a></p>
+<p><a href="https://pipenv.readthedocs.io/en/latest/advanced/#configuration-with-environment-variables" target="_blank" rel="noopener">参考链接 1 </a></p>
+<p><a href="https://www.jianshu.com/p/00af447f0005" target="_blank" rel="noopener">参考链接 2</a></p>
+<p><a href="https://github.com/dashingsoft/pyarmor/blob/master/src/examples/README-ZH.md" target="_blank" rel="noopener">参考链接 3</a></p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Sxadmin</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://sxadmin.github.io/2019/03/07/Python%E6%89%93%E5%8C%85exe%E6%96%87%E4%BB%B6%E6%96%B9%E6%B3%95/">https://sxadmin.github.io/2019/03/07/Python%E6%89%93%E5%8C%85exe%E6%96%87%E4%BB%B6%E6%96%B9%E6%B3%95/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://sxadmin.github.io" target="_blank">Sxadmin blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%89%93%E5%8C%85/">打包</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="post-qr-code__img" src="/img/wechat.jpg" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="post-qr-code__img" src="/img/alipay.jpg" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2019/04/03/Asyncio%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/"><img class="prev_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Asyncio并发编程</div></div></a></div><div class="next-post pull_right"><a href="/2019/02/25/PyQt5%E7%AE%80%E8%A6%81/"><img class="next_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">PyQt5简要</div></div></a></div></nav></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By Sxadmin</div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换" target="_self">繁</a><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@3/instantpage.min.js" type="module"></script></body></html>

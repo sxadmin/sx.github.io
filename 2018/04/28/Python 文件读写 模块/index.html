@@ -1,0 +1,151 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Python 文件读写 模块 | Sxadmin blog</title><meta name="description" content="对Python2版本中，文件读写的总结，包括open()，fileinput(),以及codecs标准读写。"><meta name="keywords" content="Python文件读写"><meta name="author" content="Sxadmin"><meta name="copyright" content="Sxadmin"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="https://s1.ax1x.com/2020/06/15/NpA1v6.th.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="dns-prefetch" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="dns-prefetch" href="https://fonts.googleapis.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="dns-prefetch" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Python 文件读写 模块"><meta name="twitter:description" content="对Python2版本中，文件读写的总结，包括open()，fileinput(),以及codecs标准读写。"><meta name="twitter:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="og:type" content="article"><meta property="og:title" content="Python 文件读写 模块"><meta property="og:url" content="https://sxadmin.github.io/2018/04/28/Python%20%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%20%E6%A8%A1%E5%9D%97/"><meta property="og:site_name" content="Sxadmin blog"><meta property="og:description" content="对Python2版本中，文件读写的总结，包括open()，fileinput(),以及codecs标准读写。"><meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="article:published_time" content="2018-04-28T03:00:09.000Z"><meta property="article:modified_time" content="2019-07-20T11:44:57.259Z"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '1'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="https://sxadmin.github.io/2018/04/28/Python%20%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%20%E6%A8%A1%E5%9D%97/"><link rel="prev" title="Python getpass 模块" href="https://sxadmin.github.io/2018/04/28/Python%20getpass%20%E6%A8%A1%E5%9D%97/"><link rel="next" title="Python Queue 模块" href="https://sxadmin.github.io/2018/04/28/Python%20Queue%20%E6%A8%A1%E5%9D%97/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://xxx/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: false,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.1"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.png" onerror="onerror=null;src='https://s1.ax1x.com/2020/06/15/NpPYfx.jpg'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">83</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">57</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">7</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友鏈</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 關於</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#使用open直接读写"><span class="toc-number">1.</span> <span class="toc-text">使用open直接读写</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#使用codecs读写"><span class="toc-number">2.</span> <span class="toc-text">使用codecs读写</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#使用fileinput读写"><span class="toc-number">3.</span> <span class="toc-text">使用fileinput读写</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#主要属性"><span class="toc-number">3.1.</span> <span class="toc-text">主要属性</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#读取大文件"><span class="toc-number">4.</span> <span class="toc-text">读取大文件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#使用Fileinput模块"><span class="toc-number">4.1.</span> <span class="toc-text">使用Fileinput模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用生成器函数"><span class="toc-number">4.2.</span> <span class="toc-text">使用生成器函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用上下文管理器"><span class="toc-number">4.3.</span> <span class="toc-text">使用上下文管理器</span></a></li></ol></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">Sxadmin blog</a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友鏈</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 關於</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">Python 文件读写 模块</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2018-04-28 11:00:09"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2018-04-28</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2019-07-20 19:44:57"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2019-07-20</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/Python%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/">Python基础笔记</a></span></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><blockquote class="blockquote-center">我讨厌回忆，总让人分不清自己到底是谁。</blockquote>
+
+<script type="text/javascript" src="/js/src/bai.js"></script>
+
+<p>在Python2中，编码问题被人诟病不止，而写入文件与编码存在很大的关联，为此做一个总结。</p>
+<h1 id="使用open直接读写"><a href="#使用open直接读写" class="headerlink" title="使用open直接读写"></a>使用open直接读写</h1><pre><code>f1 = open(&apos;io1.txt&apos;,&apos;a+&apos;)
+f1.write(&apos;你好&apos;)
+print r1.read()
+f1.close()</code></pre><p>运行结果：<br>    ÌġXc</p>
+<p>虽然文件写入是正常的，但是读取的时候乱码了，这是因为win系统的原因，如果想要获取正常的文字应该编码一下，print f1.read().decode(‘gbk’)就可以，但是这样很麻烦。</p>
+<h1 id="使用codecs读写"><a href="#使用codecs读写" class="headerlink" title="使用codecs读写"></a>使用codecs读写</h1><pre><code>f=codecs.open(&apos;io2.txt&apos;,&apos;r&apos;,&apos;utf-8&apos;)
+print f.encoding
+# 打印文件编码格式
+print f.name
+# 打印文件名
+for x in f.readlines():
+    print x
+    # 打印文件内容
+f.close()</code></pre><p>codecs可以设置编码格式，但是Python3中在open()下就可以直接设置encoding=’utf-8’，唉。</p>
+<h1 id="使用fileinput读写"><a href="#使用fileinput读写" class="headerlink" title="使用fileinput读写"></a>使用fileinput读写</h1><pre><code>import fileinput
+with fileinput.input(files=(&apos;spam.txt&apos;, &apos;eggs.txt&apos;)) as f:
+    for line in f:
+        process(line)</code></pre><h2 id="主要属性"><a href="#主要属性" class="headerlink" title="主要属性"></a>主要属性</h2><pre><code>fileinput.filename()
+返回当前正在处理的文件名（也就是包含了当前正在处理的文本行的文件）
+
+fileinput.fileno()
+返回当前文件的总行数。
+
+fileinput.lineno()
+返回当前的行数，这个行数是累计的。多个文件的行数会累加起来。
+
+fileinput.filelineno()
+返回当前正在处理的文件的当前行数。每次处理完一个文件并开始处理下一个文件时，该值会重置为1，重新开始计数。
+
+fileinput.isfirstline()
+当前行是当前文件的第一行时返回True，否则False
+
+fileinput.isstdin()
+当前操作对象为sys.stdin时返回True否则False。
+
+fileinput.nextfile()
+关闭当前的文件，跳到下一个文件，跳过的行不计数。
+
+fileinput.close()
+关闭整个文件链，结束迭代。</code></pre><h1 id="读取大文件"><a href="#读取大文件" class="headerlink" title="读取大文件"></a>读取大文件</h1><p>常规的open(xx).read(),本质上调用read()会一次性读取文件的全部内容，然后把内容保存在内存中，如果文本过大，则会导致内存溢出。</p>
+<p>可以通过如下方法解决</p>
+<h2 id="使用Fileinput模块"><a href="#使用Fileinput模块" class="headerlink" title="使用Fileinput模块"></a>使用Fileinput模块</h2><pre><code>import fileinput
+
+for line in fileinput.input([&apos;filename&apos;]):
+    do_something(line)</code></pre><p>调用 fileinput.input() 会按照顺序读取行，但是在读取之后不会将它们保留在内存中。</p>
+<h2 id="使用生成器函数"><a href="#使用生成器函数" class="headerlink" title="使用生成器函数"></a>使用生成器函数</h2><pre><code>def read_in_chunks(filePath, chunk_size=1024*1024):
+
+    file_object = open(filePath)
+    while True:
+        chunk_data = file_object.read(chunk_size)
+        if not chunk_data:
+            break
+        yield chunk_data
+
+if __name__ == &quot;__main__&quot;:
+    filePath = &apos;./path/filename.txt&apos;
+    for chunk in read_in_chunks(filePath):
+        print(chunk)</code></pre><h2 id="使用上下文管理器"><a href="#使用上下文管理器" class="headerlink" title="使用上下文管理器"></a>使用上下文管理器</h2><pre><code>with open(&apos;filename&apos;, &apos;r&apos;, encoding = &apos;utf-8&apos;) as f:
+    for line in f:
+        print(line)</code></pre><p>with 语句句柄负责打开和关闭文件（包括在内部块中引发异常时），for line in f 将文件对象 f 视为一个可迭代的数据类型，会自动使用 IO 缓存和内存管理，这样就不必担心大文件了。</p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Sxadmin</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://sxadmin.github.io/2018/04/28/Python%20%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%20%E6%A8%A1%E5%9D%97/">https://sxadmin.github.io/2018/04/28/Python%20%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%20%E6%A8%A1%E5%9D%97/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://sxadmin.github.io" target="_blank">Sxadmin blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%9F%BA%E7%A1%80/">基础</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="post-qr-code__img" src="/img/wechat.jpg" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="post-qr-code__img" src="/img/alipay.jpg" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2018/04/28/Python%20getpass%20%E6%A8%A1%E5%9D%97/"><img class="prev_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Python getpass 模块</div></div></a></div><div class="next-post pull_right"><a href="/2018/04/28/Python%20Queue%20%E6%A8%A1%E5%9D%97/"><img class="next_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Python Queue 模块</div></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2018/05/04/Python collections 模块/" title="Python collections 模块"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2018-05-04</div><div class="relatedPosts_title">Python collections 模块</div></div></a></div><div class="relatedPosts_item"><a href="/2018/04/28/Python getpass 模块/" title="Python getpass 模块"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2018-04-28</div><div class="relatedPosts_title">Python getpass 模块</div></div></a></div><div class="relatedPosts_item"><a href="/2018/04/28/Python Queue 模块/" title="Python Queue 模块"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2018-04-28</div><div class="relatedPosts_title">Python Queue 模块</div></div></a></div><div class="relatedPosts_item"><a href="/2018/04/27/Python hashlib 模块/" title="Python hashlib 模块"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2018-04-27</div><div class="relatedPosts_title">Python hashlib 模块</div></div></a></div><div class="relatedPosts_item"><a href="/2018/04/28/Python json 模块/" title="Python json 模块"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2018-04-28</div><div class="relatedPosts_title">Python json 模块</div></div></a></div><div class="relatedPosts_item"><a href="/2018/04/28/Python logging 模块/" title="Python logging 模块"><img class="relatedPosts_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><div class="relatedPosts_main is-center"><div class="relatedPosts_date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> 2018-04-28</div><div class="relatedPosts_title">Python logging 模块</div></div></a></div></div><div class="clear_both"></div></div></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By Sxadmin</div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换" target="_self">繁</a><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@3/instantpage.min.js" type="module"></script></body></html>

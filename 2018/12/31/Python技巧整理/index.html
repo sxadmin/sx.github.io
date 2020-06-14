@@ -1,0 +1,1414 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Python 技巧整理 | Sxadmin blog</title><meta name="description" content="Python在开发的时候常用的小技巧"><meta name="keywords" content="Python技巧"><meta name="author" content="Sxadmin"><meta name="copyright" content="Sxadmin"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="https://s1.ax1x.com/2020/06/15/NpA1v6.th.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="dns-prefetch" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="dns-prefetch" href="https://fonts.googleapis.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="dns-prefetch" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Python 技巧整理"><meta name="twitter:description" content="Python在开发的时候常用的小技巧"><meta name="twitter:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="og:type" content="article"><meta property="og:title" content="Python 技巧整理"><meta property="og:url" content="https://sxadmin.github.io/2018/12/31/Python%E6%8A%80%E5%B7%A7%E6%95%B4%E7%90%86/"><meta property="og:site_name" content="Sxadmin blog"><meta property="og:description" content="Python在开发的时候常用的小技巧"><meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="article:published_time" content="2018-12-31T10:29:40.000Z"><meta property="article:modified_time" content="2020-06-14T17:58:11.374Z"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '1'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="https://sxadmin.github.io/2018/12/31/Python%E6%8A%80%E5%B7%A7%E6%95%B4%E7%90%86/"><link rel="prev" title="Python一切皆对象" href="https://sxadmin.github.io/2019/02/08/Python%E4%B8%80%E5%88%87%E7%9A%86%E5%AF%B9%E8%B1%A1/"><link rel="next" title="python itertools模块" href="https://sxadmin.github.io/2018/12/31/python-iterools%E6%A8%A1%E5%9D%97/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://xxx/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: false,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.1"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.png" onerror="onerror=null;src='https://s1.ax1x.com/2020/06/15/NpPYfx.jpg'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">83</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">57</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">7</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友鏈</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 關於</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#编码加密类"><span class="toc-number">1.</span> <span class="toc-text">编码加密类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#hex编码"><span class="toc-number">1.1.</span> <span class="toc-text">hex编码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#base64编码解码"><span class="toc-number">1.2.</span> <span class="toc-text">base64编码解码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#URL编码"><span class="toc-number">1.3.</span> <span class="toc-text">URL编码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ASCII编码"><span class="toc-number">1.4.</span> <span class="toc-text">ASCII编码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#URL格式化输出"><span class="toc-number">1.5.</span> <span class="toc-text">URL格式化输出</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python引用（import）文件夹下的py文件的方法"><span class="toc-number">1.6.</span> <span class="toc-text">Python引用（import）文件夹下的py文件的方法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#列表按照数量分割"><span class="toc-number">2.</span> <span class="toc-text">列表按照数量分割</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装pip"><span class="toc-number">3.</span> <span class="toc-text">安装pip</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#网络请求"><span class="toc-number">4.</span> <span class="toc-text">网络请求</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#requests"><span class="toc-number">4.1.</span> <span class="toc-text">requests</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下载大文件"><span class="toc-number">4.2.</span> <span class="toc-text">下载大文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#证书匹配出错"><span class="toc-number">4.3.</span> <span class="toc-text">证书匹配出错</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#网页编码"><span class="toc-number">4.4.</span> <span class="toc-text">网页编码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#获取网页标题"><span class="toc-number">4.5.</span> <span class="toc-text">获取网页标题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优化设置"><span class="toc-number">4.6.</span> <span class="toc-text">优化设置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#URL连接测试"><span class="toc-number">5.</span> <span class="toc-text">URL连接测试</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#URL拆分"><span class="toc-number">5.1.</span> <span class="toc-text">URL拆分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#URL组合"><span class="toc-number">5.2.</span> <span class="toc-text">URL组合</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#爬虫类"><span class="toc-number">6.</span> <span class="toc-text">爬虫类</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#编程技巧"><span class="toc-number">7.</span> <span class="toc-text">编程技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#原地交换两个数字"><span class="toc-number">7.1.</span> <span class="toc-text">原地交换两个数字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#链状比较操作符"><span class="toc-number">7.2.</span> <span class="toc-text">链状比较操作符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#多行字符串"><span class="toc-number">7.3.</span> <span class="toc-text">多行字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#存储列表元素到新的变量"><span class="toc-number">7.4.</span> <span class="toc-text">存储列表元素到新的变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#打印引入模块的绝对路径"><span class="toc-number">7.5.</span> <span class="toc-text">打印引入模块的绝对路径</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字典-集合推导"><span class="toc-number">7.6.</span> <span class="toc-text">字典&#x2F;集合推导</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字典的值为列表"><span class="toc-number">7.7.</span> <span class="toc-text">字典的值为列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字符串转变成字典列表"><span class="toc-number">7.8.</span> <span class="toc-text">字符串转变成字典列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开启文件分享"><span class="toc-number">7.9.</span> <span class="toc-text">开启文件分享</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#检查python中的对象"><span class="toc-number">7.10.</span> <span class="toc-text">检查python中的对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#简化if语句"><span class="toc-number">7.11.</span> <span class="toc-text">简化if语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运行时检测python版本"><span class="toc-number">7.12.</span> <span class="toc-text">运行时检测python版本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#匹配页面中所有的中文"><span class="toc-number">7.13.</span> <span class="toc-text">匹配页面中所有的中文</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#组合多个字符串"><span class="toc-number">7.14.</span> <span class="toc-text">组合多个字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四种翻转字符串、列表的方式"><span class="toc-number">7.15.</span> <span class="toc-text">四种翻转字符串、列表的方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用枚举在循环中找到索引"><span class="toc-number">7.16.</span> <span class="toc-text">用枚举在循环中找到索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#从方法中返回多个值"><span class="toc-number">7.17.</span> <span class="toc-text">从方法中返回多个值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用-运算符unpack函数参数"><span class="toc-number">7.18.</span> <span class="toc-text">使用*运算符unpack函数参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#计算任何数的阶乘"><span class="toc-number">7.19.</span> <span class="toc-text">计算任何数的阶乘</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#找到列表中出现次数最多的数"><span class="toc-number">7.20.</span> <span class="toc-text">找到列表中出现次数最多的数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重置递归限制"><span class="toc-number">7.21.</span> <span class="toc-text">重置递归限制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#检查一个对象的内存使用"><span class="toc-number">7.22.</span> <span class="toc-text">检查一个对象的内存使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#直接生产指定数量的随机数字或者字符串"><span class="toc-number">7.23.</span> <span class="toc-text">直接生产指定数量的随机数字或者字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#搜索字符串的多个前后缀"><span class="toc-number">7.24.</span> <span class="toc-text">搜索字符串的多个前后缀</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#不使用循环构造一个列表"><span class="toc-number">7.25.</span> <span class="toc-text">不使用循环构造一个列表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#实现switch-case语句"><span class="toc-number">7.26.</span> <span class="toc-text">实现switch-case语句</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Pycharm-格式化代码"><span class="toc-number">8.</span> <span class="toc-text">Pycharm 格式化代码</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Pycharm-Tab-设置成4-个空格"><span class="toc-number">9.</span> <span class="toc-text">Pycharm Tab 设置成4 个空格</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#必知必会基础"><span class="toc-number">10.</span> <span class="toc-text">必知必会基础</span></a></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">Sxadmin blog</a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友鏈</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 關於</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">Python 技巧整理</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2018-12-31 18:29:40"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2018-12-31</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-06-15 01:58:11"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2020-06-15</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/Python%E5%9F%BA%E7%A1%80%E7%AC%94%E8%AE%B0/">Python基础笔记</a></span></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><blockquote class="blockquote-center">嗯，万般皆是命。</blockquote>
+
+<script type="text/javascript" src="/js/src/bai.js"></script>
+
+<p>最后更新时间：</p>
+<pre><code>22:3059
+星期三
+2019年2月20日</code></pre><h1 id="编码加密类"><a href="#编码加密类" class="headerlink" title="编码加密类"></a>编码加密类</h1><h2 id="hex编码"><a href="#hex编码" class="headerlink" title="hex编码"></a>hex编码</h2><p>使用hex(‘a’)是不行的，如果想要对字符串hex编码可以这么写</p>
+<pre><code>print &apos;a&apos;.encode(&apos;hex&apos;)</code></pre><h2 id="base64编码解码"><a href="#base64编码解码" class="headerlink" title="base64编码解码"></a>base64编码解码</h2><p>需要导入base64的库，具体如下</p>
+<pre><code>import base64
+print base64.b64encode(&apos;a&apos;)
+# 如果要解码改成decode即可</code></pre><h2 id="URL编码"><a href="#URL编码" class="headerlink" title="URL编码"></a>URL编码</h2><p>导入库实现，如下</p>
+<pre><code>from urllib import quote
+print quote(&apos;select user from users#&apos;)</code></pre><h2 id="ASCII编码"><a href="#ASCII编码" class="headerlink" title="ASCII编码"></a>ASCII编码</h2><pre><code>print map(ord,&apos;&lt;?php phpinfo() php&gt;&apos;)</code></pre><h2 id="URL格式化输出"><a href="#URL格式化输出" class="headerlink" title="URL格式化输出"></a>URL格式化输出</h2><p>有的时候需要提交的包是字典形式，如果自己转换成URL形式很麻烦。使用urllib库解决，方法如下</p>
+<pre><code>from urllib.parse import urlencode
+data={
+user:&apos;admin&apos;,
+pass:&apos;123456&apos;,
+age:&apos;50&apos;
+}
+url = &apos;https://sxadmin.github.io/get?&apos; + urldecode(data)</code></pre><h2 id="Python引用（import）文件夹下的py文件的方法"><a href="#Python引用（import）文件夹下的py文件的方法" class="headerlink" title="Python引用（import）文件夹下的py文件的方法"></a>Python引用（import）文件夹下的py文件的方法</h2><pre><code>import sys
+sys.path.append(&quot;..&quot;)
+import mod1
+import mod2.mod2</code></pre><h1 id="列表按照数量分割"><a href="#列表按照数量分割" class="headerlink" title="列表按照数量分割"></a>列表按照数量分割</h1><pre><code>keywords = [&apos;有限公司&apos;, &apos;人力资源&apos;, &apos;学院&apos;, &apos;保障局&apos;, &apos;人民政府&apos;, &apos;职业&apos;, &apos;管理局&apos;, &apos;委员会&apos;, &apos;集团&apos;, &apos;股份&apos;, &apos;科技&apos;, &apos;社会&apos;, &apos;北京&apos;, &apos;技术&apos;, &apos;平台&apos;, &apos;中国&apos;,
+        &apos;财产保险&apos;, &apos;信息网&apos;, &apos;卫生&apos;, &apos;社会保障&apos;, &apos;有限公司&apos;, &apos;学院&apos;, &apos;人民政府&apos;, &apos;科技&apos;, &apos;职业&apos;, &apos;集团&apos;, &apos;委员会&apos;, &apos;中国&apos;, &apos;北京&apos;, &apos;信息网&apos;, &apos;股份&apos;, &apos;技术&apos;,
+        &apos;上海&apos;, &apos;教育&apos;, &apos;平台&apos;, &apos;管理局&apos;, &apos;人才网&apos;, &apos;服务网&apos;, &apos;大学&apos;, &apos;网站&apos;, &apos;有限公司&apos;, &apos;学院&apos;, &apos;人民政府&apos;, &apos;职业&apos;, &apos;科技&apos;, &apos;集团&apos;, &apos;委员会&apos;, &apos;管理局&apos;,
+        &apos;技术&apos;, &apos;信息网&apos;, &apos;中国&apos;, &apos;北京&apos;, &apos;平台&apos;, &apos;教育&apos;, &apos;大学&apos;, &apos;股份&apos;, &apos;上海&apos;, &apos;人力资源&apos;, &apos;网络科技&apos;, &apos;人才网&apos;]
+keywords = [&apos;|&apos;.join(tuple(keywords[i:i + 50])) for i in range(0, len(keywords), 50)]
+for k in keywords:
+    print(k)</code></pre><p>返回结果：</p>
+<pre><code>有限公司|人力资源|学院|保障局|人民政府|职业|管理局|委员会|集团|股份|科技|社会|北京|技术|平台|中国|财产保险|信息网|卫生|社会保障|有限公司|学院|人民政府|科技|职业|集团|委员会|中国|北京|信息网|股份|技术|上海|教育|平台|管理局|人才网|服务网|大学|网站|有限公司|学院|人民政府|职业|科技|集团|委员会|管理局|技术|信息网
+
+中国|北京|平台|教育|大学|股份|上海|人力资源|网络科技|人才网</code></pre><h1 id="安装pip"><a href="#安装pip" class="headerlink" title="安装pip"></a>安装pip</h1><p>安装python.msi时候没有勾选安装pip的情况下，就不会帮你安装pip的，在cmd下输入命令安装</p>
+<pre><code>python -m pip install -U pip setuptools</code></pre><p>如果报错的话，到<a href="https://pip.pypa.io/en/stable/installing/" target="_blank" rel="noopener">Python pip</a>网站下载get-pip.py 文件，python get-pip.py安装即可。</p>
+<p>如果你安装的时候勾选了pip，但是目录下并没有pip，可以通过命令调出pip</p>
+<pre><code>python -m ensurepip</code></pre><p>然后会发现目录下生成了pip文件</p>
+<p>在linux系统的python3环境中，你发现怎么样折腾安装不上pip3，各种报错显示：</p>
+<pre><code>No module named pip</code></pre><p>这个时候使用apt-get安装即可</p>
+<pre><code>apt-get install python3-pip
+pip3 -v</code></pre><p>但是如果你是py2的话，安装库可能会出现编码错误，比如像这样的：</p>
+<pre><code>UnicodeDecodeError: &apos;gbk&apos; codec can&apos;t decode pyinstaller
+UnicodeDecodeError: &apos;ascii&apos; codec can&apos;t decode pyinstaller</code></pre><p>等等。。。</p>
+<p>这个时候在python的安装路径下的Lib\mimetypes.py文件。在import下添加如下几行，将编码设置为‘gbk’：</p>
+<pre><code>if sys.getdefaultencoding() != &apos;gbk&apos;: 
+    reload(sys) 
+    sys.setdefaultencoding(&apos;gbk&apos;)</code></pre><p>并且在你的python代码中的开头加上这三行代码(仅限于PYTHON2)</p>
+<pre><code>import sys
+reload(sys)
+sys.setdefaultencoding(&apos;utf-8&apos;)</code></pre><h1 id="网络请求"><a href="#网络请求" class="headerlink" title="网络请求"></a>网络请求</h1><h2 id="requests"><a href="#requests" class="headerlink" title="requests"></a>requests</h2><p>保存cookies，第一步登录你的账户密码获取cookie，然后使用cookie登录</p>
+<pre><code>payload = {&apos;username&apos;: &apos;admin&apos;, &apos;password&apos;: &apos;password&apos;}
+r = requests.post(&apos;http://pythonscraping.com/pages/cookies/welcome.php&apos;, data=payload)
+print(r.cookies.get_dict())
+r = requests.get(&apos;http://pythonscraping.com/pages/cookies/profile.php&apos;, cookies=r.cookies)
+print(r.text)</code></pre><p>使用Session自动化管理cookies</p>
+<p>同样是执行上面的登录操作, 下面就是使用 session 的版本. 创建完一个 session 过后, 我们直接只用 session 来 post 和 get. 而且这次 get 的时候, 我们并没有传入 cookies. 但是实际上 session 内部就已经有了之前的 cookies 了.</p>
+<pre><code>session = requests.Session()
+payload = {&apos;username&apos;: &apos;admin&apos;, &apos;password&apos;: &apos;password&apos;}
+r = session.post(&apos;http://pythonscraping.com/pages/cookies/welcome.php&apos;, data=payload)
+print(r.cookies.get_dict())
+r = session.get(&quot;http://pythonscraping.com/pages/cookies/profile.php&quot;)
+print(r.text) </code></pre><p>上传图片</p>
+<pre><code>file = {&apos;uploadFile&apos;: open(&apos;./image.png&apos;, &apos;rb&apos;)}
+r = requests.post(&apos;http://pythonscraping.com/files/processing2.php&apos;, files=file)
+print(r.text)</code></pre><p>自动取消报警</p>
+<pre><code>from requests.packages import urllib3
+urllib.disable_warning()</code></pre><h2 id="下载大文件"><a href="#下载大文件" class="headerlink" title="下载大文件"></a>下载大文件</h2><pre><code>r = requests.get(&apos;https://sxadmin.github.io/tools.zip&apos;,stream=True)
+for it in r.iter_content():    
+    with open(&apos;xx.zip&apos;,&apos;wb&apos;)as a:
+        a.write(it)</code></pre><h2 id="证书匹配出错"><a href="#证书匹配出错" class="headerlink" title="证书匹配出错"></a>证书匹配出错</h2><p>访问https网址发现报错，报错内容为：</p>
+<pre><code>[ERROR] [connection.py 40 line] Certificate did not match expected hostname: 47.74.57.172. Certificate: {&apos;subject&apos;: (((&apos;commonName&apos;, &apos;ipalfish.com&apos;),),), &apos;subjectAltName&apos;: [(&apos;DNS&apos;, &apos;*.ipalfish.com&apos;), (&apos;DNS&apos;, &apos;ipalfish.com&apos;)]}</code></pre><p>出现这个问题的原因是你访问的域名和你访问服务器的证书的机构(域名)不一致导致的，比如，你的证书是为域名 sss.com注册的，而你访问的时候的域名是xxx.com,这个时候就会报这种错误</p>
+<p>python解决方法是分别安装如下库</p>
+<pre><code>pyOpenSSL 、ndg-httpsclient、pyasn1</code></pre><h2 id="网页编码"><a href="#网页编码" class="headerlink" title="网页编码"></a>网页编码</h2><p>之前我都是推荐使用chardet.detect方法获取网页的编码，但是我发现requests已经想的很周到了。</p>
+<p>使用</p>
+<pre><code>requests.utils.get_encodings_from_content(r.text)</code></pre><p>即可获取网页的编码，返回对象是一个列表。取索引为0的值即可。</p>
+<h2 id="获取网页标题"><a href="#获取网页标题" class="headerlink" title="获取网页标题"></a>获取网页标题</h2><pre><code>r = requests.get(url,headers=headers(),allow_redirects=False,verify=False,timeout=10)
+print(url + &apos;:&apos; + str(r.status_code))
+encoding = requests.utils.get_encodings_from_content(r.text)[0]
+res = r.content.decode(encoding,&apos;replace&apos;)
+title_pattern = &apos;&lt;title&gt;(.*?)&lt;/title&gt;&apos;
+title = re.search(title_pattern,res,re.S|re.I)</code></pre><h2 id="优化设置"><a href="#优化设置" class="headerlink" title="优化设置"></a>优化设置</h2><p>如果发起的网络请求比较频繁，requests内置的urllibs3不能及时的为我们断开连接，就会出现许多连接超时的错误。</p>
+<p>具体结局方法为：</p>
+<pre><code>#设置重连次数
+requests.adapters.DEFAULT_RETRIES = 5
+s = requests.session()
+# 设置连接活跃状态为False
+s.keep_alive = False
+response = requests.post(url, data=data, headers=headers,stream=False,timeout= 10)
+# 关闭请求  释放内存
+response.close()
+del(response)</code></pre><h1 id="URL连接测试"><a href="#URL连接测试" class="headerlink" title="URL连接测试"></a>URL连接测试</h1><h2 id="URL拆分"><a href="#URL拆分" class="headerlink" title="URL拆分"></a>URL拆分</h2><p>使用urllib库的parse功能可以完成大部分的拆分然后获取数据</p>
+<pre><code>from urllib.parse import urlparse,urlsplit
+url_1 = &apos;https://sxadmin.github.io/admin/admin.php?user=langzi&amp;age=13&apos;
+url_2 = &apos;https://sxadmin.github.io/admin/user=langzi&amp;age=13&apos;
+url_3 = &apos;https://sxadmin.github.io/&apos;
+url_4 = &apos;www.langzi.fun/admin/user=langzi&apos;
+url_5 = &apos;langzi.fun/admin/admin.php&apos;
+
+def test_urlparse(url):
+    print(&apos;-&apos;*50)
+    print(&apos;传入网址为:{}&apos;.format(url))
+    print(&apos;通过 urlparse 修改后:{}&apos;.format(urlparse(url)))
+    print(&apos;通过 urlsplit 修改后:{}&apos;.format(urlsplit(url)))
+
+
+if __name__ == &apos;__main__&apos;:
+    test_urlparse(url_1)
+    test_urlparse(url_2)
+    test_urlparse(url_3)
+    test_urlparse(url_4)
+    test_urlparse(url_5)</code></pre><p>返回结果：</p>
+<pre><code>--------------------------------------------------
+传入网址为:https://sxadmin.github.io/admin/admin.php?user=langzi&amp;age=13
+通过 urlparse 修改后:ParseResult(scheme=&apos;http&apos;, netloc=&apos;www.langzi.fun&apos;, path=&apos;/admin/admin.php&apos;, params=&apos;&apos;, query=&apos;user=langzi&amp;age=13&apos;, fragment=&apos;&apos;)
+通过 urlsplit 修改后:SplitResult(scheme=&apos;http&apos;, netloc=&apos;www.langzi.fun&apos;, path=&apos;/admin/admin.php&apos;, query=&apos;user=langzi&amp;age=13&apos;, fragment=&apos;&apos;)
+--------------------------------------------------
+传入网址为:https://sxadmin.github.io/admin/user=langzi&amp;age=13
+通过 urlparse 修改后:ParseResult(scheme=&apos;http&apos;, netloc=&apos;www.langzi.fun&apos;, path=&apos;/admin/user=langzi&amp;age=13&apos;, params=&apos;&apos;, query=&apos;&apos;, fragment=&apos;&apos;)
+通过 urlsplit 修改后:SplitResult(scheme=&apos;http&apos;, netloc=&apos;www.langzi.fun&apos;, path=&apos;/admin/user=langzi&amp;age=13&apos;, query=&apos;&apos;, fragment=&apos;&apos;)
+--------------------------------------------------
+传入网址为:https://sxadmin.github.io/
+通过 urlparse 修改后:ParseResult(scheme=&apos;http&apos;, netloc=&apos;www.langzi.fun&apos;, path=&apos;/&apos;, params=&apos;&apos;, query=&apos;&apos;, fragment=&apos;&apos;)
+通过 urlsplit 修改后:SplitResult(scheme=&apos;http&apos;, netloc=&apos;www.langzi.fun&apos;, path=&apos;/&apos;, query=&apos;&apos;, fragment=&apos;&apos;)
+--------------------------------------------------
+传入网址为:www.langzi.fun/admin/user=langzi
+通过 urlparse 修改后:ParseResult(scheme=&apos;&apos;, netloc=&apos;&apos;, path=&apos;www.langzi.fun/admin/user=langzi&apos;, params=&apos;&apos;, query=&apos;&apos;, fragment=&apos;&apos;)
+通过 urlsplit 修改后:SplitResult(scheme=&apos;&apos;, netloc=&apos;&apos;, path=&apos;www.langzi.fun/admin/user=langzi&apos;, query=&apos;&apos;, fragment=&apos;&apos;)
+--------------------------------------------------
+传入网址为:langzi.fun/admin/admin.php
+通过 urlparse 修改后:ParseResult(scheme=&apos;&apos;, netloc=&apos;&apos;, path=&apos;langzi.fun/admin/admin.php&apos;, params=&apos;&apos;, query=&apos;&apos;, fragment=&apos;&apos;)
+通过 urlsplit 修改后:SplitResult(scheme=&apos;&apos;, netloc=&apos;&apos;, path=&apos;langzi.fun/admin/admin.php&apos;, query=&apos;&apos;, fragment=&apos;&apos;)</code></pre><p>可以看到传入网址最好带上http，获取值：</p>
+<pre><code>scheme:http
+netloc:www.langzi.fun
+path:/admin/admin.php
+query:user=langzi&amp;age=13</code></pre><p>却有个专门的库处理这个：</p>
+<p>tldextract准确地从URL的域名和子域名分离通用顶级域名或国家顶级域名。 例如，<a href="http://www.google.com，你只想取出连接的" target="_blank" rel="noopener">http://www.google.com，你只想取出连接的</a> ‘google’ 部分。 每个人都会想到用 ‘.’ 拆分，来获取域名和后缀，但这是不准确的。并且只有当你想到简单的，例如.com域名，以 ‘.’ 截取最后2个元素得到结果。 想想如果解析，例如：<a href="http://forums.bbc.co.uk，上面天真的分裂方法是有问题的，你会得到" target="_blank" rel="noopener">http://forums.bbc.co.uk，上面天真的分裂方法是有问题的，你会得到</a> ‘co’ 作为域名和“uk”为顶级域名，而不是“bbc”和“co.uk” 。 tldextract有一个公共后缀列表 ，它可以匹配所有域名。 因此，给定一个URL，它从其域中知道其子域名，并且从其国家中知道其域名。</p>
+<pre><code>&gt;&gt;&gt; import tldextract
+
+&gt;&gt;&gt; tldextract.extract(&apos;http://forums.news.cnn.com/&apos;)
+ExtractResult(subdomain=&apos;forums.news&apos;, domain=&apos;cnn&apos;, suffix=&apos;com&apos;)
+
+&gt;&gt;&gt; tldextract.extract(&apos;http://forums.bbc.co.uk/&apos;) # United Kingdom
+ExtractResult(subdomain=&apos;forums&apos;, domain=&apos;bbc&apos;, suffix=&apos;co.uk&apos;)
+
+&gt;&gt;&gt; tldextract.extract(&apos;http://www.worldbank.org.kg/&apos;) # Kyrgyzstan
+ExtractResult(subdomain=&apos;www&apos;, domain=&apos;worldbank&apos;, suffix=&apos;org.kg&apos;)</code></pre><p>ExtractResult是namedtuple，所以它以简单方法得到你想要的部分。</p>
+<pre><code>&gt;&gt;&gt; ext = tldextract.extract(&apos;http://forums.bbc.co.uk&apos;)
+&gt;&gt;&gt; (ext.subdomain, ext.domain, ext.suffix)
+(&apos;forums&apos;, &apos;bbc&apos;, &apos;co.uk&apos;)
+&gt;&gt;&gt; # rejoin subdomain and domain
+&gt;&gt;&gt; &apos;.&apos;.join(ext[:2])
+&apos;forums.bbc&apos;
+&gt;&gt;&gt; # a common alias
+&gt;&gt;&gt; ext.registered_domain
+&apos;bbc.co.uk&apos;</code></pre><p>子域和后缀是可选的。 不是所有类似URL的输入都有一个子域或有效的后缀。</p>
+<pre><code>&gt;&gt;&gt; tldextract.extract(&apos;google.com&apos;)
+ExtractResult(subdomain=&apos;&apos;, domain=&apos;google&apos;, suffix=&apos;com&apos;)
+
+&gt;&gt;&gt; tldextract.extract(&apos;google.notavalidsuffix&apos;)
+ExtractResult(subdomain=&apos;google&apos;, domain=&apos;notavalidsuffix&apos;, suffix=&apos;&apos;)
+
+&gt;&gt;&gt; tldextract.extract(&apos;http://127.0.0.1:8080/deployed/&apos;)
+ExtractResult(subdomain=&apos;&apos;, domain=&apos;127.0.0.1&apos;, suffix=&apos;&apos;)</code></pre><p>如果要重新加入整个命名的元组，无论是否找到子域或后缀：</p>
+<pre><code>&gt;&gt;&gt; ext = tldextract.extract(&apos;http://127.0.0.1:8080/deployed/&apos;)
+&gt;&gt;&gt; # this has unwanted dots
+&gt;&gt;&gt; &apos;.&apos;.join(ext)
+&apos;.127.0.0.1.&apos;
+&gt;&gt;&gt; # join each part only if it&apos;s truthy
+&gt;&gt;&gt; &apos;.&apos;.join(part for part in ext if part)
+&apos;127.0.0.1&apos;</code></pre><p>该模块通过实现从选择stackoverflow答案开始，从一个URL获取“域名”这个计算问题 。 然而，建议的正则表达式解决方案不涉及其它许多国家，如 com.au，如注册域parliament.uk。 公共后缀列表，这个模块也是如此。</p>
+<h2 id="URL组合"><a href="#URL组合" class="headerlink" title="URL组合"></a>URL组合</h2><p>urllib.parse 还提供了一个 urljoin() 函数，来将相对路径转换成绝对路径的 URL。</p>
+<pre><code>from urllib.parse import urljoin
+
+print(urljoin(&apos;https://sxadmin.github.io&apos;,&apos;admin&apos;))
+print(urljoin(&apos;https://sxadmin.github.io&apos;,&apos;/admin&apos;))
+print(urljoin(&apos;https://sxadmin.github.io&apos;,&apos;/admin/&apos;))
+print(urljoin(&apos;https://sxadmin.github.io&apos;,&apos;/aa.html&apos;))
+print(&apos;-------------------------------------&apos;)
+print(urljoin(&apos;https://sxadmin.github.io/admin&apos;,&apos;/aaaa/&apos;))
+print(urljoin(&apos;https://sxadmin.github.io/admin&apos;,&apos;/a.html&apos;))
+print(urljoin(&apos;https://sxadmin.github.io/admin/admin&apos;,&apos;../aaaa/&apos;))</code></pre><p>返回结果：</p>
+<pre><code>https://sxadmin.github.io/admin
+https://sxadmin.github.io/admin
+https://sxadmin.github.io/admin/
+https://sxadmin.github.io/aa.html
+-------------------------------------
+https://sxadmin.github.io/aaaa/
+https://sxadmin.github.io/a.html
+https://sxadmin.github.io/aaaa/</code></pre><p>使用 urlencode() 函数可以将一个 dict 转换成合法的查询参数：</p>
+<pre><code>from urllib.parse import urlencode
+query_args = {
+    &apos;name&apos;: &apos;dark sun&apos;,
+    &apos;country&apos;: &apos;中国&apos;
+}
+query_args = urlencode(query_args)
+print(query_args)</code></pre><p>结果为：</p>
+<pre><code>name=dark+sun&amp;country=%E4%B8%AD%E5%9B%BD</code></pre><h1 id="爬虫类"><a href="#爬虫类" class="headerlink" title="爬虫类"></a>爬虫类</h1><pre><code>1. 正则表达式可以一次性获取多个数据，比如标题，连接，评论。分别迭代在一个生成器中。在迭代的时候可以使用item[0],item[1]这样取数据。
+2. json这个库很常用，不仅是json.loads()与json.dumps()，还有.get(&apos;data&apos;)这样获取数据。
+3. 关于AJAX的数据可以抓包在XHR中得到。
+4. 优先抓包分析网址，分析不同网址之间的关系，没必要每次都获取全部的网页数据。
+5. 流程设计中，每个模块独立封装在一个函数中，并且使用return返回数值。
+6. 下载文件的时候，防止重复下载，可以根据md5值来防止重复。下载文件，命名方式为该文件的md5值，然后做个判断，os.path.exists()判断即可。
+7. 如果必须要得到某个函数的返回结果，可以在该函数中使用递归，在函数的异常处理中return该函数，最后的main()函数中把该函数赋值给一个变量。
+8. 获取返回的所有数据并且去重复:url_list=set([get_url(x)for x in urls])比如利用bs4库解析url_list=set([job(x[&apos;href&apos;])for x in urls])，结果result=[get_result(x) for x in ulrs],如果使用多进程的话，muli_res=[pool.apply_async(job,(i,))for i in range(10)]job函数接受一个参数i。如果是在使用一个列表存储网址，在调用网址的时候迭代网址，但是可以使用列表的len（）长度判断，每次取出一个网址就删除一个网址，比如unseen=set([base_url,])</code></pre><h1 id="编程技巧"><a href="#编程技巧" class="headerlink" title="编程技巧"></a>编程技巧</h1><h2 id="原地交换两个数字"><a href="#原地交换两个数字" class="headerlink" title="原地交换两个数字"></a>原地交换两个数字</h2><pre><code>x, y =10, 20
+print(x, y)
+y, x = x, y
+print(x, y)
+
+:10 20
+20 10</code></pre><h2 id="链状比较操作符"><a href="#链状比较操作符" class="headerlink" title="链状比较操作符"></a>链状比较操作符</h2><pre><code>n = 10
+print(1 &lt; n &lt; 20)
+print(1 &gt; n &lt;= 9)
+
+//找abc中最小的数
+def small(a, b, c):
+    return a if a&lt;b and a&lt;c else (b if b&lt;a and b&lt;c else c)
+print(small(1, 0, 1))
+print(small(1, 2, 2))
+print(small(2, 2, 3))
+print(small(5, 4, 3))
+：0
+1
+3
+3
+
+//列表推导
+x = [m**2 if m&gt;10 else m**4 for m in range(50)]
+print(x)
+
+：[0, 1, 16, 81, 256, 625, 1296, 2401, 4096, 6561, 10000, 121, 144, 169, 196, 225, 256, 289, 324, 361, 400, 441, 484, 529, 576, 625, 676, 729, 784, 841, 900, 961, 1024, 1089, 1156, 1225, 1296, 1369, 1444, 1521, 1600, 1681, 1764, 1849, 1936, 2025, 2116, 2209, 2304, 2401]</code></pre><h2 id="多行字符串"><a href="#多行字符串" class="headerlink" title="多行字符串"></a>多行字符串</h2><pre><code>multistr = &quot;select * from multi_row \
+where row_id &lt; 5&quot;
+print(multistr)
+
+：select * from multi_row where row_id &lt; 5</code></pre><h2 id="存储列表元素到新的变量"><a href="#存储列表元素到新的变量" class="headerlink" title="存储列表元素到新的变量"></a>存储列表元素到新的变量</h2><pre><code>testList = [1, 2, 3]
+x, y, z = testList    //变量个数应该和列表长度严格一致
+print(x, y, z)
+
+：1 2 3</code></pre><h2 id="打印引入模块的绝对路径"><a href="#打印引入模块的绝对路径" class="headerlink" title="打印引入模块的绝对路径"></a>打印引入模块的绝对路径</h2><pre><code>import threading
+import socket
+print(threading)
+print(socket)
+
+：&lt;module &apos;threading&apos; from &apos;d:\\python351\\lib\\threading.py&apos;&gt;
+&lt;module &apos;socket&apos; from &apos;d:\\python351\\lib\\socket.py&apos;&gt;</code></pre><h2 id="字典-集合推导"><a href="#字典-集合推导" class="headerlink" title="字典/集合推导"></a>字典/集合推导</h2><pre><code>testDic = {i: i * i for i in range(10)}
+testSet = {i * 2 for i in range(10)}
+print(testDic)
+print(testSet)
+
+：{0: 0, 1: 1, 2: 4, 3: 9, 4: 16, 5: 25, 6: 36, 7: 49, 8: 64, 9: 81}
+{0, 2, 4, 6, 8, 10, 12, 14, 16, 18}</code></pre><h2 id="字典的值为列表"><a href="#字典的值为列表" class="headerlink" title="字典的值为列表"></a>字典的值为列表</h2><pre><code>1、值为列表的构造方法
+dic = {}
+dic.setdefault(key,[]).append(value)
+*********示例如下******
+&gt;&gt;dic.setdefault(&apos;a&apos;,[]).append(1)
+&gt;&gt;dic.setdefault(&apos;a&apos;,[]).append(2)
+&gt;&gt;dic
+&gt;&gt;{&apos;a&apos;: [1, 2]}
+2、值为字典的构造方法
+dic = {}
+dic.setdefault(key,{})[value] =1
+***********示例如下*********
+&gt;&gt;dic.setdefault(&apos;b&apos;,{})[&apos;f&apos;]=1
+&gt;&gt;dic.setdefault(&apos;b&apos;,{})[&apos;h&apos;]=1
+&gt;&gt;dic.setdefault(&apos;b&apos;,{})[&apos;g&apos;]=1
+&gt;&gt;dic
+&gt;&gt;{&apos;b&apos;: {&apos;h&apos;: 1, &apos;g&apos;: 1, &apos;f&apos;: 1}}</code></pre><h2 id="字符串转变成字典列表"><a href="#字符串转变成字典列表" class="headerlink" title="字符串转变成字典列表"></a>字符串转变成字典列表</h2><p>从网页获取到json后，有些时候类型是字符串，使用eval转成字典即可。如果字典的键值比较多的话，可以另外用一个变量取值。</p>
+<h2 id="开启文件分享"><a href="#开启文件分享" class="headerlink" title="开启文件分享"></a>开启文件分享</h2><pre><code>python -m http.server</code></pre><h2 id="检查python中的对象"><a href="#检查python中的对象" class="headerlink" title="检查python中的对象"></a>检查python中的对象</h2><pre><code>test = [1, 3, 5, 7]
+print(dir(test))
+
+：[&apos;__add__&apos;, &apos;__class__&apos;, &apos;__contains__&apos;, &apos;__delattr__&apos;, &apos;__delitem__&apos;, &apos;__dir__&apos;, &apos;__doc__&apos;, &apos;__eq__&apos;, &apos;__format__&apos;, &apos;__ge__&apos;, &apos;__getattribute__&apos;, &apos;__getitem__&apos;, &apos;__gt__&apos;, &apos;__hash__&apos;, &apos;__iadd__&apos;, &apos;__imul__&apos;, &apos;__init__&apos;, &apos;__iter__&apos;, &apos;__le__&apos;, &apos;__len__&apos;, &apos;__lt__&apos;, &apos;__mul__&apos;, &apos;__ne__&apos;, &apos;__new__&apos;, &apos;__reduce__&apos;, &apos;__reduce_ex__&apos;, &apos;__repr__&apos;, &apos;__reversed__&apos;, &apos;__rmul__&apos;, &apos;__setattr__&apos;, &apos;__setitem__&apos;, &apos;__sizeof__&apos;, &apos;__str__&apos;, &apos;__subclasshook__&apos;, &apos;append&apos;, &apos;clear&apos;, &apos;copy&apos;, &apos;count&apos;, &apos;extend&apos;, &apos;index&apos;, &apos;insert&apos;, &apos;pop&apos;, &apos;remove&apos;, &apos;reverse&apos;, &apos;sort&apos;]</code></pre><h2 id="简化if语句"><a href="#简化if语句" class="headerlink" title="简化if语句"></a>简化if语句</h2><pre><code># use following way to verify multi values
+if m in [1, 2, 3, 4]:
+# do not use following way
+if m==1 or m==2 or m==3 or m==4:</code></pre><h2 id="运行时检测python版本"><a href="#运行时检测python版本" class="headerlink" title="运行时检测python版本"></a>运行时检测python版本</h2><pre><code>import sys
+if not hasattr(sys, &quot;hexversion&quot;) or sys.version_info != (2, 7):
+    print(&quot;sorry, you are not running on python 2.7&quot;)
+    print(&quot;current python version:&quot;, sys.version)
+
+：sorry, you are not running on python 2.7 current python version: 3.5.1 (v3.5.1:37a07cee5969, Dec  6 2015, 01:54:25) [MSC v.1900 64 bit (AMD64)]</code></pre><h2 id="匹配页面中所有的中文"><a href="#匹配页面中所有的中文" class="headerlink" title="匹配页面中所有的中文"></a>匹配页面中所有的中文</h2><p>在py2的环境下，可以将所有的字符集编码成unicode编码，然后通过汉字在unicode编码区间进行判断：</p>
+<p>首先判断网页的编码是否为unicode：</p>
+<pre><code>import chardet
+string=&apos;你好啊小伙子&apos;
+if isinstance(string,unicode):
+    pass
+else:
+    encoding = chardet.detect(string)
+    u_string = string.decode(encoding[&apos;encoding&apos;])
+if u_string in u&apos;[\u4e00-\u9fa5]&apos;:
+        print &apos;存在中文&apos;</code></pre><p>或者这么写：</p>
+<pre><code>result = re.search(u&apos;[\u4e00-\u9fa5]&apos;, u_string)</code></pre><p>判断result是否为空~</p>
+<p>py3中编码为utf-8，则采用的区间内容为：</p>
+<pre><code>[\x80-\xff]</code></pre><h2 id="组合多个字符串"><a href="#组合多个字符串" class="headerlink" title="组合多个字符串"></a>组合多个字符串</h2><pre><code>test = [&quot;I&quot;, &quot;Like&quot;, &quot;Python&quot;]
+print(test)
+print(&quot;&quot;.join(test))
+：[&apos;I&apos;, &apos;Like&apos;, &apos;Python&apos;]
+ILikePython</code></pre><h2 id="四种翻转字符串、列表的方式"><a href="#四种翻转字符串、列表的方式" class="headerlink" title="四种翻转字符串、列表的方式"></a>四种翻转字符串、列表的方式</h2><pre><code># 翻转列表本身
+testList = [1, 3, 5]
+testList.reverse()
+print(testList)
+
+# 在一个循环中翻转并迭代输出
+for element in reversed([1, 3, 5]):
+    print(element)
+
+# 翻转字符串
+print(&quot;Test Python&quot;[::-1])
+
+# 用切片翻转列表
+print([1, 3, 5][::-1])</code></pre><h2 id="用枚举在循环中找到索引"><a href="#用枚举在循环中找到索引" class="headerlink" title="用枚举在循环中找到索引"></a>用枚举在循环中找到索引</h2><pre><code>test = [10, 20, 30]
+for i, value in enumerate(test):
+    print(i, &apos;:&apos;, value)
+
+：0 : 10
+1 : 20
+2 : 30</code></pre><h2 id="从方法中返回多个值"><a href="#从方法中返回多个值" class="headerlink" title="从方法中返回多个值"></a>从方法中返回多个值</h2><pre><code>def x():
+    return 1, 2, 3, 4
+a, b, c, d = x()
+print(a, b, c, d)
+
+：1 2 3 4</code></pre><h2 id="使用-运算符unpack函数参数"><a href="#使用-运算符unpack函数参数" class="headerlink" title="使用*运算符unpack函数参数"></a>使用*运算符unpack函数参数</h2><pre><code>def test(x, y, z):
+    print(x, y, z)
+testDic = {&apos;x&apos;:1, &apos;y&apos;:2, &apos;z&apos;:3}
+testList = [10, 20, 30]
+test(*testDic)
+test(**testDic)
+test(*testList)
+
+：z x y
+1 2 3
+10 20 30</code></pre><h2 id="计算任何数的阶乘"><a href="#计算任何数的阶乘" class="headerlink" title="计算任何数的阶乘"></a>计算任何数的阶乘</h2><pre><code>import functools
+result = (lambda k: functools.reduce(int.__mul__, range(1, k+1), 1))(3)
+print(result)
+
+：6</code></pre><h2 id="找到列表中出现次数最多的数"><a href="#找到列表中出现次数最多的数" class="headerlink" title="找到列表中出现次数最多的数"></a>找到列表中出现次数最多的数</h2><pre><code>test = [1, 2, 3, 4, 2, 2, 3, 1, 4, 4, 4, 4]
+print(max(set(test), key=test.count))
+
+：4</code></pre><h2 id="重置递归限制"><a href="#重置递归限制" class="headerlink" title="重置递归限制"></a>重置递归限制</h2><p>python限制递归次数到1000，可以用下面方法重置</p>
+<pre><code>import sys
+x = 1200
+print(sys.getrecursionlimit())
+sys.setrecursionlimit(x)
+print(sys.getrecursionlimit())
+
+：1000
+1200</code></pre><h2 id="检查一个对象的内存使用"><a href="#检查一个对象的内存使用" class="headerlink" title="检查一个对象的内存使用"></a>检查一个对象的内存使用</h2><pre><code>import sys
+x = 1
+print(sys.getsizeof(x))    # python3.5中一个32比特的整数占用28字节
+
+：28</code></pre><h2 id="直接生产指定数量的随机数字或者字符串"><a href="#直接生产指定数量的随机数字或者字符串" class="headerlink" title="直接生产指定数量的随机数字或者字符串"></a>直接生产指定数量的随机数字或者字符串</h2><pre><code>import string
+salt = &apos;&apos;.join(random.sample(string.ascii_letters, 4))
+salt = &apos;&apos;.join(random.sample(string.digits, 4))</code></pre><p>生成4位随机的字符串或者数字。</p>
+<h2 id="搜索字符串的多个前后缀"><a href="#搜索字符串的多个前后缀" class="headerlink" title="搜索字符串的多个前后缀"></a>搜索字符串的多个前后缀</h2><pre><code>print(&quot;http://localhost:8888/notebooks/Untitled6.ipynb&quot;.startswith((&quot;http://&quot;, &quot;https://&quot;)))
+print(&quot;http://localhost:8888/notebooks/Untitled6.ipynb&quot;.endswith((&quot;.ipynb&quot;, &quot;.py&quot;)))
+
+:True
+True</code></pre><h2 id="不使用循环构造一个列表"><a href="#不使用循环构造一个列表" class="headerlink" title="不使用循环构造一个列表"></a>不使用循环构造一个列表</h2><pre><code>import itertools
+import numpy as np
+test = [[-1, -2], [30, 40], [25, 35]]
+print(list(itertools.chain.from_iterable(test)))
+
+:
+[-1, -2, 30, 40, 25, 35]</code></pre><h2 id="实现switch-case语句"><a href="#实现switch-case语句" class="headerlink" title="实现switch-case语句"></a>实现switch-case语句</h2><pre><code>def xswitch(x):
+    return  xswitch._system_dict.get(x, None)
+xswitch._system_dict = {&quot;files&quot;:10, &quot;folders&quot;:5, &quot;devices&quot;:2}
+print(xswitch(&quot;default&quot;))
+print(xswitch(&quot;devices&quot;))
+
+:None
+2</code></pre><h1 id="Pycharm-格式化代码"><a href="#Pycharm-格式化代码" class="headerlink" title="Pycharm 格式化代码"></a>Pycharm 格式化代码</h1><pre><code>ctrl+alt+L可以格式化</code></pre><h1 id="Pycharm-Tab-设置成4-个空格"><a href="#Pycharm-Tab-设置成4-个空格" class="headerlink" title="Pycharm Tab 设置成4 个空格"></a>Pycharm Tab 设置成4 个空格</h1><p><img src="/upload/1092823-20170120091044156-213046313.png" alt=""></p>
+<h1 id="必知必会基础"><a href="#必知必会基础" class="headerlink" title="必知必会基础"></a>必知必会基础</h1><p>1：为什么学习Python？</p>
+<pre><code>因为他强大，上到抓外星人，下到喂小猫咪都能做。</code></pre><p>2：Python和Java、PHP、C、C#、C++等其他语言的对比？</p>
+<pre><code>Java 编程语言是个简单、面向对象、分布式、解释性、健壮、安全与系统无关、可移植、高性能、多线程和动态的语言。
+
+php语法吸收了C语言、Java和Perl的特点,入门门槛较低，易于学习，使用广泛，主要适用于Web开发领域。
+
+C#是微软公司发布的一种面向对象的、运行于.NET Framework之上的高级程序设计语言。
+
+C语言，它既有高级语言的特点，又具有汇编语言的特点，它是结构式语言。
+
+python语言，是一种面向对象，直译式计算机程序设计语言，Python语法简洁而清晰，具有丰富和强大的类库。
+
+3：简述解释型和编译型编程语言？
+
+解释型语言编写的程序不需要执行，边执行一行，边翻译一次，效率一般较低。
+
+编译型语言就是先编译，将程序编译成机器语言，然后执行程序，一般而言程序效率较高。</code></pre><p>4：Python解释器种类以及特点？</p>
+<pre><code>CPython 从Python官网下载并且安装完后Python相应的解释器为CPython解释器。
+
+IPython IPython是基于CPython之上的一个交互式解释器，好比国产浏览器外观不一样，内核就是调用的IE。
+
+PyPy PyPy采用JIT技术，对Python代码进行动态编译，所以可以显著提高Python代码的执行速度。
+
+Jython Jython是运行在Java平台上的Python解释器，可以直接把Python代码编译成Java字节码执行
+
+IronPython IronPython和Jython类似，只不过IronPython是运行在微软.Net平台上的Python解释器，可以直接把Python代码编译成.Net的字节码。
+
+在Python的解释器中，使用广泛的是CPython。</code></pre><p>关于这一点我在以前的文章特意说到过这个<a href="https://sxadmin.github.io/Python%E8%A7%A3%E9%87%8A%E5%99%A8.html">地址</a></p>
+<p>5：位和字节的关系？</p>
+<pre><code>位：&quot;位(bit)&quot;是电子计算机中最小的数据单位。每一位的状态只能是0或1。8个二进制位构成1个&quot;字节(Byte)&quot;，它是存储空间的基本计量单位。1个字节可以储存1个英文字母或者半个汉字，换句话说，1个汉字占据2个字节的存储空间。
+
+字：&quot;字&quot;由若干个字节构成，字的位数叫做字长，不同档次的机器有不同的字长。例如一台8位机，它的1个字就等于1个字节，字长为8位。如果是一台16位机，那么，它的1个字就由2个字节构成，字长为16位。字是计算机进行数据处理和运算的单位。</code></pre><p>6：b、B、KB、MB、GB 的关系？</p>
+<pre><code>计算机存储信息的大小，最基本的单位是字节，一个汉字由两个字节组成，字母和数字由一个字节组成。 容量的单位从小到大依次是：字节（B）、KB、MB、GB、TB。它们之间的关系是
+
+1TB=1024GB
+
+1GB=1024MB
+
+1MB=1024KB
+
+1KB=1024B</code></pre><p>7：请至少列举5个PEP8规范（越多越好）。</p>
+<pre><code>具体详情参见Python PEP8规范官网 https://legacy.python.org/dev/peps/pep-0008/
+
+主要分为以下几类 代码编排   文档编排   空格的使用  注释    文档描述  命名规则   编程建议
+
+第一，其中编程建议暂时举例如下：
+
+No1：推荐使用 .join() 而不使用+ 。
+
+No2：尽可能使用is is not   取代‘==’，‘!=’，比如if x is not None要优于if x。
+
+No3：使用基于类的异常，每个模块或包都有自己的异常类，此异常类继承自Exception。
+
+No4：异常中不要使用裸露的except，except后跟具体的exceptions。
+
+No5：异常中try的代码尽可能少。
+
+No6：使用startswith() and endswith()代替切片进行序列前缀或后缀的检查。
+
+No7：使用isinstance()比较对象的类型。
+
+No8：判断序列空或不空。
+
+第二，其中命名建议如下：
+
+No1：模块命名尽量短小，使用全部小写的方式，可以使用下划线。
+
+No2：包命名尽量短小，使用全部小写的方式，不可以使用下划线。
+
+No3：类的命名使用CapWords的方式，模块内部使用的类采用_CapWords的方式。
+
+No4：异常命名使用CapWords+Error后缀的方式。
+
+No5：全局变量尽量只在模块内有效，类似C语言中的static。实现方法有两种，一是all机制，二是前缀一个下划线。
+
+No6：函数命名使用全部小写的方式，可以使用下划线。
+
+No7：常量命名使用全部大写的方式，可以使用下划线。
+
+No8：类的属性（方法和变量）命名使用全部小写的方式，可以使用下划线。
+
+No9：类的属性有3种作用域public、non-public和subclass API，可以理解成C++中的public、private、protected，non-public属性前，前缀一条下划线。
+
+No10：类的属性若与关键字名字冲突，后缀一下划线，尽量不要使用缩略等其他方式。
+
+No11：为避免与子类属性命名冲突，在类的一些属性前，前缀两条下划线。比如：类Foo中声明__a,No1：访问时，只能通过Foo__a，避免歧义。如果子类也叫Foo，那就无能为力了。
+
+No12：类的方法第一个参数必须是self，而静态方法第一个参数必须是cls。
+
+第三，其中Python常用技巧如下：
+
+使用 Counter 进行计数统计。
+
+enumerate获取键值对。
+
+os.path.join用于拼接路径，好处是可以根据系统自动选择正确的路径分隔符”/”或”\”。
+
+os.path.split 把路径分割成dirname和basename，返回一个元组。
+
+os.listdir 获取路径下所有文件，返回list。
+
+os.getcwd()获取文件的当前路径。
+
+列表推导式  如 [i for i in range(10]。
+
+对于轻量级循环，可尽量使用列表推导式,熟练使用列表推导式可以很多情况下代替map，filter等操作。
+
+函数调用里的*arg和**kwarg。
+
+chr()  frozenset()   list()    range()    vars()等内置函数 。
+
+打印输出函数带有颜色如下：
+
+print(&quot;\033[32;1m找的数在mid[%s]右面\033[0m&quot; % data_set[mid])。
+
+sys.getfilesystemencoding() #返回将Unicode文件名转换成系统文件名的编码的名字。
+
+os.makedirs(&apos;dir1/dir2&apos;) 可生成多层递归目录。
+
+尽管 classmethod 和 staticmethod 非常相似，但在用法上依然有一些明显的区别。classmethod 必须有一个指向类对象的引用作为第一个参数，而 staticmethod 可以没有任何参数。
+
+第四，python常用功能：
+
+python的四个重要内置函数：getattr、hasattr、delattr和setattr较为全面的实现了基于字符串的反射机制。他们都是对内存内的模块进行操作，并不会对源文件进行修改。</code></pre><p>当然我这边还有一些笔记<a href="https://sxadmin.github.io/PEP8%E8%A7%84%E5%88%99.html">地址</a></p>
+<p>8：isinstance作用？isinstance作用以及应用场景？</p>
+<pre><code>isinstance 用来判断一个对象是否是一个已知的类型。</code></pre><p>9：什么是面向对象的mro？</p>
+<pre><code>解析类继承的查找顺序    MRO:Method Resolution Order,即方法解析顺序,是python中用于处理二义性问题的算法 。</code></pre><p>我还以为是ORM。。。这下真的涨姿势了</p>
+<p>10：Python的作用域？</p>
+<pre><code>本地作用域（Local）→当前作用域被嵌入的本地作用域（Enclosing locals）→全局/模块作用域（Global）→内置作用域（Built-in）</code></pre><p>python的作用域我以前特意写过<a href="https://sxadmin.github.io/Python%20%E5%8F%98%E9%87%8F%E7%9A%84%E4%BD%9C%E7%94%A8%E5%9F%9F.html">地址</a></p>
+<p>11：装饰器的写法以及应用场景。</p>
+<pre><code>我们回到日志的例子   并创建一个包裹函数，能让我们指定一个用于输出的日志文件。
+
+在函数中嵌入装饰器    带参数的装饰器是典型的闭包函数。
+
+装饰器能有助于检查某个人是否被授权去使用一个web应用的端点(endpoint)。它们被大量使用于Flask和Django web框架中。
+
+12：用尽量多的方法实现单例模式。
+
+执行元类的__new__方法和__init__方法用来实例化类对象，__call__ 方法用来对实例化的对象的实例即类的对象进行控制。__call__方法会调用实例类的 __new__方法，用于创建对象。返回对象给__call__方法，然后调用类对象的 __init__方法，用于对对象初始化。
+
+利用类的静态方法或者类方法，实现对函数初始化的控制。该方法需要手动调用静态方法实现实例。本质上是手动版的__new__方法。
+
+先执行了类的__new__方法（我们没写时，默认调用object.__new__），实例化对象；然后再执行类的__init__方法，对这个对象进行初始化，所有我们可以基于这个，实现单例模式。
+
+静态变量方法：
+
+Python 的模块就是天然的单例模式，因为模块在第一次导入时，会生成 .pyc 文件，当第二次导入时，就会直接加载 .pyc 文件，而不会再次执行模块代码。
+
+def singleton(cls, *args, **kw):    instance = {}    def _singleton(args):        if cls not in instance:            instance[cls] = cls(*args, **kw)        return instance[cls]    return _singleton @singleton class A:    pass
+
+装饰器
+
+class Singleton1(type):    def __init__(self, *args, **kwargs):        self.__instance = None        super(Singleton1,self).__init__(*args, **kwargs)    def __call__(self, *args, **kwargs):        if self.__instance is None:            self.__instance = super(Singleton1,self).__call__(*args, **kwargs)        return self.__instance
+
+class Singleton2(type):    _inst = {}    def __call__(cls, *args, **kwargs):        print(cls)        if cls not in cls._inst:            cls._inst[cls] = super(Singleton2, cls).__call__(*args)        return cls._inst[cls] class C(metaclass=Singleton1):    pass
+
+
+
+class Singleton(object):    def __new__(cls,a):        if not hasattr(cls, &apos;_instance&apos;):            cls._instance = object.__new__(cls)        return cls._instance    def __init__(self,a):        self.a = a    def aa(self):        print(self.a) a = Singleton(&quot;a&quot;)</code></pre><p>装饰器说白了就是把闭包的东西改一下用到这里，使用系统自带的functools更加方便，具体原理我这边也有的哦<a href="https://sxadmin.github.io/Python%20%E8%A3%85%E9%A5%B0%E5%99%A8.html">链接</a></p>
+<p>13：metaclass作用？以及应用场景？</p>
+<pre><code>为了当创建类使能够自动地改变类。通常会为API做这样的事情，希望可以创建符合当前上下文的类。
+
+用来指定指定某个类是由哪个类创建的</code></pre><p>这个考到的python的面向对象编程中的class方法介绍，其实这些我用的很少，虽然当时只是做了笔记但是并没有融会贯通，我觉得使用函数比较方便(可能是因为的项目比较小，并且我的变量命名方法不够好)<a href="https://sxadmin.github.io/Python%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B.html">地址</a></p>
+<p>14：什么是反射？以及应用场景？</p>
+<pre><code>python有两个内置函数exec和eval，他们同样能够执行字符串。反射它的核心本质其实就是利用字符串的形式去对象（模块）中操作（查找/获取/删除/添加）成员，一种基于字符串的事件驱动！</code></pre><p>15：1、2、3、4、5 能组成多少个互不相同且无重复的三位数？</p>
+<pre><code>combinations_with_replacement 组合,有重复　　（有放回抽样组合）
+
+combinations 组合,没有重复　　（不放回抽样组合）
+
+permutations 排列　　（不放回抽样排列）
+
+product 笛卡尔积　　（有放回抽样排列）
+
+使用python内置的排列组合函数（不放回抽样排列）
+
+组成后的数值不相同，且组合的三个位数之间数字不重复。
+
+60个</code></pre><p>16：创建类有两种方式？</p>
+<pre><code>特殊方式(基于元类的方式)
+
+普通方式</code></pre><p>17：列举面向对象中的特殊成员以及应用场景？</p>
+<pre><code>__getitem__ 、 __setitem__ 、__delitem__ 用于索引操作，如字典。分别表示获取、设置、删除数据__str__ 如果一个类中定义了__str__方法，那么在打印对象时，默认输出该方法的返回值 __dict__ 查看类或对象中的所有成员 __call__ 对象后面加括号，触发执行__doc__  描述类的信息</code></pre><p>18：静态方法和类方法区别？</p>
+<pre><code>三种方法从不同层次上来对方法进行了描述：实例方法针对的是实例，类方法针对的是类，他们都可以继承和重新定义，而静态方法则不能继承，可以认为是全局函数。。
+
+实例方法，类方法，静态方法都可以通过实例或者类调用，只不过实例方法通过类调用时需要传递实例的引用（python 3可以传递任意对象，其他版本会报错）。</code></pre><p>19：如何判断是函数还是方法？</p>
+<pre><code>看他的调用者是谁，如果是类，需要传入一个参数self的值，这时他就是一个函数，如果调用者是对象，不需要给self传入参数值，这时他是一个方法。</code></pre><p>20：列举面向对象中带爽下划线的特殊方法？</p>
+<pre><code>当创建一个新实例时调用__new__,初始化一个实例时用__init__。只有在__new__返回一个cls的实例时后面的__init__才能被调用。__new__方法会返回一个创建的实例,而__init__什么都不返回。
+
+__new__是一个静态方法,而__init__是一个实例方法.
+
+__call__ __doc__ __class__ __del__ __dict__ __str__
+
+__init__
+
+__new__</code></pre><p>21：是否使用过functools中的函数？其作用是什么？</p>
+<pre><code>用于装饰器中，functools.wraps()，主要是用来修复装饰器。实际上固定了int()函数的关键字参数base  如 int2 = functools.partial(int, base=2)。
+
+最后，创建偏函数时，实际上可以接收函数对象 *args和**kwargs这3个参数。
+
+简单总结functools.partial的作用就是，把一个函数的某些参数给固定住（也就是设置默认值），返回一个新的函数，调用这个新函数会更简单。
+
+python 中提供一种用于对函数固定属性的函数(与数学上的偏函数不一样)。
+
+functools用于高阶函数：指那些作用于函数或者返回其他函数的函数。通常情况下，只要是可以被当做函数调用的对象就是这个模块的目标。</code></pre><p>22：面向对象中super的作用？</p>
+<pre><code>在super机制里可以保证公共父类仅被执行一次，至于执行的顺序，是按照MRO（Method Resolution Order），方法解析顺序进行的。MRO 就是类的方法解析顺序表, 其实也就是继承父类方法时的顺序表。
+
+super 是用来解决多重继承问题的，直接用类名调用父类方法在使用单继承的时候没问题，但是如果使用多继承，会涉及到查找顺序（MRO）、重复调用（钻石继承）等种种问题。
+
+super() 函数是用于调用父类(超类)的一个方法。</code></pre><p>23：面向对象深度优先和广度优先是什么？</p>
+<pre><code>深度优先：不全部保留节点，占用空间小，有回溯操作（即有入栈/出栈操作），运行速度慢。
+
+广度优先：保留全部节点，占用空间大；无回溯操作（既无入栈、出栈操作）、运行速度快。</code></pre><p>24：Python面向对象中的继承有什么特点？</p>
+<pre><code>在继承中基类的构造（__init__()方法）不会被自动调用，它需要在其派生类的构造中亲自专门调用。有别于C#。
+
+新类经常是基于已经存在的类，这样就可以提升代码的复用程度。
+
+建造系统中的类，避免重复操作。
+
+继承有点类似与我们生物学上的遗传，就是子类的一些特征是来源于父类的，儿子遗传了父亲或母亲的一些性格，或者相貌，又或者是运动天赋。有点种瓜得瓜种豆得豆的意思。面向对象里的继承也就是父类的相关的属性，可以被子类重复使用，子类不必再在自己的类里面重新定义一回，父类里有点我们只要拿过来用就好了。而对于自己类里面需要用到的新的属性和方法，子类就可以自己来扩展了。</code></pre><p>25： 什么是重载？</p>
+<pre><code>重载就是类里面相同方法名，不同形参的情况，可以是形参类型不同或者形参个数不同，或者形参顺序不同，但是不能使返回值类型不同。</code></pre><p>26：什么是重写？</p>
+<pre><code>重写很简单就是把子类从父亲类里继承下来的方法重新写一遍，这样，父类里相同的方法就被覆盖了，当然啦，你还是可以通过super.CaculSalary方法来调用父类的工资计算方法。</code></pre><p>27：什么是多态？</p>
+<pre><code>我们在有一些方法在父类已经定义好了，但是子类我们自己再用的时候，发现，其实，我们的虽然都是计算工资的，但是普通员工的工资计算方法跟经理的计算方法是不一样的，所以这个时候，我们就不能直接调用父类的这个计算工资的方法了。这个时候我们就需要用到面向对象的另一个特性，多态。我们要在子类里面把父类里面定义计算工资的方法在子类里面重新实现一遍。多态包含了重载和重写。</code></pre><p>28：谈谈你对面向对象的理解？</p>
+<pre><code>所谓的面向对象就是将我们的程序模块化，对象化，把具体事物的特性属性和通过这些属性来实现一些动作的具体方法放到一个类里面，这就是封装。封装是我们所说的面相对象编程的特征之一。除此之外还有继承和多态。</code></pre><p>29：如何使用python删除一个文件？</p>
+<pre><code>import shutil shutil.rmtree()。
+
+os.rmdir(path)删除目录 path，要求path必须是个空目录。
+
+os.removedirs(path) 递归地删除目录。
+
+os.remove(path)删除文件 path</code></pre><p>30：如何生成一个随机数？</p>
+<pre><code>random.uniform(a,b):返回指定范围内的浮点数。
+
+随机实数：random.random( ):返回0到1之间的浮点数
+
+random.randrange(start,stop,[,step])：返回一个范围在(start,stop,step)之间的随机整数，不包括结束值。
+
+随机整数：random.randint(a,b)：返回随机整数x,a&lt;=x&lt;=b</code></pre><p>31：os和sys模块的作用？</p>
+<pre><code>os.chmod(&apos;pathfile&apos;,os.W_OK) 改变文件权限模式。
+
+os.access(&apos;pathfile&apos;,os.W_OK) 检验文件权限模式，输出True，False。
+
+os.path.expandvars(path)  #根据环境变量的值替换path中包含的”$name”和”${name}”。
+
+os.path.expanduser(path)  #把path中包含的&quot;~&quot;和&quot;~user&quot;转换成用户目录。
+
+os.path.commonprefix(list) #返回list(多个路径)中，所有path共有的最长的路径。
+
+os.path.getmtime(path) 返回path所指向的文件或者目录的最后修改时间。
+
+os.path.getatime(path) 返回path所指向的文件或者目录的最后存取时间。
+
+os.path.join(path1[, path2[, ...]]) 将多个路径组合后返回，第一个绝对路径之前的参数将被忽略。
+
+os.path.isdir(path) 如果path是一个存在的目录，则返回True。否则返回False。
+
+os.path.isfile(path) 如果path是一个存在的文件，返回True。否则返回False。
+
+os.path.isabs(path) 如果path是绝对路径，返回True。
+
+os.path.lexists  #路径存在则返回True,路径损坏也返回True。
+
+os.path.exists(path) 如果path存在，返回True；如果path不存在，返回False。
+
+os.path.basename(path) 返回path最后的文件名。如何path以／或\结尾，那么就会返回空值。即os.path.split(path)的第二个元素。
+
+os.path.dirname(path) 返回path的目录。其实就是os.path.split(path)的第一个元素。
+
+os.path.split(path) 将path分割成目录和文件名二元组返回。
+
+os.path.abspath(path) 返回path规范化的绝对路径。
+
+os.environ 获取系统环境变量。
+
+os.system(bash command) 运行shell命令，直接显示。
+
+os.name 字符串指示当前使用平台。win-&gt;&apos;nt&apos;; Linux-&gt;&apos;posix&apos;。
+
+os.pathsep 用于分割文件路径的字符串。
+
+os.linesep 当前平台使用的行终止符，win下为\t\n,Linux下为\n。
+
+os.sep 操作系统特定的路径分隔符，win下为\,Linux下为/。
+
+os.stat(&apos;path/filename&apos;) 获取文件/目录信息。
+
+os.rename(oldname,new) 重命名文件/目录。
+
+os.remove() 删除一个文件。
+
+os.listdir(&apos;dirname&apos;) 列出指定目录下的所有文件和子目录，包括隐藏文件，并以列表方式打印。
+
+os.rmdir(&apos;dirname&apos;) 删除单级空目录，若目录不为空则无法删除，报错；相当于shell中rmdir 。
+
+os.mkdir(&apos;dirname&apos;) 生成单级目录；相当于shell中mkdir dirname。
+
+os.removedirs(&apos;dirname1&apos;) 若目录为空，则删除，并递归到上一级目录，如若也为空，则删除，依此类推。
+
+os.pardir 获取当前目录的父目录字符串名：(&apos;..&apos;)。
+
+os.curdir 返回当前目录: (&apos;.&apos;)。
+
+os.chdir(dirname) 改变当前脚本工作目录；相当于shell下cd。
+
+os.getcwd() 获取当前工作目录，即当前python脚本工作的目录路径。
+
+sys模块
+
+sys.displayhook(value) #如果value非空，这个函数会把他输出到sys.stdout(详细使用参考文档)
+
+sys.setdefaultencoding(name) #用来设置当前默认的字符编码(详细使用参考文档)
+
+sys.stdin.readline() #从标准输入读一行，sys.stdout.write(a) 屏幕输出a
+
+sys.getwindowsversion() #获取Windows的版本
+
+sys.executable #Python解释程序路径
+
+sys.builtin_module_names #Python解释器导入的内建模块列表
+
+sys.getdefaultencoding() #返回当前你所用的默认的字符编码格式
+
+sys.version_info #&apos;final&apos;表示最终,也有&apos;candidate&apos;表示候选，表示版本级别，是否有后继的发行
+
+sys.api_version #解释器的C的API版本
+
+sys.byteorder #本地字节规则的指示器，big-endian平台的值是&apos;big&apos;,little-endian平台的值是&apos;little&apos;
+
+sys.exec_prefix #返回平台独立的python文件安装的位置
+
+sys.exc_clear() #用来清除当前线程所出现的当前的或最近的错误信息
+
+sys.stdin.read() #输入一行
+
+sys.stdin #标准输入
+
+sys.stdout.writelines() #无换行输出
+
+sys.stdout.write(&apos;aaa&apos;) #标准输出内容
+
+sys.stdout #标准输出
+
+sys.maxint # 最大的Int值
+
+sys.platform #返回操作系统平台名称
+
+sys.version #获取Python解释程序的版本信息
+
+sys.hexversion #获取Python解释程序的版本值，16进制格式如：0x020403F0
+
+sys.exit(n) #退出程序，正常退出时exit(0)
+
+sys.exc_info() #获取当前正在处理的异常类,exc_type、exc_value、exc_traceback当前处理的异常详细信息
+
+sys.modules #返回系统导入的模块字段，key是模块名，value是模块
+
+sys.modules.keys() #返回所有已经导入的模块列表
+
+sys.path #返回模块的搜索路径，初始化时使用PYTHONPATH环境变量的值
+
+sys.argv #命令行参数List，第一个元素是程序本身路径
+
+sys模块主要是用于提供对python解释器相关的操作</code></pre><p>相关资料链接<a href="https://sxadmin.github.io/Python%20os%20%E6%A8%A1%E5%9D%97.html">地址os</a> <a href="https://sxadmin.github.io/Python%20sys%20%E6%A8%A1%E5%9D%97.html">地址sys</a></p>
+<p>32：谈谈你对闭包的理解？</p>
+<pre><code>一般情况下，在我们认知当中，如果一个函数结束，函数的内部所有东西都会释放掉，还给内存，局部变量都会消失。但是闭包是一种特殊情况，如果外函数在结束的时候发现有自己的临时变量将来会在内部函数中用到，就把这个临时变量绑定给了内部函数，然后自己再结束。
+
+在一个外函数中定义了一个内函数，内函数里运用了外函数的临时变量，并且外函数的返回值是内函数的引用。这样就构成了一个闭包。</code></pre><p>33：用Python实现一个二分查找的函数。</p>
+<pre><code>def binary_search(data_set, data):
+
+data_set_len = len(data_set)
+
+   if data_set_len &gt; 1:
+
+       mid = int(data_set_len / 2)
+
+       if data_set[mid] == data:  # find it
+
+           print(&quot;找到数字&quot;, data_set[mid])
+
+       elif data_set[mid] &gt; data:  # 找的数在mid左面
+
+           print(&quot;\033[31;1m找的数在mid[%s]左面\033[0m&quot; % data_set[mid])
+
+           return binary_search(data_set[0:mid], data)
+
+       else:  # 找的数在mid右面
+
+           print(&quot;\033[32;1m找的数在mid[%s]右面\033[0m&quot; % data_set[mid])
+
+           return binary_search(data_set[mid + 1:], data)
+
+   else:
+
+       if data_set_len[0] == data:
+
+           print(&quot;找到数字啦&quot;, data_set[0])
+
+       else:
+
+           print(&quot;没的分了,要找的数字[%s]不在列表里&quot; % data)</code></pre><p>关于算法这边我忙不过来，但是以后肯定会深入学习的，目前我只会插入排序，选择排序和二分法<a href="https://sxadmin.github.io/Python%E7%AE%97%E6%B3%95%E4%B9%8B%E6%8E%92%E5%BA%8F%E4%B8%8E%E4%BA%8C%E5%88%86%E6%B3%95.html">地址</a></p>
+<p>34:简述 生成器、迭代器、可迭代对象 以及应用场景？</p>
+<pre><code>有__iter__和__next__方法的对象就是一个迭代器，但是迭代器不一定是生成器。
+
+生成器：有yield关键字的函数就是一个生成器，生成器一定是一个迭代器
+
+生成器：带有yield的函数不再是一个普通函数，而是一个生成器。当函数被调用时，返回一个生成器对象。不像一般函数在生成值后退出，生成器函数在生成值后会自动挂起并暂停他们的执行状态。
+
+迭代器：是访问集合元素的一种方式，从集合的第一个元素开始访问，直到所有元素被访问结束。其优点是不需要事先准备好整个迭代过程中的所有元素，仅在迭代到某个元素时才开始计算该元素。适合遍历比较巨大的集合。__iter__()：方法返回迭代器本身， __next__()：方法用于返回容器中下一个元素或数据。</code></pre><p>答案这边说的其实不准确具体看</p>
+<pre><code>迭代器(Iterator)与可迭代对象(Iterable)的区别
+
+只要可以用作for循环的都是可迭代对象
+只要可以用next()函数的都是迭代器对象
+列表,字典,字符串是可迭代对象但是不是迭代器对象，如果想变成迭代器对象可以使用iter()进行转换
+Python的for循环本质上是使用next()进行不断调用
+一般由可迭代对象变迭代器对象</code></pre><p><a href="https://sxadmin.github.io/Python%20%E7%94%9F%E6%88%90%E5%99%A8%E4%B8%8E%E7%94%9F%E6%88%90%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1.html">地址1</a> <a href="https://sxadmin.github.io/Python%20%E7%94%9F%E6%88%90%E5%99%A8%E4%B8%8E%E7%94%9F%E6%88%90%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1.html">地址2</a></p>
+<p>35：常用字符串格式化哪几种？</p>
+<pre><code>print(&apos;hello {first} and {second}&apos;.format(first=&apos;df&apos;,second=&apos;another df&apos;))
+
+print(&apos;hello %(first)s and %(second)s&apos;%{&apos;first&apos;:&apos;df&apos; , &apos;second&apos;:&apos;another df&apos;})
+
+print(&apos;hello %s and %s&apos;%(&apos;df&apos;,&apos;another df&apos;))</code></pre><p>36：请用代码简答实现stack  Queue。</p>
+<pre><code>queue就是管道，分成三种模式。
+定义
+q=Queue.queue()
+传入数据
+q.put(1)
+获取数据
+q.get()
+还可以获取里面的数据是否没空
+if q.empty()</code></pre><p>管道可以用来存储数据，作为中转，可以写出一个简单的生产者消费者模式<a href="https://sxadmin.github.io/Python%20Queue%20%E6%A8%A1%E5%9D%97.html">地址</a></p>
+<p>37：logging模块的作用？以及应用场景？</p>
+<pre><code>简单来讲就是，我们通过记录和分析日志可以了解一个系统或软件程序运行情况是否正常，也可以在应用程序出现故障时快速定位问题。比如，做运维的同学，在接收到报警或各种问题反馈后，进行问题排查时通常都会先去看各种日志，大部分问题都可以在日志中找到答案。再比如，做开发的同学，可以通过IDE控制台上输出的各种日志进行程序调试。对于运维老司机或者有经验的开发人员，可以快速的通过日志定位到问题的根源。可见，日志的重要性不可小觑通过log的分析，可以方便用户了解系统或软件、应用的运行情况；如果你的应用log足够丰富，也可以分析以往用户的操作行为、类型喜好、地域分布或其他更多信息；如果一个应用的log同时也分了多个级别，那么可以很轻易地分析得到该应用的健康状况，及时发现问题并快速定位、解决问题，补救损失。
+
+软件程序运行故障分析与问题定位
+
+程序调试</code></pre><p>具体使用方法<a href="https://sxadmin.github.io/Python%20logging%20%E6%A8%A1%E5%9D%97.html">地址</a></p>
+<p>38：日志级别的种类。</p>
+<pre><code>CRITICAL 当发生严重错误，导致应用程序不能继续运行时记录的信息
+
+ERROR 由于一个更严重的问题导致某些功能不能正常运行时记录的信息
+
+WARNING 当某些不期望的事情发生时记录的信息（如，磁盘可用空间较低），但是此时应用程序还是正常运行的
+
+INFO 信息详细程度仅次于DEBUG，通常只记录关键节点信息，用于确认一切都是按照我们预期的那样进行工作
+
+DEBUG 最详细的日志信息，典型应用场景是 问题诊断</code></pre><p>39：如何在函数中设置一个全局变量 ?</p>
+<pre><code>在函数的内部，通过global声明，使在函数内部中设置一个全局变量，这个全局变量可以在任意的函数中进行调用。</code></pre><p>40：一行代码实现删除列表中重复的值 ?</p>
+<pre><code>print(sorted(set(list(列表)),key=list(列表).index)) # sorted output</code></pre><p>41：如何用一行代码生成[1,4,9,16,25,36,49,64,81,100] ?</p>
+<pre><code>a = [pow(i,2) for i in range(1,11)]</code></pre><p>42：比较a = [1,2,3] 和 b = [(1),(2),(3) ] 以及 b = [(1,),(2,),(3,) ] 的区别？</p>
+<pre><code>print([1, 2, 3])               [1, 2, 3]  
+
+print([(1), (2), (3)])          [1, 2, 3]
+
+print((1,), (2,), (3,))         (1,) (2,) (3,)
+
+a 列表里面的的每个元素都是数字类型，
+
+b 列表里面的元素也是数字，这里面的小括号代表的优先运算符，
+
+c 列表里面的每个元素都是元组。</code></pre><p>43：如何实现[‘1’,’2’,’3’]变成[1,2,3] ?</p>
+<pre><code>第一种：a = [int(i) for i in a]
+
+第二种：b = map(int, a)</code></pre><p>44：如何实现 “1,2,3” 变成 [‘1’,’2’,’3’] ?</p>
+<pre><code>a = &apos;1,2,3&apos;.split(&apos;,&apos;)</code></pre><p>45：def func(a,b=[]) 这种写法有什么坑？</p>
+<pre><code>函数陷阱，列表是一个可变类型，可以在任何的地方修改他那里面的数据。</code></pre><p>46：求结果  <br>    1 or 2    1</p>
+<pre><code>1 and 2   2
+
+1 &lt; (2==2)   False
+
+1 &lt; 2 == 2  True</code></pre><p>47：求结果。</p>
+<pre><code>[ i % 2 for i in range(10) ]   [0, 1, 0, 1, 0, 1, 0, 1, 0, 1]。
+
+( i % 2 for i in range(10) )  &lt;generator object &lt;genexpr&gt; at 0x000000000C0EA938&gt;。</code></pre><p>48：什么是正则的贪婪匹配？</p>
+<pre><code>区别重点在：.* 和 .*？。
+
+非贪婪格式：xx.*?xx  。
+
+贪婪格式：xx.*xx  是尝试匹配尽可能少的字符。</code></pre><p>49：re的match和search区别？</p>
+<pre><code>search：从字符的起始位置开始匹配，匹配到第一个符合的就不会去匹配了。
+
+match：尝试从字符串起始位置开始匹配如果没有就会返回None。
+
+使用search的话语要用group来获取结果，group(0)就是获取匹配符加结果一起的，group(1)就是匹配到的结果</code></pre><p>50：至少列举8个常用模块都有那些？</p>
+<pre><code>re，os，random，json，time，numpy，opencv-python，pytz，pyMysql，pygame，pillow-    python，pip，Django</code></pre><p>51：如何安装第三方模块？以及用过哪些第三方模块？</p>
+<pre><code>在cmd终端可以使用pip install 安装第三方模块。
+
+可以在pycharm里面的settings里面手动的添加第三方模块。
+
+现在，让我们来安装一个第三方库——Python Imaging Library，这是Python下非常强大的处理图像的工具库。一般来说，第三方库都会在Python官方的pypi.python.org网站注册，要安装一个第三方库，必须先知道该库的名称，可以在官网或者pypi上搜索，比如Python Imaging Library的名称叫PIL在命令提示符窗口下尝试运行pip，如果Windows提示未找到命令，可以重新运行安装程序添加pip。如果你正在使用Windows，确保安装时勾选了pip和Add python.exe to Path。如果你正在使用Mac或Linux，安装pip本身这个步骤就可以跳过了。在Python中，安装第三方模块，是通过setuptools这个工具完成的。Python有两个封装了setuptools的包管理工具：easy_install和pip。目前官方推荐使用pip</code></pre><p>52：一行代码实现9*9乘法表？</p>
+<pre><code>print(&apos;\n&apos;.join([&apos; &apos;.join([&apos;%s*%s=%-2s&apos; % (y,x,x*y) for y in range(1,1+x)]) for x in range(1,10)]))</code></pre><p>53：filter、map、reduce的作用？</p>
+<pre><code>filter是筛选出其中满足某个条件的那些数据，字面意思是过滤，比如挑出列表中所有奇数。
+
+reduce是用某种方法依次把所有数据丢进去最后得到一个结果，字面意思是化简，比如计算一个    列表所有数的和的过程，就是维持一个部分和然后依次把每个数加进去。
+
+map是用同样方法把所有数据都改成别的，字面意思是映射，比如把列表的每个数都换成其平方。</code></pre><p>54：对给定的List L进行排序，对List、Dict进行排序，Python提供了两个方法。</p>
+<pre><code>用List的成员函数sort进行排序，在本地进行排序，不返回副本。
+
+用built-in函数sorted进行排序（从2.4开始），返回副本，原始输入不变
+
+Python中的map函数应用于每一个可迭代的项，返回的是一个结果list。如果有其他的可迭代参数传进来，map函数则会把每一个参数都以相应的处理函数进行迭代处理。map()函数接收两个参数，一个是函数，一个是序列，map将传入的函数依次作用到序列的每个元素，并把结果作为新的list返回。
+
+filter()函数接收一个函数 f 和一个list，这个函数 f 的作用是对每个元素进行判断，返回 True或 False，filter()根据判断结果自动过滤掉不符合条件的元素，返回由符合条件元素组成的新list。</code></pre><p>55：列举常见的内置函数？</p>
+<pre><code>数据集合：len，sorted，enumerate，all，any，zip，filter，map
+
+数据集合——字典和集合：dict，set，frozenset
+
+序列：reversed，slice
+
+序列——字符串相关的：str，format，bytes，bytearry，memoryview，ord，chr，ascii，repr
+
+序列——列表和元组相关的：list和tuple
+
+数字——数学运算：abs，divmod，min，max，sum，round，pow
+
+数字——进制转换相关：bin，oct，hex
+
+数字——数据类型相关：bool，int，float，complex
+
+dir() 默认查看全局空间内的属性，也接受一个参数，查看这个参数内的方法或变量
+
+callable(o)，o是参数，看这个变量是不是可调用。
+
+帮助方法(help)
+
+__import__导入一个模块
+
+open()  打开一个文件，返回一个文件操作符(文件句柄)
+
+hash(o) o是参数，返回一个可hash变量的哈希值，不可hash的变量被hash之后会报错
+
+id(o) o是参数，返回一个变量的内存地址
+
+type(o) 返回变量o的数据类型
+
+print() 输出
+
+input() 输入
+
+locals()——获取执行本方法所在命名空间内的局部变量的字典
+
+globals()——获取全局变量的字典
+
+delattr()    hash()    memoryview()    set()
+
+complex()    hasattr()    max()    round()
+
+compile()    globals()    map()    reversed()    __import__()
+
+classmethod()    getattr()    locals()    repr()    zip()
+
+callable()    format()    len()      property()    type()
+
+bytes()    float()    iter() print()    tuple()
+
+bytearray()    filter()    issubclass()    pow()    super()
+
+bool()    exec()    isinstance()    ord()    sum()
+
+bin()      eval()    int()      open()      str()
+
+ascii()    enumerate()    input()    oct()        staticmethod()
+
+any()    divmod()   id()        object()       sorted()
+
+all()   dir()       hex()    next()    slice()
+
+abs()    dict()    help()    min()    setattr()</code></pre><p>56：求</p>
+<pre><code>v = dict.fromkeys([&apos;k1&apos;, &apos;k2&apos;], [33])
+
+v[&apos;k1&apos;].append(666)
+
+print(v)
+
+v[&apos;k1&apos;] = 777
+
+print(v)
+
+{&apos;k1&apos;: [33, 666], &apos;k2&apos;: [33, 666]}
+
+{&apos;k1&apos;: 777, &apos;k2&apos;: [33, 666]}
+
+v = dict.fromkeys([&apos;k1&apos;, &apos;k2&apos;], [])
+
+print(v)
+
+v[&apos;k1&apos;].append(666)
+
+print(v)
+
+v[&apos;k1&apos;] = 777
+
+print(v)
+
+
+
+{&apos;k1&apos;: [], &apos;k2&apos;: []}
+
+{&apos;k1&apos;: [666], &apos;k2&apos;: [666]}
+
+{&apos;k1&apos;: 777, &apos;k2&apos;: [666]}</code></pre><p>57：Python的可变类型和不可变类型？</p>
+<pre><code>对于不可变类型，无论创建多少个不可变类型，只要值相同，都指向同个内存地址（若值不同，那么一定指向不同的内存地址）。
+
+对于可变类型，无论创建多少个可变类型，只要值相同，都不指向同个内存地址（除非进行复制操作，那么他们将会指向同一个地址）。
+
+修改代码声明两个相同值的浮点型变量，查看它们的id，发现它们并不是指向同个内存地址，这点和int类型不同（这方面涉及Python内存管理机制，Python对int类型和较短的字符串进行了缓存，无论声明多少个值相同的变量，实际上都指向同个内存地址。）
+
+对于不可变类型int，无论创建多少个不可变类型，只要值相同，都指向同个内存地址。同样情况的还有比较短的字符串。
+
+     对不可变类型的变量重新赋值，实际上是重新创建一个不可变类型的对象，并将原来的变量重新指向新创建的对象（如果没有其他变量引用原有对象的话（即引用计数为0），原有对象就会被回收）。
+
+     不可变：数字、字符串、元祖
+
+ 可变：列表、字典
+
+     Python的每个对象都分为可变和不可变</code></pre><p>58：Python垃圾回收机制？</p>
+<pre><code>分代收集：Python把内存根据对象存活时间划分为三代，对象创建之后，垃圾回收器会分配它们所属的代。每个对象都会被分配一个代，而被分配更年轻的代是被优先处理的，因此越晚创建的对象越容易被回收。连在一起，构成一个有向图，对象构成这个有向图的节点，而引用关系构成这个有向图的边）。 
+
+标记-清除：一些容器对象，比如list、dict、tuple，instance等可能会出现引用循环，对于这些循环，垃圾回收器会定时回收这些循环（对象之间通过引用（指针）。
+
+引用计数：Python在内存中存储每个对象的引用计数，如果计数变成0，该对象就会消失，分配给该对象的内存就会释放出来。 
+
+Python中的垃圾回收是以引用计数为主，标记-清除和分代收集为辅。 </code></pre><p>这个确实涉及到短板了，需要补充这方的知识点</p>
+<p>59：简述Python的深浅拷贝以及应用场景？</p>
+<pre><code>浅拷贝指仅仅拷贝数据集合的第一层数据，深拷贝指拷贝数据集合的所有层。所以对于只有一层的数据集合来说深浅拷贝的意义是一样的，比如字符串，数字，还有仅仅一层的字典、列表、元祖等。
+
+ 深拷贝：copy.deepcopy    浅拷贝：copy.copy
+
+     导入模块：import copy</code></pre><p>60：is和==的区别。</p>
+<pre><code>is是对比地址，==是对比值。</code></pre><p>61：<em>arg和*</em>kwarg作用。</p>
+<pre><code>接收参数。
+
+函数定义时传的*arg /**kwarg。
+
+分割参数    **kwarg，字典“出没”。
+
+*arg：元组或列表“出现”。</code></pre><p>62：pass的作用？</p>
+<pre><code>保证语义完整
+
+保证格式完整
+
+空语句 do nothing</code></pre><p>63：lambda表达式格式以及应用场景？</p>
+<pre><code>为了解决那些功能很简单的需求而设计的一句话函数。</code></pre><p>64：字符串常用功能？</p>
+<pre><code>长度 循环 键、值、键值对 删除 新增 索引 字典常用操作 包含 长度 切片 索引 元组常用操作 包含 循环 切片 长度  删除 追加 切片 索引 列表常用操作 切片 索引 长度 分割 移除空白
+
+words = &apos;today is a wonderfulday&apos;。 print(words.strip(&apos;today&apos;))#如果strip方法指定一个值的话，那么会去掉这两个值。 print(words.count(&apos;a&apos;))#统计字符串出现的次数。 print(words.index(&apos;is&apos;))#找下标。 print(words.index(&apos;z&apos;))#找下标如果元素不找不到的话，会报错。 print(words.find(&apos;z&apos;))#找下标，如果元素找不到的话，返回-1。 print(words.replace(&apos;day&apos;,&apos;DAY&apos;))#字符串替换。 print(words.isdigit())#判断字符串是否为纯数字。 print(words.islower())#判断字符串是否为小写字母。 print(words.isupper())#判断字符串是否为大写字母。 print(words.startswith(&apos;http&apos;))#判断是否以某个字符串开头。 print(words.endswith(&apos;.jpg&apos;))#判断是否以某个字符串结尾。 print(words.upper())#将字符串变成大写。 print(words.lower())#将字符串变成小写。</code></pre><p>65：列举布尔值为False的常见值？</p>
+<pre><code>False 0 [] () {} 字符串 布尔值 零 列表  元组 字典。</code></pre><p>66：xreadlines和readlines的区别？</p>
+<pre><code>二者使用时相同，但返回类型不同，xreadlines返回的是一个生成器，readlines返回的是list。</code></pre><p>67：xrange和range的区别？</p>
+<pre><code>Python 3.x已经去掉xrange，全部用range代替。
+
+range和xrange都是在循环中使用，输出结果一样。
+
+range返回的是一个list对象，而xrange返回的是一个生成器对象(xrange object)。
+
+　　xrange则不会直接生成一个list，而是每次调用返回其中的一个值，内存空间使用极少，因而性能非常好。
+
+xrange函数说明：用法与range完全相同，所不同的是生成的不是一个数组，而是一个生成器。
+
+range函数说明：range([start,] stop[, step])，根据start与stop指定的范围以及step设定的步长，生成一个序列。</code></pre><p>68：Python3和Python2中 int 和 long的区别？</p>
+<pre><code>long整数类型被Python3废弃，统一使用int</code></pre><p>69：用一行代码实现数值交换。</p>
+<pre><code>b = 2   a = 1
+
+a,b = b,a</code></pre><p>70：列举 Python2和Python3的区别？</p>
+<pre><code>在Python2中，print 被视为一个语句而不是一个函数，这是一个典型的容易弄混的地方，因为在 Python 中的许多操作都需要括号内的参数来执行。</code></pre><p>71：三元运算规则以及应用场景？</p>
+<pre><code>(expr1) ? (expr2) : (expr3);
+
+三元运算符的功能与“if...else”流程语句一致，它在一行中书写，代码非常精练、执行效率更高。
+浪子 ps:这个话说不是php的语法吗- -在python中应该是这样
+x = 1
+a = 7 if x&gt;0 else 5
+print(a)</code></pre><p>72：字节码和机器码的区别？</p>
+<pre><code>机器码存在着多至100000种机器语言的指令。这意味着不能把这些种类全部列出来。尽管机器语言好像是很复杂的，然而它是有规律的。8086到Pentium的机器语言指令长度可以从1字节到13字节。机器语言是微处理器理解和使用的，用于控制它的操作二进制代码。用机器语言编写程序，编程人员要首先熟记所用计算机的全部指令代码和代码的涵义。手编程序时，程序员得自己处理每条指令和每一数据的存储分配和输入输出，还得记住编程过程中每步所使用的工作单元处在何种状态。这是一件十分繁琐的工作，编写程序花费的时间往往是实际运行时间的几十倍或几百倍。而且，编出的程序全是些0和1的指令代码。总结：机器码是电脑CPU直接读取运行的机器指令，运行速度最快机器码就是计算机可以直接执行，并且执行速度最快的代码。
+
+字节码主要为了实现特定软件运行和软件环境、硬件环境无关。字节码的实现方式是通过编译器和虚拟机器。编译器将源码编译成字节码，特定平台上的虚拟机器将字节码转译为可以直接执行的指令。字节码的典型应用为Java语言。字节码通常指的是已经经过编译，但与特定机器码无关，需要直译器转译后才能成为机器码的中间代码。字节码通常不像源码一样可以让人阅读，而是编码后的数值常量、引用、指令等构成的序列。字节码是一种中间码。总结：字节码是一种中间状态（中间码）的二进制代码（文件）。需要直译器转译后才能成为机器码。</code></pre><p>73：ascii、unicode、utf-8、gbk 区别？　　</p>
+<pre><code>UTF-8（8-bit Unicode Transformation Format）是一种针对Unicode的可变长度字符编码，又称万国码。由Ken Thompson于1992年创建。现在已经标准化为RFC 3629。UTF-8用1到6个字节编码UNICODE字符。用在网页上可以同一页面显示中文简体繁体及其它语言（如英文，日文，韩文）。
+
+　　GBK是只用来编码汉字的，GBK全称《汉字内码扩展规范》，使用双字节编码。
+
+Unicode能够表示全世界所有的字节。在表示一个Unicode的字符时，通常会用“U+”然后紧接着一组十六进制的数字来表示这一个字符。在基本多文种平面（英文为 Basic Multilingual Plane，简写 BMP。它又简称为“零号平面”, plane 0）里的所有字符，要用四位十六进制数（例如U+4AE0，共支持六万多个字符）；在零号平面以外的字符则需要使用五位或六位十六进制数了。旧版的Unicode标准使用相近的标记方法，但却有些微的差异：在Unicode 3.0里使用“U-”然后紧接着八位数，而“U+”则必须随后紧接着四位数。
+
+     ASCII码使用一个字节编码，所以它的范围基本是只有英文字母、数字和一些特殊符号 ，只有256个字符。</code></pre><p>74：求出下列的结果。</p>
+<pre><code>v6 = 0 or False and 1       False
+
+v5 = 0 and 2 or 1 or 4     1
+
+v4 = 0 and 2 or 1        1
+
+v3 = 0 and 2 and      0
+
+v2 = 1 and 3          3
+
+v1 = 1 or 3        1</code></pre><p>75：什么是pickling和unpickling？</p>
+<pre><code>Pickle模块读入任何Python对象，将它们转换成字符串，然后使用dump函数将其转储到一个文件中——这个过程叫做pickling。
+
+反之从存储的字符串文件中提取原始Python对象的过程，叫做unpickling。</code></pre><p>76：python递归的最大层数？</p>
+<pre><code>程序表明在3925-3929之间  一般是在998</code></pre><p>77：请编写一个函数实现将IP地址转换成一个整数。</p>
+<pre><code>def ipfunc(ip):
+
+   a = ip.split(&apos;.&apos;)
+
+   s = &apos;&apos;
+
+   l = []
+
+   for i in a:
+
+       i = bin(int(i))[2:]
+
+       i = i.rjust(8, &apos;0&apos;)
+
+       l.append(i)
+
+   s = s.join(l)
+
+   return s
+
+ipfunc(&quot;192.168.2.13&quot;)
+
+再将以上二进制拼接起来计算十进制结果：00001010 00000011 00001001 00001100 = ？
+
+int(ipfunc(&quot;192.168.2.13&quot;),2)</code></pre><p>78：Python编程常用技巧？</p>
+<pre><code>#使用yield节省内存开销
+
+def read_file(fpath):
+
+with open(fpath, &apos;rb&apos;) as f:
+
+BLOCK_SIZE = 1024
+
+while True:
+
+if block:
+
+block = f.read(BLOCK_SIZE)
+
+yield block
+
+yield 的例子来源于文件读取。如果直接对文件对象调用 read() 方法，会导致不可预测的内存占用。好的方法是利用固定长度的缓冲区来不断读取文件内容。通过 yield，我们不再需要编写读文件的迭代类，就可以轻松实现文件读取。[1,2,3,4]这个是迭代器，用for来迭代它，生成器(x for x in range(4))也是迭代器的一种,但是你只能迭代它们一次.原因很简单,因为它们不是全部存在内存里,它们只在要调用的时候在内存里生成，yield的用法和关键字return差不多,下面的函数将会返回一个生成器。迭代的时候碰到yield立刻return一个值，下一次迭代的时候，从yield的下一条语句开始执行。
+
+for line in f 这种用法是把文件对象f当作迭代对象，系统将自动处理IO缓存和内存管理。
+
+组合工具
+
+izip() # 类似于zip()函数，只是返回的是一个循环器。
+
+compress(&apos;ABCD&apos;, [1, 1, 1, 0])  # 根据[1, 1, 1, 0]的真假值情况，选择第一个参数&apos;ABCD&apos;中的元素。A, B, C。
+
+combinations_with_replacement(&apos;abc&apos;, 2) # 与上面类似，但允许两次选出的元素重复。即多了aa, bb, cc。
+
+combinations(&apos;abc&apos;, 2) # 从&apos;abcd&apos;中挑选两个元素，比如ab, bc, ... 将所有结果排序，返回为新的循环器。
+
+chain([1, 2, 3], [4, 5, 7])  # 连接两个循环器成为一个1, 2, 3, 4, 5, 7。
+
+函数式工具
+
+dropwhile(lambda x: x &lt; 5, [1, 3, 6, 7, 1])
+
+takewhile(lambda x: x &lt; 5, [1, 3, 6, 7, 1])
+
+ifilter函数与filter()函数类似，只是返回的是一个循环器。
+
+starmap(pow, [(1, 1), (2, 2), (3, 3)])
+
+无穷循环器
+
+repeat(10, 5)   #重复10，共重复5次
+
+repeat(1.2)     #重复1.2，构成无穷循环器，即1.2, 1.2, 1.2, ...
+
+cycle(&apos;abc&apos;)    #重复序列的元素，既a, b, c, a, b, c ...
+
+count(5, 2)     #从5开始的整数循环器，每次增加2，即5, 7, 9, 11, 13, 15 ...
+
+*args和**kw
+
+*args要么是表示调用方法大的时候额外的参数可以从一个可迭代列表中取得，要么就是定义方法的时候标志这个方法能够接受任意的位置参数。接下来提到的**，**kw代表着键值对的字典,也就是说，你不用一个个字典用key来取value了。
+
+json.dumps()/loads() 存储字典结构
+
+json.dumps : dict转成str 。
+
+json.loads:str转成dict。
+
+善用traceback 追踪深层错误
+
+对于轻量级循环，可尽量使用列表推导式,熟练使用列表推导式可以很多情况下代替map，filter等操作。
+
+islice() # 类似于slice()函数，只是返回的是一个循环器
+
+79：数据类型。
+
+Number
+
+在JavaScript中的双精度浮点格式
+
+String
+
+双引号的反斜杠转义的Unicode
+
+Boolean
+
+true 或 false
+
+Array
+
+值的有序序列
+
+Value
+
+它可以是一个字符串，一个数字，真的还是假（true/false），空(null )等
+
+Object
+
+无序集合键值对
+
+Whitespace
+
+可以使用任何一对中的令牌
+
+null
+
+empty</code></pre><p>80：json序列化时，默认遇到中文会转换成unicode，如果想要保留中文怎么办？如果需要保留date或者datetime日期格式的数据，该如何处理？</p>
+<pre><code>第一种方案：定义处理类。
+
+实数虚数
+
+import json
+
+class ComplexEncoder(json.JSONEncoder):
+
+    def default(self, obj):
+
+       if isinstance(obj, complex):
+
+            return [obj.real, obj.imag]
+
+       return json.JSONEncoder.default(self, obj)
+
+数据类型为datetime 与 date
+
+class CJsonEncoder(json.JSONEncoder):
+
+    def default(self, obj):
+
+        if isinstance(obj, datetime):
+
+            return obj.strftime(&apos;%Y-%m-%d %H:%M:%S&apos;)
+
+        elif isinstance(obj, date):
+
+            return obj.strftime(&apos;%Y-%m-%d&apos;)
+
+        else:
+
+            return json.JSONEncoder.default(self, obj)
+
+json.dumps(datalist, cls=CJsonEncoder)
+
+第二种方案：不用定义类，直接用strftime方法处理。
+
+如果不想定义类，直接在我们获取的date或者datetime对象后面用上strftime方法进行格式化也可以。
+
+处理保留中文的方案。
+
+dict1 = {&apos;name&apos;: &apos;李小萌&apos;, &apos;age&apos;: 10}
+
+#序列化的时候添加一个参数 ensure_ascii=False
+
+print(json.dumps(dict1, ensure_ascii=False))</code></pre><p>81：什么是断言？应用场景？</p>
+<pre><code>Python的assert是用来检查一个条件，如果它为真，就不做任何事。如果它为假，则会抛出AssertError并且包含错误信息。例如：
+
+防御型的编程：   运行时检查程序逻辑      检查约定    程序常量     检查文档。
+
+不要用它测试用户提供的数据
+
+　　不要用断言来检查你觉得在你的程序的常规使用时会出错的地方。断言是用来检查非常罕见的问题。你的用户不应该看到任何断言错误，如果他们看到了，这是一个bug，修复它。
+
+　　有的情况下，不用断言是因为它比精确的检查要短，它不应该是懒码农的偷懒方式。
+
+　　不要用它来检查对公共库的输入参数，因为它不能控制调用者，所以不能保证调用者会不会打破双方的约定。
+
+　　不要为你觉得可以恢复的错误用断言。换句话说，不用改在产品代码里捕捉到断言错误。
+
+　　不要用太多断言以至于让代码很晦涩。</code></pre><p>82：有用过with statement吗？它的好处是什么？</p>
+<pre><code>with语句的作用是通过某种方式简化异常处理，它是所谓的上下文管理器的一种。
+
+with open(&apos;output.txt&apos;, &apos;w&apos;) as f:       f.write(&apos;Hi there!&apos;)
+
+当你要成对执行两个相关的操作的时候，这样就很方便，以上便是经典例子，with语句会在嵌套的代码执行之后，自动关闭文件。这种做法的还有另一个优势就是，无论嵌套的代码是以何种方式结束的，它都关闭文件。如果在嵌套的代码中发生异常，它能够在外部exception handler catch异常前关闭文件。如果嵌套代码有return/continue/break语句，它同样能够关闭文件。
+
+我们可以用contextlib中的context manager修饰器来实现，比如可以通过以下代码暂时改变当前目录然后执行一定操作后返回。
+
+from contextlib import contextmanager import os @contextmanager def working_directory(path):    current_dir = os.getcwd()    os.chdir(path)    try:        yield    finally:        os.chdir(current_dir) with working_directory(&quot;data/stuff&quot;):    # do something within data/stuff # here I am back again in the original working directory</code></pre><p>83：使用代码实现查看列举目录下的所有文件。</p>
+<pre><code>import os
+
+# 可以通过相对路径    print(os.listdir(&apos;../文件名称&apos;))
+
+#也可以通过绝对路径  得到的结果是一个列表的形式可以遍历出来   print(os.listdir(&apos;绝对路径&apos;))</code></pre><p>84：简述 yield和yield from关键字。</p>
+<pre><code>yield from iterable本质上等于for item in iterable: yield item的缩写。
+
+可迭代对象与迭代器的区别
+
+可迭代对象：指的是具备可迭代的能力，即iterable，在Python中指的是可以通过for  in 语句去逐个访问元素的一些对象，比如元组tuple，列表list，字符串string，文件对象file 等。
+
+迭代器：指的是通过另一种方式去一个一个访问可迭代对象中的元素，即iterator。在python中指的是给内置函数iter()传递一个可迭代对象作为参数，返回的那个对象就是迭代器，然后通过迭代器的next()方法逐个去访问。
+
+生成器：生成器的本质就是一个逐个返回元素的函数，即“本质——函数”。
+
+yield from：简单地说，yield   from  generator 。实际上就是返回另外一个生成器。</code></pre><p>85：提高python运行效率的方法。</p>
+<pre><code>使用生成器，因为可以节约大量内存。
+
+循环代码优化，避免过多重复代码的执行。
+
+核心模块用Cpython  PyPy等，提高效率。
+
+多进程、多线程、协程。
+
+多个if elif条件判断，可以把最有可能先发生的条件放到前面写，这样可以减少程序判断的次数，提高效率。</code></pre><p>86：IOError AttributeError ImportError IndentationError IndexError KeyError  SyntaxError NameError分别代表什么异常。</p>
+<pre><code>IOError：输入输出异常。
+
+AttributeError：试图访问一个对象没有的属性。
+
+ImportError：无法引入模块或包，基本是路径问题。
+
+IndentationError：语法错误，代码没有正确的对齐。
+
+NameError:使用一个还未赋予对象的变量。
+
+SyntaxError:Python代码逻辑语法出错，不能执行。
+
+KeyError:试图访问你字典里不存在的键。
+
+IndexError：下标索引超出序列边界。
+
+IndentationError：语法错误，代码没有正确的对齐。</code></pre><p>86： *args和**kwargs是什么意思？</p>
+<pre><code>*args表示可变参数（variadic arguments），它允许你传入0个或任意个无名参数，这些参数在函数调用时自动组装为一个tuple； **kwargs表示关键字参数（keyword arguments），它允许你传入0个或任意个含参数名的参数，这些关键字参数在函数内部自动组装为一个dict。同时使用*args和**kwargs的时候，必须保证*args在**kwargs之前。</code></pre><p>87: python里面如何拷贝一个对象？</p>
+<pre><code>（1） 赋值（=），就是创建了对象的一个新的引用，修改其中任意一个变量都会影响到另一个；
+
+（2）浅拷贝（copy.copy()），创建一个新的对象，但它包含的是对原始对象中包含项的引用（如果用引用的方式修改其中一个对象，另一个也会被改变）；
+
+（3）深拷贝（copy.deepcopy()），创建一个新的对象，并且递归的复制它所包含的对象（修改其中一个，另一个不会改变）
+
+注意：并不是所有的对象都可以拷贝</code></pre><p>88: 简要描述python的垃圾回收机制</p>
+<pre><code>python中的垃圾回收是以引用计数为主，标记-清除和分代收集为辅。
+
+引用计数：python在内存中存储每个对象的引用计数，如果计数变成0，该对象就会消失，分配给该对象的内存就会释放出来。
+
+标记-清除：一些容器对象，比如说list、dict、tuple、instance等可能会出现引用循环，对于这些循环，垃圾回收器会定时回收这些循环（对象之间通过引用（指针）连在一起，构成一个有向图，对象构成这个有向图的节点，而引用关系构成这个有向图的边）。
+
+分代收集：python把内存根据对象存活时间划分为三代，对象创建之后，垃圾回收器会分配它们所属的代。每个对象都会被分配一个代，而被分配更年轻的代是被优先处理的，因此越晚创建的对象越容易被回收。</code></pre><p>89: 什么是lambda函数？它有什么好处？</p>
+<pre><code>lambda表达式，通常是在需要一个函数，但是又不想费神去命名一个函数的场合下使用，也就是指匿名函数。
+
+Python允许你定义一种单行的小函数。定义lambda函数的形式如下（lambda参数：表达式）lambda函数默认返回表达式的值。你也可以将其赋值给一个变量。lambda函数可以接受任意个参数，包括可选参数，但是表达式只有一个。</code></pre><p>90: python如何实现单例模式？</p>
+<pre><code>单例模式是一种常用的软件设计模式。在它的核心结构中只包含一个被称为单例类的特殊类。通过单例模式可以保证系统中一个类只有一个单例而且该单例易于外界访问，从而方便对实例个数的控制并节约系统资源。如果希望在系统中某个类的对象只能存在一个，单例模式是最好的解决方案。</code></pre><p>91:  python自省</p>
+<pre><code>自省就是面向对象的语言所写的程序在运行时，所能知道对象的类型，简单一句就是运行时能够获得对象的类型，比如type(),dir(),getattr(),hasattr(),isinstance().</code></pre><p>举个例子：</p>
+<pre><code>a = [1,2,3]
+b = {&apos;a&apos;:1,&apos;b&apos;:2,&apos;c&apos;:3}
+c = True
+print type(a),type(b),type(c) # &lt;type &apos;list&apos;&gt; &lt;type &apos;dict&apos;&gt; &lt;type &apos;bool&apos;&gt;
+print isinstance(a,list)  # True</code></pre><p>92： 谈一谈python的装饰器</p>
+<pre><code>装饰器本质上是一个python函数，它可以让其他函数在不作任何变动的情况下增加额外功能，装饰器的返回值也是一个函数对象。它经常用于有切面需求的场景。比如：插入日志、性能测试，事务处理、缓存、权限验证等。有了装饰器我们就可以抽离出大量的与函数功能无关的雷同代码进行重用。</code></pre><p>93：  什么是鸭子类型？</p>
+<pre><code>在鸭子类型中，关注的不是对象的类型本身，而是他如何使用的。例如，在不适用鸭子类型的语言中，我们可以编写一个函数，它接受一个类型为鸭的对象，并调用它的走和叫方法。在使用鸭子类型的语言中，这样的一个函数可以接受一个任意类型的对象，并调用它的走和叫方法。</code></pre><p>94： @classmethod和@staticmethod</p>
+<pre><code>@classmethod修饰符对应的函数不需要实例化，不需要self参数，第一个参数需要是表示自身类的cls参数，cls参数可以用来调用类的属性，类的方法，实例化对象等。@staticmethod返回函数的静态方法，该方法不强制要求传递参数</code></pre><p>95：谈一谈python中的元类 </p>
+<pre><code>一般来说，我们都是在代码里定义类，用定义的类来创建实例。而使用元类，步骤又是同，定义元类，用元类创建类，再使用创建出来的类来创建实例。元类的主要目的就是为了当创建类时能够自动地改变类。</code></pre></div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Sxadmin</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://sxadmin.github.io/2018/12/31/Python%E6%8A%80%E5%B7%A7%E6%95%B4%E7%90%86/">https://sxadmin.github.io/2018/12/31/Python%E6%8A%80%E5%B7%A7%E6%95%B4%E7%90%86/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://sxadmin.github.io" target="_blank">Sxadmin blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Python%E6%8A%80%E5%B7%A7/">Python技巧</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="post-qr-code__img" src="/img/wechat.jpg" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="post-qr-code__img" src="/img/alipay.jpg" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2019/02/08/Python%E4%B8%80%E5%88%87%E7%9A%86%E5%AF%B9%E8%B1%A1/"><img class="prev_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Python一切皆对象</div></div></a></div><div class="next-post pull_right"><a href="/2018/12/31/python-iterools%E6%A8%A1%E5%9D%97/"><img class="next_cover" src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">python itertools模块</div></div></a></div></nav></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By Sxadmin</div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换" target="_self">繁</a><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@3/instantpage.min.js" type="module"></script></body></html>
