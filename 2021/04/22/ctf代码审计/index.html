@@ -1,0 +1,168 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ctf代码审计学习 | Sxadmin blog</title><meta name="description" content="ctf代码审计学习"><meta name="keywords" content="ctf代码审计学习"><meta name="author" content="Sxadmin"><meta name="copyright" content="Sxadmin"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="https://s1.ax1x.com/2020/06/15/NpA1v6.th.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="dns-prefetch" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><link rel="dns-prefetch" href="https://fonts.googleapis.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="dns-prefetch" href="//busuanzi.ibruce.info"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="ctf代码审计学习"><meta name="twitter:description" content="ctf代码审计学习"><meta name="twitter:image" content="https://sxadmin.github.io/img/cover/cover12.png"><meta property="og:type" content="article"><meta property="og:title" content="ctf代码审计学习"><meta property="og:url" content="https://sxadmin.github.io/2021/04/22/ctf%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"><meta property="og:site_name" content="Sxadmin blog"><meta property="og:description" content="ctf代码审计学习"><meta property="og:image" content="https://sxadmin.github.io/img/cover/cover12.png"><meta property="article:published_time" content="2021-04-22T07:09:24.000Z"><meta property="article:modified_time" content="2021-05-20T07:01:03.397Z"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '1'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="https://sxadmin.github.io/2021/04/22/ctf%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"><link rel="prev" title="beego" href="https://sxadmin.github.io/2021/04/30/beego/"><link rel="next" title="sqlilabs靶机" href="https://sxadmin.github.io/2021/04/22/sqlilabs%E9%9D%B6%E6%9C%BA/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://xxx/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: false,
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.1"></head><body><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.png" onerror="onerror=null;src='https://s1.ax1x.com/2020/06/15/NpPYfx.jpg'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">92</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">64</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友鏈</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 關於</span></a></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#变量覆盖"><span class="toc-number">1.</span> <span class="toc-text">变量覆盖</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#弱类型比较"><span class="toc-number">2.</span> <span class="toc-text">弱类型比较</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#反序列化"><span class="toc-number">3.</span> <span class="toc-text">反序列化</span></a></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(/img/cover/cover12.png)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">Sxadmin blog</a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 時間軸</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 標籤</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分類</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友鏈</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 關於</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">ctf代码审计学习</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2021-04-22 15:09:24"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2021-04-22</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2021-05-20 15:01:03"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2021-05-20</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/PHP%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">PHP代码审计</a></span></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="fa fa-eye post-meta__icon" aria-hidden="true"> </i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h5 id="变量覆盖"><a href="#变量覆盖" class="headerlink" title="变量覆盖"></a>变量覆盖</h5><p>漏洞产生：<br>变量覆盖漏洞的产生原理：函数使用不当和$$使用不当。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">extract()、parse_str()、import_request_variables()</span><br></pre></td></tr></table></figure>
+<p>一、extract<br><img src="media/16190992942502/16191007160281.jpg" alt=""><br>会出现extract变量覆盖，<br>第一种是第二个参数为EXTR_OVERWRITE，<br>第二种是第二个参数为EXTR_IF_EXISTS，<br>第三种是只传入第一个参数，第二个参数默认值为EXTR_OVERWRITE</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$b &#x3D; 2;</span><br><span class="line">$a &#x3D; array(&quot;b&quot;&#x3D;&gt;&quot;333&quot;);</span><br><span class="line">extract($a);</span><br><span class="line">echo($b);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>输出：333</p>
+</blockquote>
+<p>可见变量$b值被覆盖，$b值输出为333,当数组value值可控时，$b值可控。</p>
+<p>2、parse_str<br>这个函数的作用是把查询字符串注册成变量中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$b &#x3D; 2;</span><br><span class="line">parse_str(&#39;b&#x3D;3333&#39;);</span><br><span class="line">echo($b);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>输出：3333</p>
+</blockquote>
+<p>3、import_request_variables</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$b&#x3D;2;</span><br><span class="line">import_request_variables(&#39;GP&#39;);</span><br><span class="line">echo($b);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>浏览器提交/?b=1，得到的变量b的输出为1，可见原本的变量被覆盖</p>
+<p>4、ctf题目</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">$flag&#x3D;&#39;xxx&#39;; </span><br><span class="line">extract($_GET);</span><br><span class="line">if(isset($shiyan))&#123;</span><br><span class="line">    var_dump($shiyan);</span><br><span class="line">    var_dump(trim(file_get_contents($flag)));</span><br><span class="line">    $content&#x3D;trim(file_get_contents($flag));</span><br><span class="line">    if($shiyan&#x3D;&#x3D;$content)</span><br><span class="line">    &#123; </span><br><span class="line">        echo&#39;ctf&#123;xxx&#125;&#39;; </span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">    &#123; </span><br><span class="line">    echo&#39;Oh.no&#39;;</span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>shiyan=&amp;flag=1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$b &#x3D; &#39;flag&#123;&quot;xxxxxxsx&quot;&#125;&#39;;</span><br><span class="line">extract($_GET);</span><br><span class="line">echo($b);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>b=123123<br>防御方案<br>变量覆盖漏洞常见的漏洞点是做变量注册的时候没有验证变量是否已经存在，所以想要防御变量覆盖漏洞最好使用原始的变量数组，如$_GET、$_POST，或者在注册变量前验证变量是否存在。</p>
+<h5 id="弱类型比较"><a href="#弱类型比较" class="headerlink" title="弱类型比较"></a>弱类型比较</h5><p>弱类型与强类型<br>通常语言有强类型和弱类型两种，强类型指的是强制数据类型的语言，就是说，一个变量一旦被定义了某个类型，如果不经过强制类型转换，这个变量就一直是这个类型，在变量使用之前必须声明变量的类型和名称，且不经强制转换不允许两种不同类型的变量互相操作。我们称之为强类型，而弱类型可以随意转换变量的类型例如可以这样<br>类型转换问题<br>类型转换最常见的就是int转String,String转int。</p>
+<p>Int转String:</p>
+<p>$num = 5;<br>方式1：𝑖𝑡𝑒𝑚=(𝑠𝑡𝑟𝑖𝑛𝑔)num;<br>方式2：𝑖𝑡𝑒𝑚=𝑠𝑡𝑟𝑣𝑎𝑙(num);</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var_dump(intval(4))&#x2F;&#x2F;4</span><br><span class="line"></span><br><span class="line">var_dump(intval(‘1asd’))&#x2F;&#x2F;1</span><br><span class="line"></span><br><span class="line">var_dump(intval(‘asd1’))&#x2F;&#x2F;0</span><br></pre></td></tr></table></figure>
+<p>“= =”与“= = =”比较操作符问题<br>php有两种比较方式,一种是“= =”一种是“= = =”这两种都可以比较两个数字的大小，但是有很明显的区别。</p>
+<p>“= =”：会把两端变量类型转换成相同的，在进行比较。</p>
+<p>“= = =”：会先判断两端变量类型是否相同，在进行比较。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">     if (isset($_GET[&#39;Username&#39;]) &amp;&amp; isset($_GET[&#39;password&#39;])) &#123;</span><br><span class="line">      $logined &#x3D; true;</span><br><span class="line">      $Username &#x3D; $_GET[&#39;Username&#39;];</span><br><span class="line">      $password &#x3D; $_GET[&#39;password&#39;];</span><br><span class="line">      if (!ctype_alpha($Username)) &#123;$logined &#x3D; false;&#125;</span><br><span class="line">      if (!is_numeric($password) ) &#123;$logined &#x3D; false;&#125;</span><br><span class="line">      if (md5($Username) !&#x3D; md5($password)) &#123;$logined &#x3D; false;&#125;</span><br><span class="line">    if ($logined)&#123;</span><br><span class="line">    echo &quot;successful&quot;;</span><br><span class="line">      &#125;else&#123;</span><br><span class="line">            echo &quot;login failed!&quot;;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;</span><br><span class="line"> ?&gt;</span><br></pre></td></tr></table></figure>
+<p>0e在比较的时候会将其视作为科学计数法，所以无论0e后面是什么，0的多少次方还是0。所以我们只需要输入一个数字和字符串进行MD5加密之后都为0e的即可得出答案。md5(‘240610708’) == md5(‘QNKCDZO’)成功绕过!。</p>
+<p>十六进制转换问题</p>
+<p>首先我们看一下例子：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;0x1e240&quot;&#x3D;&#x3D;&quot;123456&quot; &#x2F;&#x2F;true</span><br><span class="line">&quot;0x1e240&quot;&#x3D;&#x3D;123456 &#x2F;&#x2F;true</span><br><span class="line">&quot;0x1e240&quot;&#x3D;&#x3D;&quot;1e240&quot;&#x2F;&#x2F;false</span><br></pre></td></tr></table></figure>
+
+<p> php在接受一个带0x的字符串的时候，会自动把这行字符串解析成十进制的再进行比较，0x1e240解析成十进制就是123456，并且与字符串类型的123456和int型的123456都相同。</p>
+<p>布尔值转换问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">If (true&#x3D;“name”)&#123;</span><br><span class="line">echo “success”;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>布尔值可以和任何字符串相等。<br>输入一个数组进行json解码，如果解码后的message与key值相同，会得到flag，主要思想还是弱类型进行绕过，我们不知道key值是什莫，但是我们知道一件事就是它肯定是字符串，这样就可以了，上文讲过，两个等号时会转化成同一类型再进行比较，直接构造一个0就可以相等了。最终payload message={“key”:0}。</p>
+<p>switch绕过<br>缺陷原理相同，绕过姿势相同，如果switch是数字类型的case的判断时，switch会将其中的参数转换为int类型。如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$i &#x3D;&quot;3name&quot;;</span><br><span class="line">switch ($i) &#123;</span><br><span class="line">case 0:</span><br><span class="line">case 1:</span><br><span class="line">case 2:</span><br><span class="line">     echo &quot;this is two&quot;;</span><br><span class="line">     break;</span><br><span class="line">case 3:</span><br><span class="line">     echo &quot;flag&quot;;</span><br><span class="line">break;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>strcmp绕过这个时候程序输出的是，类型转换的i，结果为3返回flag </p>
+<p>MD5 ，sha1绕过</p>
+<p>首先还是介绍一下这两个函数，这俩都是加密函数，分别进行的时给字符串进行MD5加密和计算字符串的 SHA-1 散列。</p>
+<p>但是这个函数都有着缺陷，就是不能处理数组。</p>
+<p>这样就很容易绕过了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">if (isset($_POST[&#39;a&#39;]) and isset($_POST[&#39;b&#39;])) &#123;</span><br><span class="line">if ($_POST[&#39;a&#39;] !&#x3D; $_POST[&#39;b&#39;])</span><br><span class="line">if (md5($_POST[&#39;a&#39;]) &#x3D;&#x3D;&#x3D; md5($_POST[&#39;b&#39;]))</span><br><span class="line">die(&#39;Flag: &#39;.$flag);</span><br><span class="line">else</span><br><span class="line">print &#39;Wrong.&#39;;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>payload: a[]=1&amp;b[]=2<br>array_search（）、in_array()绕过</p>
+<p>首先介绍一下什莫是array_search()函数, array_search() 函数在数组中搜索某个键值，并返回对应的键名。in_array() 函数搜索数组中是否存在指定的值。基本功能是相同的，也就是说绕过姿势也相同。Array系列有两种安全问题，一种是正常的数组绕过，一种是“= =”号问题。先讲第一个数组绕过。</p>
+<p>举例：</p>
+<p>复制代码<br><?php
+if(!is_array($_GET['test'])){exit();}
+$test=$_GET['test'];
+for($i=0;$i<count($test);$i++){
+    if($test[$i]==="admin"){
+        echo "error";
+        exit();
+    }
+    $test[$i]=intval($test[$i]);
+}
+if(array_search("admin",$test)===0){
+    echo "flag";
+}
+else{
+    echo "false";
+}
+?><br>复制代码</p>
+<p>这段代码的意思就是先判断是不是数组，然后在把数组中的内容一个个进行遍历，所有内容都不能等于admin,类型也必须相同，然后转化成int型，然后再进行比较如果填入值与admin相同，则返回flag,如何绕过呢？</p>
+<p>基本思路还是不变，因为用的是三个等于号，所以说“= =”号这个方法基本不能用，那就用第二条思路，利用函数接入到了不符合的类型返回“0”这个特性，直接绕过检测。所以payload：test[]=0。</p>
+<p>in_array()</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$array&#x3D;[0,1,2,&#39;3&#39;];</span><br><span class="line">var_dump(in_array(&#39;abc&#39;, $array));  &#x2F;&#x2F;true</span><br><span class="line">var_dump(in_array(&#39;1bc&#39;, $array));  &#x2F;&#x2F;true</span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">通过例子我们就知道了，这个松散的判断就是等于号，所以出现了“&#x3D; &#x3D;”号的特性“abc”&#x3D;&#x3D;0、“1bc”&#x3D;&#x3D;1，如果不加true的话就可以利用“&#x3D; &#x3D;”轻松绕过。array_search同理。</span><br></pre></td></tr></table></figure>
+<h5 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h5><p>PHP反序列化漏洞又称PHP对象注入，是因为程序对输入数据处理不当导致的。<br>比较典型的PHP反序列化漏洞中可能会用到的魔术方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">__construct： 在创建对象时候初始化对象，一般用于对变量赋初值。</span><br><span class="line">__destruct： 和构造函数相反，当对象所在函数调用完毕后执行。</span><br><span class="line">__toString：当对象被当做一个字符串使用时调用。</span><br><span class="line">__sleep：序列化对象之前就调用此方法(其返回需要一个数组)</span><br><span class="line">__wakeup：反序列化恢复对象之前调用该方法</span><br><span class="line">__call：当调用对象中不存在的方法会自动调用该方法。</span><br><span class="line">__get：在调用私有属性的时候会自动执行</span><br><span class="line">__isset()：在不可访问的属性上调用isset()或empty()触发</span><br><span class="line">__unset()：在不可访问的属性上使用unset()时触发</span><br></pre></td></tr></table></figure>
+
+<p>析构函数会回显$test的值，我们可以构造一个对象，控制$test的值，达到控制数据流的目的，实现反序列化漏洞的利用。</p>
+<p>1、__destruct</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class A&#123;</span><br><span class="line">    public $target &#x3D; &quot;demo&quot;;</span><br><span class="line">    function __destruct()&#123;</span><br><span class="line">        echo &quot;destruct!&lt;br&#x2F;&gt;&quot;;</span><br><span class="line">        echo $this-&gt;target.&quot;&lt;&#x2F;br&gt;&quot;;</span><br><span class="line">        echo &quot;destructed!&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">$a &#x3D; $_GET[&#39;test&#39;];</span><br><span class="line">$a_user &#x3D; unserialize($a);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>当new A 资源被回收前会执行__destruct</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class A&#123;</span><br><span class="line">    public $target&#x3D;&quot;xxxxxxx&quot;;</span><br><span class="line">&#125;</span><br><span class="line">$a &#x3D; serialize(new A);</span><br><span class="line">echo $a;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+<p>注入对象构造方法<br><img src="media/16190992942502/16191486304742.jpg" alt=""></p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Sxadmin</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://sxadmin.github.io/2021/04/22/ctf%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">https://sxadmin.github.io/2021/04/22/ctf%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://sxadmin.github.io" target="_blank">Sxadmin blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/ctf%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%AD%A6%E4%B9%A0/">ctf代码审计学习</a></div><div class="post_share"><div class="social-share" data-image="/img/cover/cover0.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="post-qr-code__img" src="/img/wechat.jpg" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="post-qr-code__img" src="/img/alipay.jpg" alt="支付寶"/><div class="post-qr-code__desc">支付寶</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2021/04/30/beego/"><img class="prev_cover" src="/img/cover/cover48.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">beego</div></div></a></div><div class="next-post pull_right"><a href="/2021/04/22/sqlilabs%E9%9D%B6%E6%9C%BA/"><img class="next_cover" src="/img/cover/cover83.png" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">sqlilabs靶机</div></div></a></div></nav></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Sxadmin</div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换" target="_self">繁</a><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@3/instantpage.min.js" type="module"></script></body></html>
